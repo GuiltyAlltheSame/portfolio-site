@@ -80,9 +80,15 @@ function copyModules() {
 
 
 
+const build = series(
+  parallel(copyHTML, minifyCSS, minifyJS, copyModules, copyFonts, copyImages)
+);
+
 // Экспортируем задачи
+exports.build = build;
+
 exports.default = series(
-  parallel(copyHTML, minifyCSS, minifyJS, copyModules, copyFonts, copyImages),
+  build,
   serve,
   watchFiles
 );
