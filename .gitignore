@@ -1,6 +1,5 @@
 dist/
 node_modules/
-src/js/config.js
 supabase_password_portfolio_site.png
 .env
 .DS_Store
