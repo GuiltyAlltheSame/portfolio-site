@@ -1,0 +1,327 @@
+<!--  index.html  —  Full version with comments -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTEM // WEB DEV</title>
+
+<!-- Fonts & style connects -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  </head>
+<body>
+
+<!-- Stars wallpaper -->
+  <div id="stars"></div>
+  <div id="stars2"></div>
+  <div id="stars3"></div>
+  <div class="grid-overlay"></div>
+  
+<!-- Hello window with resume button -->
+  <div class="crt">
+    <header>
+      <h1 class="huge">FLEXDOGZ</h1>
+      <h1 class="huge" style="margin-top:3px;">CORPORATION</h1>
+      <p>FULLSTACK DEV / DESIGN</p>
+    </header>
+  </div>
+
+<!-- Main menu tabs  -->
+<nav class="tabs">
+    <button class="tab active" data-tab="about">
+      ><span class="typewriter">ABOUT<span class="caret"></span></span>
+    </button>
+    <button class="tab" data-tab="skills">
+      ><span class="typewriter">SKILLS<span class="caret"></span></span>
+    </button>
+    <button class="tab" data-tab="projects">
+      ><span class="typewriter">PROJECTS<span class="caret"></span></span>
+    </button>
+    <button class="tab" data-tab="contact">
+      ><span class="typewriter">CONTACT<span class="caret"></span></span>
+    </button>
+</nav> 
+
+<!--Content tabs-->
+<div class="tab-content">
+
+<!--About Section-->
+<section id="about" class="tab-panel active">       
+  <div class="about-wrap">
+<!-- Photo  -->
+  <div class="about-photo">
+    <div class="photo-frame">
+      <div class="rain"></div>
+        <img src="assets/img/blade-runner-avatar.png" alt="Artem photo" />
+      </div>
+  </div>
+      
+<!-- Right text sections -->
+       <div class="about-text">
+      <h2 class="headline">/.Greetings user!</h2>
+      <h2 class="headline">/.NME: <span class="green-text">Art K.</span></h2>
+      <h2 class="headline">/.EXP: Network engineer</h2>
+      <h2 class="headline">/.SPC: <span class="green-text">Full-stack developer</span></h2>
+      <h2 class="headline">/.EDU: applied informatics</h2>
+      <h2 class="headline">/.MFG: 07/<span class="green-text">1995</span></h2>
+      <h2 class="headline">/.spk: RUS/ENG</h2>
+      <h3  class="subhead">Web dev / Designer / photographer / editor / blade runner / Full-Stack Ninja</h3>
+      <hr class="about-sep" />
+      <p class="tagline">Welcome to my humble corner of the web! Here you’ll find my projects, tech stack, a bit about me, and all the ways to get in touch. Browse around, click away, and drop me a line.</p>
+<!-- Resume button -->   
+      <div class="about-button">                     
+        <a href="#" class="btn">[ VIEW RESUME ]</a>
+      </div>
+    </div>
+    
+    </div>
+  </section>                                                     
+
+<!--End of about section-->
+
+<!--Skills section-->
+  <section id="skills" class="tab-panel">  
+
+<!--SKILLS: twin-column layout -->
+<div class="skills-wrap">
+
+<!--Left column-->
+  <div class="window" id="skills-left">
+
+<!--Data & Clock-->
+    <div class="row row-clock">
+      <span id="clock-date"></span>
+      <span id="clock-time" class="align-right"></span>
+    </div>
+
+<!--Skills list-->
+    <div class="row row-skills">
+      <ul class="skill-list">
+
+<!--Name - Level-->
+        <li><span>HTML5</span><span>Pro</span></li>
+        <li><span>CSS(Flex+Grid)</span><span>Pro</span></li>
+        <li><span>SCSS/PostCSS</span><span>Pro</span></li>
+        <li><span>Bootstrap 5</span><span>Pro</span></li>
+        <li><span>GPT Promtwriting</span><span>Pro</span></li>
+        <li><span>Adobe Photoshop/Illustrator/InDesign</span><span>Pro</span></li>
+        <li><span>CSS/GSAP</span><span>Mid</span></li>
+        <li><span>JavaScript(ES6+)</span><span>Mid</span></li>
+        <li><span>Blender</span><span>Mid</span></li>
+        <li><span>GoEngine</span><span>Mid</span></li>
+        <li><span>Python</span><span>Mid</span></li>
+        <li><span>SQL</span><span>Mid</span></li>
+        <li><span>Git/GitHub flow</span><span>Mid</span></li>
+        <li><span>Linux&CLI</span><span>Mid</span></li>
+        <li><span>PowerShell</span><span>Mid</span></li>
+        <li><span>Node.js(Express)</span><span>Mid</span></li>
+        <li><span>WordPress</span><span>n/d</span></li>
+        <li><span>React</span><span>n/d</span></li>
+        <li><span>CompTIA A+</span><span>n/d</span></li>
+        <li><span>CompTIA Network+</span><span>n/d</span></li>
+        <li><span>CompTIA Security+</span><span>n/d</span></li>
+        <li><span>Cisco CCNA</span><span>n/d</span></li>
+      </ul>
+    </div>
+
+
+<!--Aditional information-->
+    <div class="row row-info">
+      <div class="info-left">Device</div>
+      <div class="info-right">FlexBoxer</div>
+
+      <div class="info-left">Subject</div>
+      <div class="info-right" style="border: 2px solid; border-radius: 2px;">NEXUS 9 TSC</div>
+
+      <div class="info-left">Title</div>
+      <div class="info-right">Skills</div>
+
+      <div class="info-left">Kind</div>
+      <div class="info-right">FullStack</div>
+    </div>
+
+<!--Skills window leftf Footer-->
+    <div class="row row-footer">
+      Select a file and confirm <br> Or Press CODE-? for help
+    </div>
+    
+  </div>
+
+<!--Right column-->
+  <div class="window" id="skills-right">
+    <pre id="code-output" class="code-block typewriter"></pre>
+    <div class="cmd-line">
+  <span class="prompt">></span>
+  <input id="cmd-input" type="text" autocomplete="off" spellcheck="false"
+      placeholder="type command…">
+    </div>
+    <div class="rain"></div>
+  </div>
+</div>
+</section>                                                                        
+<!--End of skill section-->
+
+<!--Projects section-->
+<section id="projects" class="tab-panel">
+  <div class="proj-wrap">
+    <div class="slider">
+      <ul id="slider-track" class="track"><!-- JS cards insert --></ul>
+    </div>
+  </div>
+</section>
+<!--End of projects section-->
+
+<!--Contacts section-->
+<section id="contact" class="tab-panel">
+<div class="contact-wrap">
+<!--Left section-->
+
+<!--Left column. Inside .window → .social-list-->
+<div class="window contact-left">
+
+<!--Social networks list-->
+  <ul class="social-list solid">
+    <li>
+      <a href="https://github.com/GuiltyAlltheSame" target="_blank">
+        <i class="fa-brands fa-github"></i>
+        <span>Github</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="https://www.linkedin.com/in/artem-kulachek-74099a276/?locale=ru" target="_blank">
+        <i class="fa-brands fa-linkedin"></i>
+        <span>LinkedIn</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="https://t.me/vegas281" target="_blank">
+        <i class="fa-brands fa-telegram"></i>
+        <span>Telegram</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="mailto:vegas281@mail.com">
+        <i class="fa-solid fa-envelope"></i>
+        <span>E-Mail</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="https://www.facebook.com/people/Artem-Kulachek/pfbid02G7WBybTUz2NTr9mLkHWxaXgtRF3Q5cHPFHgs6Dn9PAWL8UgzDGs8yYKUJ22Uhnmgl/" target="_blank">
+        <i class="fa-brands fa-square-facebook"></i>
+        <span>facebook</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="https://www.instagram.com/i2see8stars/" target="_blank">
+        <i class="fa-brands fa-square-instagram"></i>
+        <span>Instagram</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="https://x.com/kondakovworld" target="_blank">
+        <i class="fa-brands fa-square-x-twitter"></i>
+        <span>X</span>
+      </a>
+    </li>
+  </ul>
+
+<hr class="review-sep">
+<!--Some about section-->
+<div class="desc-like-block">
+  <div class="desc-like-wrap">
+    <p class="little-about">Contact me on social networks, subscribe, leave a review of the work
+       done, send me a message to contact for business proposals.
+       Click like if you found and played PONG and space invaders! You can send likes until the timer runs out!
+
+       *The skill level in the skill list is indicated for ease of understanding of the nexus's abilities based on self-assessment.</p>
+<!--Like counter button-->
+  <button id="like-btn" class="full-btn">
+    <i class="fa-regular fa-heart heart-icon" aria-hidden="true"></i>
+    <span class="count">0</span>
+  </button>
+  </div>
+</div>
+</div>
+
+<!--"Contact me" section-->
+<div class="window contact-bottom">
+    <form id="contact-form" action="#" method="post">
+      <h1 class="msghead">Send me a message</h1>
+      <input type="text" placeholder="Nick" name="name" required>
+      <input type="email" placeholder="e-Mail" name="email" required>
+      <textarea name="msg" rows="6" required placeholder="I need a website..."></textarea>
+      <button type="submit" class="full-btn">[    SEND    ]</button>
+   </form>
+<!--Review section-->
+  <form id="review-form" class="review-form">
+  <h1 class="msghead1">Leave a review</h1>
+   <div class="name-rating">
+    <div class="stars">
+      <input type="radio" name="rating" id="r5" value="5"><label for="r5">★</label>
+      <input type="radio" name="rating" id="r4" value="4"><label for="r4">★</label>
+      <input type="radio" name="rating" id="r3" value="3"><label for="r3">★</label>
+      <input type="radio" name="rating" id="r2" value="2"><label for="r2">★</label>
+      <input type="radio" name="rating" id="r1" value="1"><label for="r1">★</label>
+    </div>
+    <input name="name" placeholder="Name" maxlength="30" required>
+  </div> 
+    <textarea name="comment" placeholder="Write your review here..." rows="4" maxlength="500" required></textarea>
+    <button class="full-btn">[ SUBMIT ]</button>
+  </form>
+</div>
+
+<!--Right section (administrated reviews)-->
+<div class="window contact-right">
+  <h1 class="msghead3">Reviews</h1>
+  <div class="reviews-scroll">
+    <ul id="reviews-list" class="review-list"></ul>
+  </div>
+</div>
+</div>
+</section>
+<!--End of contacts section-->                                                                   
+</div>
+
+<!--Main footer-->
+<footer> <button id="admin-trigger" class="admin-trigger">©</button> <span class="foot-name">2025 Artem K</span></footer>
+  <script src="js/script.js" defer></script>
+  <script type="module" src="js/reviews.js"></script>
+  <script type="module" src="js/likes.js"></script>
+  <script type="module" src="js/messages.js"></script>
+
+<!--Pong popup-->
+<div id="pong-modal" class="modal hidden">
+  <div class="pong-box">
+    <canvas id="pong-canvas" width="600" height="400"></canvas>
+    <button id="pong-close">✕</button>
+  </div>
+</div>
+
+<!--Login overlay-->
+<div id="login-overlay" class="login">
+  <form id="login-form" autocomplete="off">
+    <div class="login-fields">
+      <input name="email" type="email" placeholder="e-mail">
+      <input type="password" name="password" placeholder="password">
+    </div>
+    <div class="login-actions">
+      <button type="submit" class="btn login-btn">[ LOG IN ]</button>
+      <button id="login-close" type="button" class="btn login-close" aria-label="Close login panel">✕</button>
+    </div>
+    <span id="login-error"></span>
+  </form>
+</div>
+
+<!--Scripts connect-->
+<script type="module" src="js/login.js"></script>
+</body>
+</html>

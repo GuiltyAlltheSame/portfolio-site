@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Admin</title>
+<link rel="stylesheet" href="css/style.css"></head>
+
+<body class="stars-page">
+   <!-- stars background -->
+  <div id="stars"></div>
+  <div id="stars2"></div>
+  <div id="stars3"></div>
+  <!-- green grid -->
+  <div class="grid-overlay"></div> 
+<header class="admin-bar"> 
+    <button id="home-btn">HOME</button> 
+    <span>Admin panel</span> 
+    <button id="logout-btn">LOG OUT</button> 
+</header> 
+
+<main class="admin-wrap"> 
+    
+<section id="reviews-window" class="admin-window">
+    <h2>Comments</h2>
+    <div id="reviews-list">
+    </div>
+</section> 
+
+<section id="messages-window" class="admin-window">
+    <h2>Messages</h2>
+    <div id="messages-list">
+    </div>
+</section> 
+
+<section id="password-window" class="admin-window">
+    <h2>Password reset</h2> 
+    <form id="pwd-form"> 
+        <input name="newPwd" type="password" placeholder="new password"> 
+        <button >Reset</button>
+        <span id="pwd-msg">
+        </span> 
+    </form>
+</section>
+
+</main> 
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

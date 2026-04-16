@@ -1,0 +1,1555 @@
+/* =====  local fonts ============================================ */
+@font-face{
+  font-family: 'Press Start 2P';
+  src: url('../assets/fonts/PressStart2P-Regular.woff2') format('woff2'),
+       url('../assets/fonts/PressStart2P-Regular.woff')  format('woff');
+}
+
+@font-face{
+  font-family: 'MisakiGothic';
+  src: url('../assets/fonts/misaki_gothic.woff2') format('woff2'),
+       url('../assets/fonts/misaki_gothic.woff')  format('woff');
+}
+
+@font-face{
+  font-family: 'Ac437ApricotPortable';
+  src: url('../assets/fonts/Ac437_ApricotPortable.woff2') format('woff2'),
+       url('../assets/fonts/Ac437_ApricotPortable.woff')  format('woff');
+}
+
+/* ───── SIZING  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  /* scrolling of tab */
+  .tab-content { 
+    overflow-y: auto; 
+  }
+  /* About columns */
+  .about-wrap {
+    overflow: visible;  
+    align-items: stretch;
+    flex-direction: column;   
+  }
+  .about-photo,
+  .about-text {
+    flex: 0 0 auto;    /* Fixed by content*/
+    width: 100%;       /* all wide */
+    min-width: 0;
+  }
+  /* text padding below photo */
+  .about-text { 
+    padding: .9rem 0 0 0; 
+  }
+
+  /* high limit for photo in mobile ver */
+  .photo-frame{
+    width: auto;                          /* not 100% wide*/
+    max-height: 50vh;                     /* high limit */
+    margin-inline: auto;                  /* center by wide */
+    max-width: min(90vw, 520px);          
+    display: grid; place-items: center;  
+  }
+  .photo-frame img {
+    width: auto;                         
+    height: auto;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;                  
+  }
+  .about-button{
+    align-self: center;       /* center inside column */
+    margin-inline: auto;     
+  }
+}
+
+/* ───── SIZING END  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* ───── ANIMATION KEYFRAMES  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+@keyframes pulse {
+    0%, 100% {
+      text-shadow: 0 0 4px #8AFF3C,
+                   0 0 8px #8AFF3C;
+    }
+    50% {
+      text-shadow: 0 0 12px #8AFF3C,
+                   0 0 16px rgba(0,255,0,0.5);
+    }
+}
+
+@keyframes boxPulse {
+    0%, 100% {
+      box-shadow: 0 0 8px #8AFF3C;
+    }
+    50% {
+      box-shadow: 0 0 16px #8AFF3C;
+    }
+}
+
+@keyframes blink-caret {
+    0%,100% { color: #8AFF3C; }
+    50%     { color: #000; }
+}
+
+@keyframes rain {
+  from { transform: translateY(-100%); opacity: 1; }
+  to   { transform: translateY(100%); opacity: 0; }
+}
+
+@keyframes rain-add {
+  from { transform: translateY(100%); opacity: 1; }
+  to   { transform: translateY(-100%); opacity: 0; }
+}
+
+@keyframes heart-press{
+  0%   { transform:scale(1); }
+  40%  { transform:scale(1.35); }
+  100% { transform:scale(1); }
+}
+
+@keyframes animStar{
+  from{transform:translateY(0);}
+  to  {transform:translateY(-2000px);}
+}
+/* ───── ANIMATION KEYFRAMES END  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+
+/* ───── TYPEWRITER ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+.typewriter::after {
+  top: 0;
+  left: 100%;
+  opacity: 0;
+  content: "_";
+  color: #8AFF3C;
+  position: absolute;
+  margin-left: 0.2ch;
+}
+.typewriter[data-typing="true"]::after {
+  opacity: 1;
+  animation: blink-caret 0.75s step-end infinite 0.5s;
+}
+/* ───── TYPEWRITER  END ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* ───── RAIN ANIMATION  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+.rain {
+  inset: 0;             
+  z-index: 0;           
+  position: absolute;
+  pointer-events: none; /* no clicks on "rain" */
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(0,255,0,0.08) 0px,
+      rgba(0,255,0,0.2)  2px,
+      transparent        4px
+  );
+  animation: rain 20s linear infinite;
+}
+
+.rain-add {
+  inset: 0;             
+  z-index: 0;           /* below topic */
+  position: absolute;
+  pointer-events: none; /* no clicks on "rain" */
+  background: repeating-linear-gradient(
+      0deg,
+      rgba(0,255,0,0.08) 0px,
+      rgba(0,255,0,0.2)  2px,
+      transparent        4px
+  );
+  animation: rain-add 70ms linear infinite;
+}
+/* ───── RAIN ANIMATION END  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* ───── BODY  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+* {box-sizing: border-box;}
+
+html,body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  overflow: hidden;
+  color: #8AFF3C;
+  min-height: 100vh;
+  background:#000;
+  flex-direction: column;
+  background-size: cover;             
+  background-repeat: no-repeat;       
+  background-attachment: fixed;      
+  background-position: center center; 
+  font-family: 'Press Start 2P', monospace;
+}
+
+.btn {
+  color: #8AFF3C;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #8AFF3C;
+  /*animation: pulse 2s infinite ease-in-out;*/
+}
+
+.btn:hover {
+  color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+      #8AFF3C;
+      box-shadow: 0 0 8px #8AFF3C;
+}
+/* ───── BODY END ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* ───── HEAD  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+.crt {
+  margin: 0;
+  z-index: 2;
+  width: 100%;
+  flex-shrink: 0;
+  max-width: none;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  padding-top: 1.3rem;
+  background: transparent;
+}
+
+header h1.huge {
+  font-size: 3rem;
+  margin: 0;
+  text-shadow:
+  0 0 0.7px #8AFF3C,
+  0 0 1.4px #8AFF3C,
+  0 0 2.8px #8AFF3C,
+  0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+header p {
+  font-size: 0.75rem;
+  margin: 1rem 0 1rem 0;
+  text-shadow:
+  0 0 0.5px #8AFF3C,
+  0 0 1px #8AFF3C,
+  0 0 2px #8AFF3C,
+  0 0 4px rgba(0, 255, 0, 0.5);
+}
+/* ───── HEAD END ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* ───── TABS  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+.tabs {
+  z-index:0;
+  padding: 0;          
+  width: 100%;         /* set in parents wide (body or .crt) */
+  display: flex;
+  flex: 0 0 auto;
+  background:#000;
+  position: relative;
+  border-top: 3px solid #8AFF3C;
+  border-bottom: 3px solid #8AFF3C;
+}
+
+.tab {
+  flex: 1; 
+  border: none;
+  cursor: pointer;
+  padding: 1rem 0;      
+  color: #8AFF3C;
+  position: relative;               /* all tabs equal size */
+  background: #000;    /* regular background */
+  transition: background 0.3s, color 0.3s;
+  font-family: 'Press Start 2P', monospace;
+}
+
+
+
+.tab-content {
+  flex: 1 1 0;
+  min-height: 0;
+  z-index: auto;
+  display: flex;
+  position: relative;
+  overflow-y: hidden;
+  padding: 1rem 0.95rem;
+  flex-direction: column;
+  background: #000000b7;
+}
+
+.tab-panel {
+  flex: 1 1 0;
+  display: none;            /* hide panels at start */
+  min-height: 0;
+  color: #ccc;
+}
+
+.tab-panel.active {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;           /* display only active tabs */
+  flex-direction: column;
+}
+
+.tab.active {
+  color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+    #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C;
+}
+
+.tab .typewriter {
+  position: relative;
+  white-space: nowrap;    
+  display: inline-block;
+}
+
+.tab .caret {
+  top: 0;
+  left: 100%;            /* right below the text */
+  position: absolute;
+  transform: translateX(0.2ch); /* little indent */
+}
+
+.tab:hover .caret {
+  opacity: 1;
+}
+/* ───── TABS END ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* ───── Блок ABOUT  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+.about-wrap {
+  gap: 1rem;
+  width: 100%;
+  padding-top: 5px;
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  overflow: visible;
+  align-items: stretch;
+}
+
+.photo-frame {
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;      /* cut rain */
+  max-height: 100%;
+  position: relative;
+  border: 1px solid #8AFF3C;
+}
+
+.about-photo {
+  min-height: 0;
+  flex: 1 1 auto;
+  max-width: 465px;
+  max-height: 100%;
+}
+
+/* right column */
+.about-text {
+  gap: .48rem;
+  flex: 1 1 0; 
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;        /* takes up the remaining space */
+  overflow-wrap: anywhere;
+  padding: .9rem 0 0 .9rem;
+}
+
+/* Typographic */
+.green-text {
+  color: #8AFF3C;
+  word-break: normal;
+}
+
+.about-glif {
+  font-size: 50px;
+  font-family: 'MisakiGothic';
+}
+
+.headline {
+  margin: 0;
+  line-height: 1.2;
+  white-space: normal;
+  word-spacing: -10px;
+  letter-spacing: 4px;
+  word-break:break-word;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+  font-size: clamp(40px, 2.5vw - 7px, 41px);
+}
+
+.subhead {
+  line-height: 1.5;
+  color: #8AFF3C;
+  margin: 1rem 0 0 0;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: clamp(0.7rem, 1vw + 0.55rem, 1rem);
+}
+
+.tagline {
+  line-height: 1.2;
+  color: #8AFF3C;
+  margin: 0 0 1rem 0;
+  font-style: italic;
+  font-size: clamp(0.8rem, 0.8vw + 0.4rem, 1.1rem);
+}
+
+.about-sep {
+  border: none;
+  margin: 1rem 0;                 
+  border-top: 2px solid #8AFF3C;
+}
+
+.about-button {
+  margin-top: 3px;
+}
+/* ───── About section END ──────────────────────────────────────────── */
+
+/* ───── Skills section  ────────────────────────────────────────────── */
+
+/* ──────────colors and basic settings ────────── */
+.skills-wrap{
+  gap: 1rem;
+  min-height: 0;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.skills-wrap .window, 
+  #skills-left, #skills-right{
+    width: auto;
+    min-height: 0;
+    min-width: 280px;
+    overflow-y: hidden;
+    flex: 1 1 calc(50% - 1rem);
+}
+
+#skills-left{
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.window{
+  display:flex;
+  min-height: 0;
+  overflow: hidden;
+  color: #8AFF3C;
+  position: relative;
+  flex-direction:column;
+  background:#00000063;
+  border:3px solid #8AFF3C;
+  font-family: 'Ac437ApricotPortable', monospace;
+}
+
+.row-skills{
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.row + .row{ border-top:3px solid #8AFF3C; }
+
+/* date-time */
+.row-clock{ display:flex; justify-content:space-between; padding: 0.6rem 1rem 1.6rem 1.3rem; font-size: 1.7rem; }
+.row-clock,
+.row-info,
+.row-footer{
+  flex: 0 0 auto;
+}
+
+/* skill list */
+.skill-list{
+  margin: 0;
+  flex: 1 1 0;
+  padding: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.skill-list li{
+  display:flex; 
+  font-size: 1.7rem;
+  padding: 6px 20px 6px 20px;
+  justify-content:space-between;
+}
+
+.skill-list li:hover {
+  color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+    #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C;
+}
+
+/* info-grip 30/70 */
+.row-info{
+  row-gap:2px;
+  display:grid;
+  font-size: 1.2rem;
+  padding: 10px 20px 10px 20px;
+  grid-template-columns:30% 70%;
+}
+.info-left{ text-align:left; }
+.info-right{ text-align:left; }
+
+/* footer */
+.row-footer{
+  color: #000;
+  margin-top: auto;
+  text-align:center;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+    #8AFF3C;
+    font-size: 1.2rem;
+    padding: 10px 20px ;
+  box-shadow: 0 0 8px #8AFF3C;
+}
+
+.align-right{ margin-left:auto; }
+/* ───── Блок SKILLS END ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
+
+/* ───── PROJECTS SECTION ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────*/ 
+#projects.tab-panel{                /* stays hide as all tabs */
+  min-height: 0;
+  flex: 1 1 auto;                  /* (flex not working until display:none) */
+}
+
+#projects.tab-panel.active{        /* flex if chosen */
+  display:flex;
+  flex-direction:column;
+}
+
+.proj-wrap{
+  margin: 0;
+  padding: 0;
+  display:flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  align-items: stretch;           
+  justify-content:center;
+}
+
+.slider{
+  flex:1 1 auto;
+  display: flex;
+  /*height: 100%;*/
+  overflow-x: auto;
+  overflow-y:hidden;              
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.track{
+  gap:1rem;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex: 1 1 auto;
+  list-style:none;
+  flex-direction: row;
+}
+
+.card{
+  display:flex; 
+  height: 100%;
+  min-height: 0;
+  background:#00000063;
+  flex-direction:column;
+  border:3px solid #8AFF3C;
+  flex:0 0 calc((100% - 3rem)/4);  /* 4 pc. in a row with gap */
+}
+
+.card img{ 
+  width:100%; 
+  min-height: 0; 
+  flex:1 1 auto; 
+  object-fit:fill; 
+  border-bottom:1px solid #8AFF3C;
+}
+
+.card .body{ 
+  gap:.4rem; 
+  display:flex; 
+  flex: 1 1 auto; 
+  padding: .7rem; 
+  flex-direction:column; 
+}
+
+.card h4{ 
+  margin:0; 
+  color:#8AFF3C; 
+  font-size:1.4rem; 
+  padding-top: .7rem; 
+}
+
+.card .btns{ 
+  gap:.6rem; 
+  display:flex; 
+  margin-top:auto; 
+}
+
+.card .btns a{
+  flex:1;
+  margin: 0;
+  font-size:1rem;
+  color:#8AFF3C;
+  text-align:center;
+  padding: 13px 13px;
+  text-decoration: none;
+  border:2px solid #8AFF3C;
+}
+
+.card .btns a:hover{   color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+    #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C; }
+
+.thumb{ 
+  width:100%; 
+  aspect-ratio:1/1; /* square */
+  position:relative; 
+} 
+
+.thumb img{ 
+  inset:0;
+  width:100%; 
+  height:100%; 
+  object-fit:cover; 
+  position:absolute; 
+}
+
+.thumb .noise{ 
+  opacity:0; 
+  transition:opacity .25s; /* GIF hiden */
+}   
+.card:hover .thumb .noise{ 
+  opacity:1;               /* shows */
+}                 
+
+/* adaptive: ≤900px show 2, ≤600px – 1 */
+@media (max-width:900px){ .card{ flex:0 0 calc(50% - .5rem);} }
+@media (max-width:600px){ .card{ flex:0 0 100%; } }
+/* PROJECTS SECTION END------------------------------------------------------------------------------------------------------------------------------------------------------------*/ 
+
+/* === CONTACT ==================================================== */
+.contact-wrap{
+  gap:1rem;
+  min-height:0;
+  display:flex;
+  flex:1 1 auto;          /* stretch to down .tab-content */
+  flex-wrap: wrap;
+  padding-bottom: 0;
+}
+
+.contact-wrap .window{
+  flex:1 1 calc(33.333% - 1rem);
+}
+
+.full-btn {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #8AFF3C;
+  text-align: center;
+  background: #000;
+  padding: 0.6rem 1rem;
+  border: 2px solid #8AFF3C;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.full-btn:hover {
+  color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 3px,
+      rgba(0, 0, 0, .4) 3px,
+      rgba(0, 0, 0, .4) 4px),
+    #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C;
+}
+
+/* === CONTACT & REVIEW FORMS =================================== */
+#contact-form,
+#review-form{
+  gap: 19px;
+  display:flex;
+  min-height: 0;
+  flex: 1 1 auto;          /* stretch */
+  overflow-y:auto;
+  flex-direction:column;
+  padding-inline:1.4rem;
+}
+
+/* fields labels */
+#contact-form label,
+#review-form label{
+  display:flex;
+  min-height: 0;
+  flex: 1 1 auto;          
+  flex-direction:column;
+}
+
+/* textarea */
+#contact-form input,
+#review-form input,
+#contact-form textarea,
+#review-form textarea{
+  padding:.6rem;
+  resize:vertical;
+  color:#8AFF3C;
+  background:#000;
+  border:2px solid #8AFF3C;
+  font-family:'Press Start 2P', monospace;
+}
+
+/* list container: vertical, scrolable */
+.social-list.solid{
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex:0 0 auto;
+  margin-bottom: 0;
+  list-style: none;
+  overflow-y: auto;
+  font-size: 1.4rem;                     
+  padding-bottom: 0;
+  position: relative;                    /* for › */
+  flex-direction: column;
+}
+
+/* every line */
+.social-list.solid li{
+  position: relative;
+  border-bottom: 2px solid #8AFF3C;
+}
+
+/* last lane without uderlining */
+.social-list.solid li:last-child{
+  border-bottom: none;
+}
+
+.social-list.solid a{
+  gap: 1rem;                             
+  display: flex;
+  color: #8AFF3C;                        
+  background: #000;                     
+  align-items: center;
+  padding: .9rem 1.4rem;
+  text-decoration: none;
+  transition: background .2s, color .2s, box-shadow .2s;
+}
+
+.social-list.solid i{
+  width: 26px;                         
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+/* ───  “CRT” effects  ────────────────────────────────────── */
+
+/* cursor hover: 1) green background  2) scan  3) neon ligt */
+.social-list.solid a:hover{
+  color: #000;                           
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+    #8AFF3C;                             /* main substrate */
+  box-shadow: 0 0 8px #8AFF3C;           /* light glow */
+}
+
+.little-about {
+  margin: 0;
+  color: white;
+  font-size: 18px;
+  padding: 15px 0 21.5px 0;
+  color:#C4FF8F;
+  text-align: start;
+}
+
+.desc-like-wrap{                       
+  display:flex;
+  flex:0 0 auto;                       
+  margin-top: auto;
+  padding-inline: 10px;
+  flex-direction:column;
+}
+.desc-like-wrap > *{ 
+  margin-inline:auto; 
+} 
+/* === Contact section END ==================================================== */
+
+footer {
+  z-index:0;
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    margin-top: auto;
+    position:relative; 
+    font-size: 0.6rem;
+    text-align: center;
+    background: #000;
+    padding: 5px 0 5px 0;
+}
+
+footer p {
+  text-shadow: 0px 0px 12px rgba(0,0,0,1),
+              0px 0px 12px rgba(0,0,0,1);
+  color: #8AFF3C;
+  font-size: 0.75rem;
+}
+
+.msghead, .msghead1 {
+  margin: 0;
+  font-size: 20px;
+  align-self: center;
+}
+
+.msghead3 {
+  font-size: 20px;
+  align-self: center;
+  margin-bottom: 18px;
+}
+
+/* SCROLLBAR ----------------------------------------------------------------*/ 
+::-webkit-scrollbar{
+  width:6px;               
+  height:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#000;         /* or transparent */
+}
+
+/* thumb */
+::-webkit-scrollbar-thumb{
+  background:#8AFF3C;
+}
+
+/* hower */
+::-webkit-scrollbar-thumb:hover{
+  background:#C4FF8F;
+}
+/* SCROLLBAR -------------------------------END---------------------------------*/
+
+.code-block{
+  z-index: 1;
+  flex: 1 1 0;                        
+  min-height: 0;
+  overflow-y:auto;
+  font-size:1.3rem;
+  max-height: none;
+  line-height: 27px;
+  padding-left: 1rem;
+  white-space:pre-wrap;           
+  font-family: 'Ac437ApricotPortable' , monospace;
+}
+
+.cmd-line{
+  gap:.6rem;
+  display:flex;
+  flex: 0 0 auto;
+  background:#000;
+  align-items:center;
+  padding:.6rem 1.4rem;
+  border-top:3px solid #8AFF3C;
+  font-family:'Ac437ApricotPortable' , monospace;
+}
+
+.cmd-line .prompt{ 
+  color:#8AFF3C; 
+}
+
+#cmd-input{
+  flex:1;
+  border:none;
+  outline:none;
+  font:inherit;
+  color:#8AFF3C;
+  background:transparent;
+}
+
+#cmd-input::placeholder{ 
+  color:#92f9525e; 
+}
+
+.tab:not(:hover) .typewriter:not([data-typing="true"]) .caret {
+  opacity: 0;
+}
+
+/* PONG modal window ----------------------------------------------------------------*/ 
+.modal {
+  z-index: 999;
+  display: flex;
+  top: 0; left: 0;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85);
+}
+
+.modal.hidden { 
+  display: none; 
+}
+
+.pong-box {
+  position: relative;
+  background: #000;
+  border: 2px solid #8AFF3C;
+  box-shadow: 0 0 20px #8AFF3C;
+}
+
+#pong-close {
+  top: -10px;
+  right: -10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 10px;
+  position: absolute;
+  background: #8AFF3C;
+}
+
+#pong-end p {
+  margin: 20px;
+  font-size: 20px;
+  color: #8AFF3C;
+  text-align: center;
+  font-family: monospace;
+}
+
+#pong-ok {
+  border: none;
+  display: block;
+  cursor: pointer;
+  padding: 6px 14px;
+  font-weight: bold;
+  background: #8AFF3C;
+  margin: 10px auto 20px;
+}
+/* PONG modal END----------------------------------------------------------------*/ 
+
+/* ─── REVIEWS 2.0 — fixed height ───────────────────── */
+/* window: grid with two rows */
+.window.contact-bottom{
+  gap: 3rem;
+  padding-block: 1.2rem;
+  justify-content: space-between;
+}
+
+/* scrollable wrap */
+.reviews-scroll{
+  flex: 1 1 0;
+  min-height:0;                    
+  overflow-y:auto;
+}
+
+/* list inside scroll */
+.review-list{
+  gap:1rem;
+  margin:0; 
+  display:flex;
+  list-style:none;
+  flex-direction:column;
+  padding: .75rem 0 .75rem 0;
+}
+
+/* rewiew card */
+.review-item{
+  color:#d0ffd0;
+  padding: .75rem;
+  background:#000;
+  margin-inline: .75rem;
+  word-break: break-word;
+  border:3px solid #8AFF3C;
+}
+.review-item b{ 
+  color:#8AFF3C; 
+}
+
+.review-item .stars{ 
+  color:#8AFF3C; 
+  margin-left:.5rem; 
+}
+
+.review-form{
+  gap: .50rem;
+  display:flex;
+  flex: 0 0 auto;
+  padding-bottom: 0;
+  padding-inline: 10px;
+  flex-direction:column;
+}
+.review-form input,
+.review-form textarea{
+  font:inherit;
+  color:#8AFF3C;
+  background:#000;
+  padding:.5rem .75rem;
+  border:2px solid #8AFF3C;
+}
+
+/* stars rating */
+.stars{ 
+  gap:.15rem; 
+  align-self: center;
+  display:inline-flex; 
+  justify-content: center; 
+  flex-direction:row-reverse; 
+}
+
+.stars input{ 
+  width:0; 
+  height:0; 
+  opacity:0; 
+  position:absolute; 
+}
+
+.stars label{ 
+  color:#333; 
+  font-size:32px; 
+  line-height: 1; 
+  padding-bottom: 4px;
+  transition:color .2s; 
+}
+
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input:checked ~ label{ 
+  color:#8AFF3C; 
+}
+
+.review-sep{
+  margin:0;
+  border:0;
+  height:2px;
+  background:#8AFF3C;
+}
+
+/* one line for name & stars*/
+.name-rating{
+  gap:1rem;               
+  display:flex;
+  align-items:center;    
+}
+
+.name-rating input[name="name"]{
+  width:100%;
+  min-width:0;
+  flex:1 1 auto;
+}
+
+.name-rating .stars{
+  flex:0 0 auto;
+}
+
+.review-form p {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+/* mobile: SEND all width */
+@media (max-width:600px){
+  .review-form button{ align-self:stretch; }
+}
+/* ─── END REVIEWS 2.0 ────────────────────────────────────────────── */
+
+/* ─── LIKE BUTTON ─────────────────────────────── */
+#like-btn{
+  gap:.5rem;
+  font:inherit;
+  cursor:pointer;
+  overflow:hidden;            
+  color:#8AFF3C;
+  user-select:none;
+  margin-top: auto;
+  position:relative;
+  background:#000;
+  display:inline-flex;
+  padding: 0.6rem 1rem;
+  transition:filter .15s;
+  border:2px solid #8AFF3C;
+}
+
+#like-btn > .heart-icon,
+#like-btn > .count{
+  z-index:1;
+  position:relative;
+  mix-blend-mode:difference;
+}
+
+#like-btn:not(.disabled):hover > .heart-icon,
+#like-btn.active-fill           > .heart-icon{
+  color:inherit;               
+}
+
+#like-btn:not(.disabled):hover{ 
+  filter:brightness(115%); 
+}
+
+#like-btn .count{ 
+  font-weight:bold; 
+}
+
+#like-btn::before{
+  z-index:0; 
+  content:"";
+  height:100%;
+  top:0; left:0;
+  position:absolute;
+  width:var(--fill,0);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+      #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C;          
+}
+
+#like-btn > *{ 
+  position:relative; 
+  z-index:1; 
+  mix-blend-mode: difference;
+}
+
+#like-btn.disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+.heart-press{
+  animation:heart-press .18s ease-out;
+}
+/* ─── LIKE BUTTON END─────────────────────────────── */
+
+.desc-like-block {
+  display: flex;
+  padding: 0 10px; 
+  flex-direction: column;
+}
+
+/* ------- PARALLAX STARFIELD -------------------- */
+/* recolor */
+:root{
+  --s-c:#8AFF3C;          /* stars color */
+  --space-top:#000;       /* upper gradient */
+  --space-bottom:#000;    /* lower gradient */
+}
+
+.grid-overlay{
+  inset: 0;                     /* top:0; right:0; bottom:0; left:0 */
+  z-index: -1;                  
+  position: fixed;
+  pointer-events: none;         
+  background:url('../assets/img/green-grid-cut.png') center/cover no-repeat fixed;
+}
+
+/* settings for all 3 layers */
+#stars,#stars2,#stars3{
+  z-index: -2;
+  position:fixed;
+  pointer-events:none;
+  background:transparent;
+  top:0;left:0;width:100%;height:100%;
+}
+
+/* different "level" layers — speed&size */
+#stars{
+  width:1px;height:1px;
+  box-shadow:1881px 539px #FFF , 904px 730px #FFF , 696px 1835px #FFF , 699px 451px #FFF , 1400px 360px #FFF , 1735px 1692px #FFF , 1985px 323px #FFF , 886px 1297px #FFF , 287px 671px #FFF , 643px 1251px #FFF , 1287px 1445px #FFF , 153px 1422px #FFF , 795px 619px #FFF , 737px 935px #FFF , 1672px 412px #FFF , 1920px 1253px #FFF , 1977px 326px #FFF , 1545px 1152px #FFF , 514px 604px #FFF , 455px 168px #FFF , 115px 1309px #FFF , 1096px 542px #FFF , 391px 1475px #FFF , 1238px 599px #FFF , 415px 458px #FFF , 487px 508px #FFF , 749px 301px #FFF , 736px 403px #FFF , 1287px 683px #FFF , 1324px 1291px #FFF , 976px 1155px #FFF , 1552px 1728px #FFF , 18px 559px #FFF , 1524px 1335px #FFF , 16px 1439px #FFF , 1171px 640px #FFF , 672px 202px #FFF , 293px 1032px #FFF , 976px 1739px #FFF , 139px 1257px #FFF , 1869px 1216px #FFF , 1800px 1332px #FFF , 493px 1417px #FFF , 445px 1190px #FFF , 546px 710px #FFF , 1929px 1736px #FFF , 124px 1254px #FFF , 1762px 1899px #FFF , 1209px 54px #FFF , 1537px 1964px #FFF , 1544px 1087px #FFF , 1718px 205px #FFF , 1869px 1764px #FFF , 1241px 1728px #FFF , 366px 1845px #FFF , 1274px 1266px #FFF , 1443px 429px #FFF , 1119px 993px #FFF , 967px 647px #FFF , 353px 1901px #FFF , 262px 775px #FFF , 368px 1060px #FFF , 1363px 524px #FFF , 388px 584px #FFF , 164px 407px #FFF , 1484px 1800px #FFF , 268px 1480px #FFF , 213px 1191px #FFF , 788px 226px #FFF , 1991px 79px #FFF , 1378px 1026px #FFF , 1422px 199px #FFF , 1016px 554px #FFF , 935px 1416px #FFF , 1589px 1805px #FFF , 1225px 876px #FFF , 1145px 1573px #FFF , 1878px 1697px #FFF , 1935px 321px #FFF , 462px 502px #FFF , 1790px 691px #FFF , 317px 358px #FFF , 543px 1632px #FFF , 797px 1824px #FFF , 897px 310px #FFF , 1177px 1281px #FFF , 967px 1994px #FFF , 1825px 1839px #FFF , 632px 438px #FFF , 869px 1961px #FFF , 1786px 663px #FFF , 1975px 1804px #FFF , 1206px 652px #FFF , 924px 309px #FFF , 747px 402px #FFF , 1758px 1889px #FFF , 911px 1737px #FFF , 1286px 1599px #FFF , 1549px 896px #FFF , 321px 356px #FFF , 1520px 390px #FFF , 947px 923px #FFF , 1961px 28px #FFF , 518px 765px #FFF , 271px 1244px #FFF , 261px 1033px #FFF , 506px 794px #FFF , 1222px 1459px #FFF , 852px 1412px #FFF , 1511px 577px #FFF , 1530px 312px #FFF , 541px 1733px #FFF , 875px 480px #FFF , 1968px 915px #FFF , 1567px 1598px #FFF , 1209px 448px #FFF , 135px 1750px #FFF , 1590px 1811px #FFF , 1426px 1662px #FFF , 1601px 1491px #FFF , 1628px 1608px #FFF , 1572px 1229px #FFF , 647px 508px #FFF , 1665px 370px #FFF , 223px 441px #FFF , 601px 507px #FFF , 277px 9px #FFF , 1359px 613px #FFF , 912px 1598px #FFF , 1476px 1183px #FFF , 1371px 1337px #FFF , 131px 1135px #FFF , 678px 712px #FFF , 1750px 913px #FFF , 598px 112px #FFF , 937px 724px #FFF , 96px 1196px #FFF , 1674px 361px #FFF , 610px 1060px #FFF , 1335px 1884px #FFF , 1527px 1334px #FFF , 190px 119px #FFF , 314px 1075px #FFF , 1134px 777px #FFF , 1965px 827px #FFF , 1888px 1658px #FFF , 1533px 1555px #FFF , 1680px 1764px #FFF , 1401px 1027px #FFF , 1056px 754px #FFF , 18px 475px #FFF , 701px 584px #FFF , 1000px 1736px #FFF , 1273px 1176px #FFF , 843px 1973px #FFF , 617px 1023px #FFF , 1435px 756px #FFF , 1479px 1252px #FFF , 347px 373px #FFF , 357px 1883px #FFF , 880px 1466px #FFF , 202px 1648px #FFF , 1439px 342px #FFF , 1224px 286px #FFF , 1315px 100px #FFF , 1834px 406px #FFF , 724px 1354px #FFF , 1785px 358px #FFF , 176px 1802px #FFF , 1647px 1585px #FFF , 1606px 272px #FFF , 848px 1000px #FFF , 1947px 98px #FFF , 1629px 1564px #FFF , 1820px 1471px #FFF , 794px 109px #FFF , 454px 1477px #FFF , 1066px 745px #FFF , 1988px 1610px #FFF , 1924px 1695px #FFF , 941px 235px #FFF , 95px 1425px #FFF , 170px 269px #FFF , 420px 750px #FFF , 767px 1340px #FFF , 86px 1493px #FFF , 788px 587px #FFF , 588px 1896px #FFF , 740px 1525px #FFF , 948px 1622px #FFF , 1909px 913px #FFF , 45px 763px #FFF , 1458px 299px #FFF , 1743px 353px #FFF , 409px 1040px #FFF , 328px 91px #FFF , 1445px 18px #FFF , 1470px 26px #FFF , 1262px 1017px #FFF , 493px 1760px #FFF , 1633px 141px #FFF , 427px 888px #FFF , 894px 1420px #FFF , 434px 1516px #FFF , 969px 1833px #FFF , 1216px 602px #FFF , 710px 1227px #FFF , 520px 1889px #FFF , 1562px 1640px #FFF , 15px 321px #FFF , 132px 52px #FFF , 1255px 828px #FFF , 1264px 1867px #FFF , 219px 69px #FFF , 1144px 1704px #FFF , 472px 330px #FFF , 536px 1081px #FFF , 590px 68px #FFF , 451px 1322px #FFF , 20px 521px #FFF , 1737px 263px #FFF , 269px 1356px #FFF , 834px 792px #FFF , 639px 182px #FFF , 1969px 1812px #FFF , 937px 3px #FFF , 1146px 1875px #FFF , 207px 1334px #FFF , 1417px 679px #FFF , 166px 160px #FFF , 1476px 1934px #FFF , 710px 397px #FFF , 1982px 1230px #FFF , 398px 1742px #FFF , 1362px 138px #FFF , 1095px 1099px #FFF , 767px 1515px #FFF , 1585px 1982px #FFF , 1574px 1129px #FFF , 123px 511px #FFF , 1932px 333px #FFF , 1165px 1435px #FFF , 1307px 617px #FFF , 1064px 1138px #FFF , 1223px 1489px #FFF , 1779px 1921px #FFF , 1307px 1995px #FFF , 918px 1804px #FFF , 765px 337px #FFF , 1034px 586px #FFF , 1470px 547px #FFF , 1156px 142px #FFF , 1304px 768px #FFF , 780px 1693px #FFF , 1488px 1320px #FFF , 965px 823px #FFF , 1057px 1493px #FFF , 420px 519px #FFF , 762px 1859px #FFF , 961px 645px #FFF , 990px 533px #FFF , 1178px 1675px #FFF , 1715px 1038px #FFF , 1634px 1356px #FFF , 1222px 1880px #FFF , 338px 267px #FFF , 474px 1879px #FFF , 762px 1851px #FFF , 1353px 1717px #FFF , 1496px 582px #FFF , 684px 945px #FFF , 1062px 374px #FFF , 1913px 493px #FFF , 1918px 1201px #FFF , 1852px 1936px #FFF , 557px 1450px #FFF , 318px 1101px #FFF , 974px 1644px #FFF , 1718px 1801px #FFF , 180px 1968px #FFF , 718px 657px #FFF , 1027px 1132px #FFF , 197px 877px #FFF , 1724px 1755px #FFF , 1420px 454px #FFF , 1940px 189px #FFF , 178px 884px #FFF , 1091px 1377px #FFF , 614px 1669px #FFF , 1673px 1715px #FFF , 1459px 213px #FFF , 1576px 171px #FFF , 638px 1888px #FFF , 1585px 818px #FFF , 1569px 1436px #FFF , 534px 1205px #FFF , 816px 302px #FFF , 1869px 1327px #FFF , 685px 1133px #FFF , 19px 136px #FFF , 1551px 871px #FFF , 921px 779px #FFF , 872px 9px #FFF , 1598px 1490px #FFF , 1343px 395px #FFF , 695px 1884px #FFF , 324px 1198px #FFF , 1386px 1052px #FFF , 1023px 1733px #FFF , 1427px 433px #FFF , 1067px 604px #FFF , 171px 1261px #FFF , 276px 199px #FFF , 1425px 1516px #FFF , 1703px 1556px #FFF , 1218px 1597px #FFF , 1598px 1627px #FFF , 1503px 1331px #FFF , 975px 1383px #FFF , 1767px 916px #FFF , 1423px 1334px #FFF , 1118px 1121px #FFF , 1312px 1906px #FFF , 523px 1811px #FFF , 815px 1239px #FFF , 1252px 1433px #FFF , 1443px 1197px #FFF , 1915px 1923px #FFF , 192px 8px #FFF , 324px 329px #FFF , 135px 68px #FFF , 1951px 119px #FFF , 820px 736px #FFF , 1305px 819px #FFF , 727px 1269px #FFF , 1010px 457px #FFF , 1747px 1644px #FFF , 284px 262px #FFF , 1707px 1829px #FFF , 1113px 564px #FFF , 350px 926px #FFF , 1223px 1553px #FFF , 701px 932px #FFF , 1070px 1107px #FFF , 982px 777px #FFF , 1633px 309px #FFF , 816px 410px #FFF , 1455px 555px #FFF , 1370px 1096px #FFF , 1548px 1021px #FFF , 1026px 1145px #FFF , 189px 1481px #FFF , 1878px 1602px #FFF , 752px 1622px #FFF , 643px 1930px #FFF , 687px 1407px #FFF , 695px 1764px #FFF , 1191px 577px #FFF , 180px 779px #FFF , 117px 1162px #FFF , 1825px 987px #FFF , 517px 1034px #FFF , 532px 1242px #FFF , 488px 331px #FFF , 1117px 732px #FFF , 307px 842px #FFF , 1720px 1759px #FFF , 742px 98px #FFF , 1293px 498px #FFF , 159px 1512px #FFF , 908px 337px #FFF , 1551px 903px #FFF , 628px 564px #FFF , 712px 1183px #FFF , 1334px 1208px #FFF , 1340px 1496px #FFF , 91px 434px #FFF , 453px 1103px #FFF , 573px 146px #FFF , 54px 73px #FFF , 229px 1603px #FFF , 1449px 513px #FFF , 648px 973px #FFF , 1356px 1009px #FFF , 503px 911px #FFF , 114px 910px #FFF , 652px 958px #FFF , 1656px 865px #FFF , 214px 1883px #FFF , 1238px 820px #FFF , 1281px 1976px #FFF , 264px 1335px #FFF , 1145px 1906px #FFF , 594px 458px #FFF , 1181px 1979px #FFF , 76px 1636px #FFF , 1122px 1677px #FFF , 1267px 800px #FFF , 1147px 383px #FFF , 1217px 1092px #FFF , 135px 1592px #FFF , 1090px 1408px #FFF , 779px 1187px #FFF , 465px 353px #FFF , 55px 171px #FFF , 1334px 1311px #FFF , 1380px 1289px #FFF , 1296px 1070px #FFF , 1020px 886px #FFF , 1136px 221px #FFF , 1446px 1052px #FFF , 1305px 902px #FFF , 1536px 1236px #FFF , 247px 1929px #FFF , 1548px 1798px #FFF , 1464px 1633px #FFF , 1467px 962px #FFF , 533px 226px #FFF , 1841px 776px #FFF , 1185px 1852px #FFF , 1314px 1035px #FFF , 238px 134px #FFF , 1151px 1369px #FFF , 1140px 1179px #FFF , 194px 1966px #FFF , 140px 478px #FFF , 1376px 1141px #FFF , 1882px 463px #FFF , 1235px 659px #FFF , 475px 1594px #FFF , 1839px 348px #FFF , 850px 1383px #FFF , 1816px 1626px #FFF , 549px 1323px #FFF , 666px 262px #FFF , 1175px 1211px #FFF , 386px 1283px #FFF , 1392px 1545px #FFF , 583px 481px #FFF , 606px 606px #FFF , 1862px 1424px #FFF , 1953px 1699px #FFF , 1108px 8px #FFF , 61px 1076px #FFF , 932px 1472px #FFF , 1798px 499px #FFF , 1599px 581px #FFF , 498px 1774px #FFF , 92px 1431px #FFF , 21px 1172px #FFF , 974px 1142px #FFF , 735px 1270px #FFF , 1431px 22px #FFF , 996px 1162px #FFF , 400px 795px #FFF , 1358px 616px #FFF , 690px 1690px #FFF , 1457px 1932px #FFF , 1628px 1593px #FFF , 389px 750px #FFF , 508px 503px #FFF , 321px 1610px #FFF , 887px 670px #FFF , 79px 665px #FFF , 253px 1329px #FFF , 1178px 420px #FFF , 1036px 166px #FFF , 581px 345px #FFF , 629px 1423px #FFF , 375px 194px #FFF , 139px 60px #FFF , 1261px 1480px #FFF , 1154px 155px #FFF , 1985px 1894px #FFF , 1847px 1261px #FFF , 908px 407px #FFF , 1565px 747px #FFF , 1287px 1344px #FFF , 1417px 133px #FFF , 1107px 84px #FFF , 779px 1855px #FFF , 991px 1606px #FFF , 1842px 1394px #FFF , 1210px 571px #FFF , 52px 1978px #FFF , 968px 793px #FFF , 1134px 1834px #FFF , 1868px 501px #FFF , 1968px 1712px #FFF , 1706px 500px #FFF , 1402px 518px #FFF , 1157px 1636px #FFF , 47px 899px #FFF , 281px 1580px #FFF , 345px 353px #FFF , 1685px 1128px #FFF , 1257px 1586px #FFF , 1867px 1239px #FFF , 319px 1869px #FFF , 1189px 1149px #FFF , 1220px 1577px #FFF , 30px 362px #FFF , 695px 910px #FFF , 167px 1028px #FFF , 461px 1804px #FFF , 109px 539px #FFF , 772px 62px #FFF , 1221px 283px #FFF , 1727px 391px #FFF , 134px 625px #FFF , 366px 1377px #FFF , 891px 635px #FFF , 248px 255px #FFF , 1434px 1796px #FFF , 1837px 1242px #FFF , 1496px 1210px #FFF , 527px 198px #FFF , 241px 537px #FFF , 380px 1023px #FFF , 752px 1399px #FFF , 1427px 1532px #FFF , 1227px 427px #FFF , 1381px 1862px #FFF , 1256px 335px #FFF , 1430px 971px #FFF , 1124px 1868px #FFF , 1753px 288px #FFF , 1348px 1951px #FFF , 379px 1081px #FFF , 1891px 1292px #FFF , 1970px 636px #FFF , 960px 977px #FFF , 1615px 205px #FFF , 1451px 168px #FFF , 1964px 1962px #FFF , 1078px 1769px #FFF , 1008px 288px #FFF , 1874px 947px #FFF , 82px 1452px #FFF , 1663px 346px #FFF , 449px 360px #FFF , 1321px 690px #FFF , 1794px 256px #FFF , 80px 1230px #FFF , 1835px 1710px #FFF , 6px 1089px #FFF , 1571px 10px #FFF , 1058px 400px #FFF , 1172px 1177px #FFF , 61px 154px #FFF , 467px 93px #FFF , 1550px 1752px #FFF , 666px 591px #FFF , 1226px 987px #FFF , 99px 1685px #FFF , 421px 799px #FFF , 971px 1840px #FFF , 1164px 1461px #FFF , 978px 147px #FFF , 491px 1903px #FFF , 1114px 1436px #FFF , 1921px 1821px #FFF , 1335px 1931px #FFF , 813px 1428px #FFF , 1815px 1515px #FFF , 1423px 596px #FFF , 808px 1681px #FFF , 973px 421px #FFF , 426px 379px #FFF , 248px 1596px #FFF , 1195px 1866px #FFF , 805px 1193px #FFF , 495px 62px #FFF , 409px 1504px #FFF , 220px 31px #FFF , 919px 1638px #FFF , 1216px 440px #FFF , 478px 633px #FFF , 616px 572px #FFF , 406px 853px #FFF , 1845px 185px #FFF , 1126px 1773px #FFF , 327px 1868px #FFF , 1844px 438px #FFF , 1098px 176px #FFF , 1250px 109px #FFF , 988px 1214px #FFF , 1840px 1599px #FFF , 5px 1835px #FFF , 43px 1099px #FFF , 980px 1691px #FFF , 1486px 1039px #FFF , 543px 1089px #FFF , 896px 1545px #FFF , 924px 19px #FFF , 1740px 497px #FFF , 874px 72px #FFF , 1592px 17px #FFF , 698px 361px #FFF , 1143px 1917px #FFF , 1229px 647px #FFF , 1370px 1450px #FFF , 65px 1130px #FFF , 745px 1611px #FFF , 811px 1233px #FFF , 1116px 1480px #FFF , 72px 426px #FFF , 566px 1896px #FFF , 1967px 1651px #FFF , 946px 1559px #FFF , 1997px 1px #FFF , 1043px 1837px #FFF , 45px 617px #FFF , 1007px 549px #FFF , 1820px 686px #FFF , 1686px 893px #FFF , 1506px 1353px #FFF , 729px 851px #FFF , 64px 1309px #FFF , 286px 869px #FFF , 764px 551px #FFF , 1659px 119px #FFF , 1248px 474px #FFF , 1107px 1877px #FFF , 1323px 1492px #FFF , 1272px 1205px #FFF , 1314px 1939px #FFF , 738px 1280px #FFF , 71px 1288px #FFF , 460px 425px #FFF , 662px 1628px #FFF , 11px 1121px #FFF , 1695px 1781px #FFF , 1322px 931px #FFF , 69px 1192px #FFF , 1064px 220px #FFF , 954px 1080px #FFF , 367px 1680px #FFF , 204px 1519px #FFF , 30px 897px #FFF , 1102px 1944px #FFF , 25px 1656px #FFF , 526px 243px #FFF , 263px 1008px #FFF , 740px 1250px #FFF , 191px 1857px #FFF , 518px 397px #FFF , 414px 454px #FFF , 1103px 160px #FFF , 1729px 1019px #FFF , 163px 1842px #FFF , 397px 539px #FFF , 1220px 370px #FFF , 131px 1782px #FFF , 961px 1570px #FFF , 763px 125px #FFF , 799px 414px #FFF , 75px 132px #FFF , 1130px 399px #FFF , 1882px 1686px #FFF , 1324px 1768px #FFF , 1276px 1559px #FFF , 41px 659px #FFF , 1119px 246px #FFF , 586px 1112px #FFF , 1010px 695px #FFF , 215px 718px #FFF , 1400px 810px #FFF , 142px 1934px #FFF , 1432px 462px #FFF , 327px 1114px #FFF , 120px 625px #FFF , 105px 1550px #FFF , 591px 1325px #FFF , 1970px 650px #FFF , 280px 1359px #FFF , 1190px 1300px #FFF , 89px 634px #FFF , 1864px 1515px #FFF , 138px 444px #FFF , 1315px 409px #FFF , 535px 715px #FFF , 675px 24px #FFF , 1020px 1347px #FFF , 365px 1580px #FFF , 325px 1832px #FFF , 56px 1345px #FFF , 532px 262px #FFF , 1518px 1707px #FFF , 1521px 1893px #FFF , 319px 1844px #FFF , 198px 1337px #FFF , 816px 1872px #FFF , 1269px 1150px #FFF , 774px 1832px #FFF , 1584px 178px #FFF , 949px 784px #FFF , 1951px 1441px #FFF , 391px 1171px #FFF , 1509px 1890px #FFF , 553px 1725px #FFF , 1915px 175px #FFF , 1969px 1767px #FFF , 1966px 1226px #FFF , 1929px 1424px #FFF , 1119px 1916px #FFF , 1826px 1235px #FFF , 1113px 1256px #FFF , 1759px 1310px #FFF , 172px 262px #FFF , 500px 620px #FFF , 1647px 1723px #FFF , 898px 792px #FFF , 953px 1465px #FFF , 643px 1124px #FFF , 864px 1260px #FFF , 1698px 1943px #FFF , 428px 1722px #FFF , 978px 471px #FFF , 1058px 1756px #FFF , 636px 1265px #FFF , 773px 315px #FFF , 241px 1288px #FFF , 1877px 1418px #FFF , 451px 633px #FFF , 1524px 860px #FFF , 868px 1532px #FFF , 445px 1551px #FFF , 1568px 291px #FFF , 510px 1405px #FFF , 1210px 658px #FFF , 812px 687px #FFF , 1655px 334px #FFF , 767px 1689px #FFF , 1715px 1103px #FFF , 189px 1127px #FFF , 848px 89px #FFF , 41px 970px #FFF , 1780px 289px #FFF , 540px 1470px #FFF , 1266px 390px #FFF , 281px 1378px #FFF , 1713px 697px #FFF , 1829px 526px #FFF , 19px 1826px #FFF , 1127px 565px #FFF , 1107px 151px #FFF , 322px 800px #FFF , 1528px 1086px #FFF , 782px 1951px #FFF , 398px 738px #FFF , 305px 1537px #FFF , 1783px 922px #FFF , 899px 1953px #FFF , 1239px 793px #FFF , 167px 890px #FFF , 504px 1718px #FFF , 959px 1158px #FFF , 668px 844px #FFF , 1472px 617px #FFF , 1902px 1360px #FFF , 1145px 1055px #FFF , 782px 760px #FFF , 1404px 227px #FFF , 555px 797px #FFF , 130px 590px #FFF , 1950px 1318px #FFF , 1863px 1567px #FFF , 1448px 541px #FFF , 842px 348px #FFF , 1950px 1808px #FFF , 250px 1516px #FFF , 1291px 1760px #FFF , 59px 478px #FFF , 460px 1921px #FFF , 932px 875px #FFF , 352px 476px #FFF , 299px 813px #FFF , 1055px 982px #FFF , 528px 826px #FFF , 1864px 985px #FFF , 1052px 1759px #FFF , 1454px 749px #FFF , 1163px 1832px #FFF , 1397px 1501px #FFF , 451px 1182px #FFF , 1130px 1985px #FFF , 1917px 595px #FFF , 698px 786px #FFF , 1486px 163px #FFF , 1777px 1290px #FFF , 1509px 178px #FFF , 1262px 1403px #FFF , 1467px 1200px #FFF , 1686px 409px #FFF , 1773px 1021px #FFF , 355px 1613px #FFF , 2000px 320px #FFF , 1385px 522px #FFF , 805px 1562px #FFF;
+  animation:animStar 160s linear infinite;
+}
+
+#stars:after{content:'';position:absolute;top:2000px;width:1px;height:1px;background:transparent;box-shadow:inherit;}
+
+#stars2{
+  width:2px;height:2px;
+  box-shadow:473px 954px #FFF , 1734px 1610px #FFF , 1860px 546px #FFF , 958px 396px #FFF , 881px 1473px #FFF , 302px 1153px #FFF , 1780px 1568px #FFF , 1201px 498px #FFF , 217px 1506px #FFF , 1240px 421px #FFF , 709px 1674px #FFF , 1359px 1801px #FFF , 1042px 325px #FFF , 1585px 1125px #FFF , 695px 1941px #FFF , 1473px 1999px #FFF , 1270px 1397px #FFF , 544px 981px #FFF , 241px 527px #FFF , 98px 433px #FFF , 1402px 747px #FFF , 1319px 1055px #FFF , 345px 1607px #FFF , 1592px 832px #FFF , 706px 365px #FFF , 378px 1595px #FFF , 432px 1095px #FFF , 145px 413px #FFF , 1548px 1606px #FFF , 1572px 1740px #FFF , 181px 1848px #FFF , 792px 1578px #FFF , 1768px 935px #FFF , 1541px 845px #FFF , 1267px 866px #FFF , 296px 949px #FFF , 908px 1087px #FFF , 1024px 373px #FFF , 274px 632px #FFF , 1502px 82px #FFF , 1997px 999px #FFF , 748px 455px #FFF , 1885px 768px #FFF , 705px 1569px #FFF , 1212px 1332px #FFF , 1764px 383px #FFF , 1623px 602px #FFF , 1389px 1558px #FFF , 1156px 1765px #FFF , 1361px 1246px #FFF , 1367px 1156px #FFF , 161px 1728px #FFF , 344px 969px #FFF , 1843px 962px #FFF , 1580px 1713px #FFF , 1664px 979px #FFF , 697px 870px #FFF , 1181px 488px #FFF , 784px 1589px #FFF , 752px 760px #FFF , 1058px 705px #FFF , 954px 1999px #FFF , 1381px 1116px #FFF , 594px 1810px #FFF , 1084px 1190px #FFF , 1326px 954px #FFF , 1946px 1180px #FFF , 76px 1119px #FFF , 885px 208px #FFF , 976px 404px #FFF , 124px 908px #FFF , 1147px 1378px #FFF , 1914px 243px #FFF , 749px 332px #FFF , 356px 1677px #FFF , 1688px 806px #FFF , 1951px 732px #FFF , 1948px 1860px #FFF , 605px 389px #FFF , 1343px 55px #FFF , 656px 180px #FFF , 441px 1061px #FFF , 1553px 692px #FFF , 996px 816px #FFF , 1128px 974px #FFF , 138px 48px #FFF , 1241px 6px #FFF , 900px 1062px #FFF , 1338px 194px #FFF , 1098px 1203px #FFF , 1050px 985px #FFF , 1547px 842px #FFF , 1682px 1328px #FFF , 1335px 565px #FFF , 1629px 144px #FFF , 1234px 182px #FFF , 1506px 1307px #FFF , 733px 1210px #FFF , 21px 529px #FFF , 1517px 1935px #FFF , 1579px 470px #FFF , 1072px 758px #FFF , 263px 1954px #FFF , 1131px 525px #FFF , 205px 132px #FFF , 1125px 769px #FFF , 1196px 1440px #FFF , 1216px 9px #FFF , 459px 910px #FFF , 777px 1700px #FFF , 1933px 540px #FFF , 1440px 1589px #FFF , 151px 1348px #FFF , 1309px 818px #FFF , 952px 1582px #FFF , 1838px 1669px #FFF , 748px 830px #FFF , 1359px 174px #FFF , 1241px 1624px #FFF , 1979px 323px #FFF , 1112px 1406px #FFF , 1168px 1837px #FFF , 966px 1875px #FFF , 778px 662px #FFF , 604px 1968px #FFF , 1754px 501px #FFF , 467px 1926px #FFF , 1372px 956px #FFF , 207px 239px #FFF , 715px 141px #FFF , 1007px 1841px #FFF , 700px 1833px #FFF , 1366px 838px #FFF , 833px 1077px #FFF , 1995px 753px #FFF , 802px 1212px #FFF , 1430px 1777px #FFF , 1366px 1384px #FFF , 1941px 1219px #FFF , 1849px 306px #FFF , 1574px 723px #FFF , 1207px 1716px #FFF , 1744px 691px #FFF , 388px 1603px #FFF , 531px 1832px #FFF , 538px 204px #FFF , 748px 596px #FFF , 478px 1109px #FFF , 1778px 655px #FFF , 252px 1755px #FFF , 1627px 479px #FFF , 1653px 820px #FFF , 200px 168px #FFF , 135px 1098px #FFF , 255px 549px #FFF , 1356px 1810px #FFF , 1495px 622px #FFF , 1908px 767px #FFF , 1604px 591px #FFF , 157px 443px #FFF , 1186px 1887px #FFF , 1209px 442px #FFF , 1882px 1222px #FFF , 1610px 697px #FFF , 320px 1503px #FFF , 91px 896px #FFF , 955px 430px #FFF , 1635px 1955px #FFF , 443px 1517px #FFF , 259px 1686px #FFF , 563px 290px #FFF , 1062px 783px #FFF , 1913px 1584px #FFF , 812px 95px #FFF , 1817px 1794px #FFF , 1170px 1726px #FFF , 472px 1276px #FFF , 90px 771px #FFF , 1572px 188px #FFF , 394px 491px #FFF , 1515px 1606px #FFF , 1918px 1773px #FFF , 1164px 359px #FFF , 597px 798px #FFF , 1188px 1252px #FFF , 1500px 539px #FFF , 1021px 1046px #FFF , 1061px 1531px #FFF , 942px 756px #FFF , 559px 299px #FFF , 642px 295px #FFF , 1869px 409px #FFF , 620px 748px #FFF , 302px 1338px #FFF , 1604px 75px #FFF , 821px 1541px #FFF , 1148px 1189px #FFF , 196px 46px #FFF , 306px 1044px #FFF , 935px 1061px #FFF;
+  animation:animStar 330s linear infinite;
+}
+
+#stars2:after{content:'';position:absolute;top:2000px;width:2px;height:2px;background:transparent;box-shadow:inherit;}
+
+#stars3{
+  width:3px;height:3px;
+  box-shadow: 781px 130px #FFF , 1061px 1720px #FFF , 642px 1009px #FFF , 1102px 636px #FFF , 902px 1348px #FFF , 1217px 1605px #FFF , 1920px 1457px #FFF , 1633px 157px #FFF , 1834px 1281px #FFF , 1723px 1080px #FFF , 141px 1699px #FFF , 658px 1114px #FFF , 1352px 1743px #FFF , 1850px 984px #FFF , 1323px 1895px #FFF , 1570px 1090px #FFF , 516px 453px #FFF , 623px 370px #FFF , 1574px 1201px #FFF , 1127px 1341px #FFF , 1522px 1371px #FFF , 1046px 846px #FFF , 302px 1087px #FFF , 1666px 883px #FFF , 1325px 1661px #FFF , 587px 1260px #FFF , 1742px 82px #FFF , 510px 291px #FFF , 405px 1877px #FFF , 1087px 1579px #FFF , 1694px 358px #FFF , 574px 118px #FFF , 395px 1960px #FFF , 1497px 67px #FFF , 1520px 1594px #FFF , 1077px 1486px #FFF , 1311px 1262px #FFF , 579px 1505px #FFF , 1943px 1959px #FFF , 663px 608px #FFF , 1783px 1748px #FFF , 1242px 1632px #FFF , 1741px 137px #FFF , 1287px 432px #FFF , 1301px 1682px #FFF , 957px 857px #FFF , 1400px 529px #FFF , 1104px 615px #FFF , 844px 1859px #FFF , 2px 1074px #FFF , 926px 712px #FFF , 120px 1076px #FFF , 877px 595px #FFF , 1169px 107px #FFF , 1958px 186px #FFF , 1696px 612px #FFF , 162px 1566px #FFF , 1357px 1176px #FFF , 45px 1433px #FFF , 1365px 1531px #FFF , 1277px 1302px #FFF , 232px 1664px #FFF , 1894px 750px #FFF , 373px 1525px #FFF , 915px 1273px #FFF , 1292px 1795px #FFF , 194px 1715px #FFF , 984px 877px #FFF , 1130px 732px #FFF , 700px 102px #FFF , 466px 1039px #FFF , 92px 1665px #FFF , 1007px 1462px #FFF , 1234px 801px #FFF , 1861px 1428px #FFF , 1408px 1382px #FFF , 202px 1849px #FFF , 391px 512px #FFF , 1249px 1545px #FFF , 1638px 99px #FFF , 1479px 1109px #FFF , 901px 1142px #FFF , 693px 978px #FFF , 189px 898px #FFF , 1577px 1609px #FFF , 167px 1482px #FFF , 868px 877px #FFF , 1048px 1041px #FFF , 514px 1257px #FFF , 1283px 574px #FFF , 1957px 382px #FFF , 85px 771px #FFF , 1294px 79px #FFF , 1835px 929px #FFF , 1297px 1433px #FFF , 1032px 136px #FFF , 1009px 1706px #FFF , 368px 723px #FFF , 1171px 1002px #FFF , 668px 1515px #FFF;
+  animation:animStar 500s linear infinite;
+}
+
+#stars3:after{content:'';position:absolute;top:2000px;width:3px;height:3px;background:transparent;box-shadow:inherit;}
+/* ===== PARALLAX STARFIELD END ========================================== */
+
+/* ——— admin login overlay ——----------------------------------------— */
+.login{
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  padding: 0;
+  z-index: 1000;
+  position: fixed;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(100%);
+  border-top: 2px solid #8AFF3C;
+  background: rgba(0, 0, 0, 0.92);
+  transition: transform .25s ease, opacity .25s ease, visibility .25s ease;
+}
+
+.login.open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+#login-form{
+  gap: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-fields{
+  gap: 0.75rem;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+}
+
+.login-fields input{
+  color: #8aff3c;
+  padding: .6rem;
+  background: #000;
+  resize: vertical;
+  border: 2px solid #8aff3c;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.login-fields input::placeholder{
+  opacity: 0.65;
+  color: #8AFF3C;
+}
+
+.login-fields input:focus{
+  box-shadow: 0 0 8px #8AFF3C, inset 0 0 10px rgba(138, 255, 60, 0.08);
+
+}
+
+.login-actions{
+  gap: 0.75rem;
+  display: flex;
+  flex: 0 0 auto;
+  margin-left: auto;
+  align-items: center;
+}
+
+.login-btn,
+.login-close{
+  padding: 0;
+  background: #000;
+  white-space: nowrap;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.login-close{
+  padding: 0;
+  min-width: 44px;
+}
+
+#login-error{
+  left: 1rem;
+  color: #ff6b6b;
+  bottom: -1.2rem;
+  position: absolute;
+  font-size: 0.65rem;
+}
+
+.admin-trigger{
+  border:none;
+  color: #8AFF3C;
+  background:none;
+  font-size: 16px;
+}
+
+.admin-trigger:focus{
+  outline:1px solid #fff;
+}
+
+.foot-name{
+ margin-left: 0.1rem;
+}
+
+.admin-bar{
+  display:flex;
+  flex:0 0 auto;
+  background:#0009;
+  padding:.8rem 1rem;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom: 1px solid #8AFF3C;
+  font-family:"Press Start 2P",monospace;
+}
+  
+.admin-window{
+  padding:1rem;
+  display: flex;
+  min-height: 0;
+  overflow:hidden;
+  background:#0006;
+  flex-direction: column;
+  border:3px solid #8AFF3C;
+  backdrop-filter:blur(3px);
+  flex:1 1 calc(33.333% - 1rem);
+}
+
+.admin-window h2{
+  margin-top:0;
+  font-size:1rem
+}
+
+.stars-page{
+  height:100%;
+  overflow:hidden;  
+  display:flex;
+  color:#8AFF3C;
+  background:#000;
+  flex-direction:column;
+  font-family:'Ac437ApricotPortable', monospace;
+}
+
+/* scrollable items */
+#reviews-list,
+#messages-list{
+  gap: 1rem;
+  flex:1 1 auto;
+  display: flex;
+  min-height: 0;
+  overflow-y:auto;
+  list-style: none;
+  padding:0 1rem 1.2rem;
+  flex-direction: column;
+}
+
+.message-item{
+  gap:.5rem;
+  display:flex;
+  color:#d0ffd0;
+  padding:.75rem;
+  background:#000;
+  flex-direction:column;
+  border:3px solid #8AFF3C;
+}
+
+.message-item small{ 
+  color:#8AFF3C; 
+  word-break:break-all; 
+}
+
+.message-item button{
+  font:inherit;
+  color:#8AFF3C;
+  background:#000;
+  margin-top:.6rem;
+  padding:.4rem .9rem;
+  align-self:flex-end;
+  border:2px solid #8AFF3C;
+}
+.message-item button:hover{
+  color:#000;
+  background:
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.4) 3px 4px),
+  #8AFF3C;
+  box-shadow:0 0 8px #8AFF3C;
+}
+
+#password-window form{
+  gap:.6rem;
+  display:flex;
+  padding:0 1rem 1rem;
+}
+
+#password-window input{
+  font:inherit;
+  flex:1 1 auto;
+  color:#8AFF3C;
+  background:#000;
+  padding:.5rem .75rem;
+  border:2px solid #8AFF3C;
+}
+
+#password-window button{
+  font:inherit;
+  color:#8AFF3C;
+  background:#000;
+  padding:.4rem .9rem;
+  align-self:flex-end;
+  border:2px solid #8AFF3C;
+}
+
+#password-window button:hover{
+  color:#000;
+  background:
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.4) 3px 4px),
+  #8AFF3C;
+  box-shadow:0 0 8px #8AFF3C;
+}
+
+.message-item p {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.card-admin {
+  padding: .75rem;
+  background:#000;
+  word-break: break-word;
+  border:3px solid #8AFF3C;
+}
+
+.card-admin p{
+  margin: 10px;
+  color: #FFF;
+}
+
+.card-admin button{
+  font:inherit;
+  color:#8AFF3C;
+  background:#000;
+  padding:.4rem .9rem;
+  align-self:flex-end;
+  border:2px solid #8AFF3C;
+}
+
+.card-admin button:hover{
+  color:#000;
+  background:
+  repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.4) 3px 4px),
+  #8AFF3C;
+  box-shadow:0 0 8px #8AFF3C;
+}
+
+.admin-wrap{
+  gap:1rem;
+  display:flex;
+  min-height:0;
+  flex:1 1 auto;
+  overflow:hidden;
+  padding:1rem 1rem 1.2rem;
+}
+
+.admin-window h2{
+  margin:0;
+  font-size:1rem;
+  padding:.8rem 1rem 0;
+}
+
+.review-card{
+  gap:.6rem;
+  display:flex;
+  padding:.75rem;
+  background:#000;
+  white-space:pre-wrap;
+  word-break:break-word;
+  flex-direction:column;
+  border:3px solid #8AFF3C;
+}
+
+.msg-card{
+  gap:.6rem;
+  display:flex;
+  padding:.75rem;
+  background:#000;
+  white-space:pre-wrap;
+  word-break:break-word;
+  flex-direction:column;
+  border:3px solid #8AFF3C;
+}
+
+/* button inside cards universal */
+.review-card button,
+.msg-card    button{
+  font:inherit;
+  color:#8AFF3C;
+  cursor:pointer;
+  background:#000;
+  align-self:flex-end;
+  padding:.4rem 1.1rem;
+  border:2px solid #8AFF3C;
+}
+
+.review-card button:hover,
+.msg-card    button:hover,
+.admin-window button:hover{
+  color:#000;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.4) 3px 4px),
+    #8AFF3C;
+  box-shadow:0 0 8px #8AFF3C;
+}
+
+#password-window form{
+  gap:.8rem;
+  padding:1rem;
+  display:flex;
+  flex:0 0 auto;
+}
+
+#password-window input{
+  flex:1 1 auto;
+  color:#8AFF3C;
+  background:#000;
+  padding:.55rem .8rem;
+  border:2px solid #8AFF3C;
+}
+
+#password-window button{ 
+  padding:.55rem 1rem; 
+}
+/* ─── END ADMIN LAYOUT v2 ─────────────────────────────────────── */
