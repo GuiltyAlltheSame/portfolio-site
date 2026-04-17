@@ -18,49 +18,7 @@
 }
 
 /* ───── SIZING  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-@media (max-width: 640px) {
-  /* scrolling of tab */
-  .tab-content { 
-    overflow-y: auto; 
-  }
-  /* About columns */
-  .about-wrap {
-    overflow: visible;  
-    align-items: stretch;
-    flex-direction: column;   
-  }
-  .about-photo,
-  .about-text {
-    flex: 0 0 auto;    /* Fixed by content*/
-    width: 100%;       /* all wide */
-    min-width: 0;
-  }
-  /* text padding below photo */
-  .about-text { 
-    padding: .9rem 0 0 0; 
-  }
 
-  /* high limit for photo in mobile ver */
-  .photo-frame{
-    width: auto;                          /* not 100% wide*/
-    max-height: 50vh;                     /* high limit */
-    margin-inline: auto;                  /* center by wide */
-    max-width: min(90vw, 520px);          
-    display: grid; place-items: center;  
-  }
-  .photo-frame img {
-    width: auto;                         
-    height: auto;
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;                  
-  }
-  .about-button{
-    align-self: center;       /* center inside column */
-    margin-inline: auto;     
-  }
-}
 
 /* ───── SIZING END  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
@@ -187,7 +145,7 @@ body {
   text-decoration: none;
   display: inline-block;
   padding: 0.5rem 1.5rem;
-  border: 1px solid #8AFF3C;
+  border: 2px solid #8AFF3C;
   /*animation: pulse 2s infinite ease-in-out;*/
 }
 
@@ -217,6 +175,16 @@ body {
   text-align: center;
   padding-top: 1.3rem;
   background: transparent;
+}
+
+header h1.big {
+  font-size: 2rem;
+  margin: 0;
+  text-shadow:
+  0 0 0.7px #8AFF3C,
+  0 0 1.4px #8AFF3C,
+  0 0 2.8px #8AFF3C,
+  0 0 5px rgba(0, 255, 0, 0.5);
 }
 
 header h1.huge {
@@ -274,7 +242,7 @@ header p {
   display: flex;
   position: relative;
   overflow-y: hidden;
-  padding: 1rem 0.95rem;
+  padding: 33px 0.95rem;
   flex-direction: column;
   background: #000000b7;
 }
@@ -343,7 +311,7 @@ header p {
   overflow: hidden;      /* cut rain */
   max-height: 100%;
   position: relative;
-  border: 1px solid #8AFF3C;
+  border: 3px solid #8AFF3C;
 }
 
 .about-photo {
