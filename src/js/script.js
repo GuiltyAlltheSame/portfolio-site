@@ -337,55 +337,31 @@ cmdInput.addEventListener('keydown', e=>{
 
 const demoProjects = [
   {
-    title: 'Retro Portfolio',
-    line : 'Are you saw this before?',
+    title: 'Flexboxer.com',
+    line : '"CRT" style portfolio landing',
     img  : 'assets/img/card_retro_portfolio.png',   // GIF или PNG / JPG
-    git  : 'https://github.com/you/retro-portfolio',
-    link : 'https://you.com/retro'
+    git  : 'https://github.com/GuiltyAlltheSame/portfolio-site',
+    link : 'https://flexboxer.com/'
   },
   {
     title: 'Spiza.com',
-    line : 'Handmade toys market',
+    line : 'Knited toys shop',
     img  : 'assets/img/question.png',  // обычная картинка
     hover: 'assets/img/white-noise.gif',
     git  : 'https://github.com/you/react-blog',
     link : 'https://blog.you.com'
   },
   {
-    title: '???',
-    line : 'test3',
+    title: 'Cinemorph',
+    line : 'Cinema prod portfolio landing',
     img  : 'assets/img/question.png',
     hover: 'assets/img/white-noise.gif',
-    git  : 'https://github.com/you/node-api',
+    git  : 'https://github.com/GuiltyAlltheSame/cinemorph-site',
     link : '#'                           // нет демо — оставляем «#»
   },
    {
     title: '???',
-    line : 'test4',
-    img  : 'assets/img/question.png',
-    hover: 'assets/img/white-noise.gif',
-    git  : 'https://github.com/you/node-api',
-    link : '#'                           // нет демо — оставляем «#»
-  },
-   {
-    title: '???',
-    line : 'test5',
-    img  : 'assets/img/question.png',
-    hover: 'assets/img/white-noise.gif',
-    git  : 'https://github.com/you/node-api',
-    link : '#'                           // нет демо — оставляем «#»
-  },
-  {
-    title: '???',
-    line : 'test6',
-    img  : 'assets/img/question.png',
-    hover: 'assets/img/white-noise.gif',
-    git  : 'https://github.com/you/node-api',
-    link : '#'                           // нет демо — оставляем «#»
-  },
-  {
-    title: '???',
-    line : 'test7',
+    line : '???',
     img  : 'assets/img/question.png',
     hover: 'assets/img/white-noise.gif',
     git  : 'https://github.com/you/node-api',
