@@ -362,7 +362,7 @@ header p {
   display: flex;
   flex-direction: column;        /* takes up the remaining space */
   overflow-wrap: anywhere;
-  padding: .9rem 0 0 .9rem;
+  padding: 0px 0 0 .9rem;
 }
 
 /* Typographic */
@@ -407,7 +407,7 @@ header p {
 
 .about-sep {
   border: none;
-  margin: 1rem 0;                 
+  margin: 13px 0;                 
   border-top: 2px solid #8AFF3C;
 }
 
@@ -737,6 +737,7 @@ header p {
   background:#000;
   border:2px solid #8AFF3C;
   font-family:'Press Start 2P', monospace;
+  font-size: 14px;
 }
 
 /* list container: vertical, scrolable */
