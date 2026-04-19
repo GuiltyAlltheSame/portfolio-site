@@ -4,14 +4,18 @@ export function registerGame(command, handlers) {
   gamesRegistry.set(command.toUpperCase(), handlers);
 }
 
-export function runGameCommand(command) {
-  const game = gamesRegistry.get(command.toUpperCase());
+export function getGame(command) {
+  return gamesRegistry.get(command.toUpperCase()) || null;
+}
 
-  if (!game) return false;
+export function runGameCommand(command) {
+  const game = getGame(command);
+
+  if (!game) return null;
 
   if (typeof game.openMenu === 'function') {
     game.openMenu();
   }
 
-  return true;
+  return game;
 }
