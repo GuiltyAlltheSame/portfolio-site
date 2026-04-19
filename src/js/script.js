@@ -1,3 +1,7 @@
+import { openGameScreen, showGameStage, closeGameScreen } from './games/game-shell.js';
+import { registerGame, runGameCommand } from './games/registry.js';
+import { startPongGame, stopPongGame } from './games/pong.js';
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ─── 1. Переключение табов ─────────────────── */
@@ -270,14 +274,28 @@ server.listen(port, hostname, () => {
 
   const out = document.getElementById('code-output');
 
-  const gameScreen = document.getElementById('game-screen');
-  const gameStage  = document.getElementById('game-stage');
-  const gameMenu   = document.getElementById('game-menu');
-  const gameTitle  = document.getElementById('game-title');
   const gameExit   = document.getElementById('game-exit');
 
   const pongStartBtn   = document.getElementById('pong-start');
   const pongDifficulty = document.getElementById('pong-difficulty');
+
+  let activeGame = null;
+
+  registerGame('PONG', {
+    openMenu() {
+    openGameScreen('PONG');
+  },
+
+  start() {
+    const selected = pongDifficulty.value;
+    showGameStage();
+    startPongGame(PONG_PRESETS[selected]);
+  },
+
+  stop() {
+    stopPongGame();
+  }
+});
 
   function typeText(el, txt, speed = 1){
     clearInterval(el._timer);
@@ -304,41 +322,6 @@ server.listen(port, hostname, () => {
   /* ---- командная строка и команды------------------------------- */
 const cmdInput = document.getElementById('cmd-input');
 
-function openGameScreen(title = 'PONG'){
-  gameTitle.textContent = title;
-
-  out.classList.add('hidden');
-
-  gameScreen.classList.remove('hidden');
-  gameScreen.setAttribute('aria-hidden', 'false');
-
-  gameMenu.classList.remove('hidden');
-  gameMenu.setAttribute('aria-hidden', 'false');
-
-  gameStage.classList.add('hidden');
-  gameStage.setAttribute('aria-hidden', 'true');
-
-  cmdInput.placeholder = 'game menu...';
-}
-
-function closeGameScreen(){
-  cancelAnimationFrame(pongTimer);
-
-  gameScreen.classList.add('hidden');
-  gameScreen.setAttribute('aria-hidden', 'true');
-
-  gameStage.classList.add('hidden');
-  gameStage.setAttribute('aria-hidden', 'true');
-
-  gameMenu.classList.remove('hidden');
-  gameMenu.setAttribute('aria-hidden', 'false');
-
-  out.classList.remove('hidden');
-
-  cmdInput.placeholder = 'type command...';
-  cmdInput.focus();
-}
-
 const helpText = `
 Commands:
   CLEAR          — clear screen
@@ -360,9 +343,6 @@ const commands = {
   HELP(){
     out.textContent += '\n' + helpText.trim() + '\n';
     out.scrollTop = out.scrollHeight;
-  },
-  PONG(){
-    openGameScreen('PONG');
   }
 };
 
@@ -370,16 +350,18 @@ const commands = {
 commands['?'] = commands.HELP;
 
 pongStartBtn.addEventListener('click', () => {
-  gameMenu.classList.add('hidden');
-  gameMenu.setAttribute('aria-hidden', 'true');
+  if (activeGame && typeof activeGame.start === 'function') {
+    activeGame.start();
+  }
+});
 
-  gameStage.classList.remove('hidden');
-  gameStage.setAttribute('aria-hidden', 'false');
-
-  cmdInput.placeholder = 'game running...';
-
-  const selected = pongDifficulty.value;
-  startPongGame(PONG_PRESETS[selected]);
+gameExit.addEventListener('click', () => {
+  closeGameScreen(() => {
+    if (activeGame && typeof activeGame.stop === 'function') {
+      activeGame.stop();
+    }
+    activeGame = null;
+  });
 });
 
 /* ——— Enter в инпуте ———————————————— */
@@ -390,12 +372,19 @@ cmdInput.addEventListener('keydown', e=>{
   const key = raw.toUpperCase();
   cmdInput.value = '';
 
-  if (commands[key]){
-    commands[key]();                       // выполняем
+if (commands[key]) {
+  commands[key]();
+} else {
+  const game = runGameCommand(key);
+
+  if (game) {
+    activeGame = game;
   } else {
     out.textContent += `\n$ ${raw}  — unknown command`;
     out.scrollTop = out.scrollHeight;
   }
+}
+
 });
 
 const demoProjects = [
@@ -466,122 +455,6 @@ slider.addEventListener('wheel', (e) => {
 /* стартовое состояние */
 let slide;
 //slide(0);
-
-/* PONG GAME --------------------------------------------------------------------------------------------------------- */
-let playerScore = 0;
-let aiScore = 0;
-
-let upPressed = false, downPressed = false;
-let pongTimer = null;
-
-function startPongGame(settings = PONG_PRESETS.normal){
-  const canvas = document.getElementById('pong-canvas');
-  const ctx = canvas.getContext('2d');
-
-  const paddleWidth = 10, paddleHeight = 80;
-  const ballSize = 10;
-
-  let playerY = canvas.height / 2 - paddleHeight / 2;
-  let aiY = playerY;
-
-  let ballX = canvas.width / 2, ballY = canvas.height / 2;
-  let ballVX = settings.ballSpeedX;
-  let ballVY = settings.ballSpeedY;
-  const playerSpeed = settings.playerSpeed;
-  const aiLerp = settings.aiLerp;
-
-  function resetBall(){
-    ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
-    ballVX = (ballVX > 0 ? -1 : 1) * settings.ballSpeedX;
-    ballVY = (Math.random() * settings.ballSpeedY) - settings.ballSpeedY / 2;
-  }
-
-  function draw(){
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#8AFF3C';
-    ctx.font = '24px monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText(`${playerScore}  ${aiScore}`, canvas.width / 2, 30);
-
-    ctx.fillRect(10, playerY, paddleWidth, paddleHeight); // игрок
-    ctx.fillRect(canvas.width - 20, aiY, paddleWidth, paddleHeight); // AI
-    ctx.fillRect(ballX, ballY, ballSize, ballSize); // мяч
-    // пунктирная линия в центре
-    ctx.beginPath();
-    ctx.setLineDash([5, 5]); // 5px линия, 5px пропуск
-    ctx.moveTo(canvas.width / 2, 0);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.strokeStyle = '#8AFF3C';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.setLineDash([]); // сброс пунктирной настройки
-   }
-
-  function update(){
-    ballX += ballVX;
-    ballY += ballVY;
-
-    if(ballY <= 0 || ballY + ballSize >= canvas.height)
-      ballVY *= -1;
-
-    // столкновение с игроком
-    if (ballX <= 20 && ballY + ballSize > playerY && ballY < playerY + paddleHeight) {
-      ballVX *= -1;
-      const hitPos = (ballY + ballSize/2) - (playerY + paddleHeight/2);
-      ballVY = hitPos * 0.2 + (Math.random() - 0.5);
-    }
-
-    // столкновение с AI
-    if (ballX + ballSize >= canvas.width - 20 &&
-        ballY + ballSize > aiY && ballY < aiY + paddleHeight) {
-      ballVX *= -1;
-      const hitPos = (ballY + ballSize/2) - (aiY + paddleHeight/2);
-      ballVY = hitPos * 0.2 + (Math.random() - 0.5);
-    }
-
-    // движение AI
-    aiY += (ballY - aiY - paddleHeight/2) * aiLerp;
-
-    if(upPressed) playerY -= playerSpeed;
-    if(downPressed) playerY += playerSpeed;
-
-    playerY = Math.max(0, Math.min(canvas.height - paddleHeight, playerY));
-
-    // мяч улетел
-    if(ballX < 0) { aiScore++; resetBall(); }
-    if(ballX > canvas.width) { playerScore++; resetBall(); }
-  }
-
-  function loop(){
-    update();
-    draw();
-    pongTimer = requestAnimationFrame(loop);
-  }
-
-  // сброс очков при старте
-  playerScore = 0;
-  aiScore = 0;
-  cancelAnimationFrame(pongTimer); // защита от повторного запуска
-  loop();
-}
-
-// Выход из игры внутри терминального экрана
-gameExit.onclick = () => {
-  closeGameScreen();
-};
-
-// Клавиши
-document.addEventListener('keydown', e => {
-  if(e.key === 'ArrowUp') upPressed = true;
-  if(e.key === 'ArrowDown') downPressed = true;
-});
-document.addEventListener('keyup', e => {
-  if(e.key === 'ArrowUp') upPressed = false;
-  if(e.key === 'ArrowDown') downPressed = false;
-});
 
 
 
