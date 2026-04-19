@@ -1,3 +1,14 @@
+import {
+  openGameScreen,
+  showGameStage,
+  closeGameScreen
+} from './games/game-shell.js';
+
+import {
+  registerGame,
+  runGameCommand
+} from './games/registry.js';
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ─── 1. Переключение табов ─────────────────── */
@@ -279,6 +290,12 @@ server.listen(port, hostname, () => {
   const pongStartBtn   = document.getElementById('pong-start');
   const pongDifficulty = document.getElementById('pong-difficulty');
 
+  registerGame('PONG', {
+  openMenu() {
+    openGameScreen('PONG');
+  }
+});
+
   function typeText(el, txt, speed = 1){
     clearInterval(el._timer);
     el.textContent = ''; el.dataset.typing = 'true';
@@ -304,41 +321,6 @@ server.listen(port, hostname, () => {
   /* ---- командная строка и команды------------------------------- */
 const cmdInput = document.getElementById('cmd-input');
 
-function openGameScreen(title = 'PONG'){
-  gameTitle.textContent = title;
-
-  out.classList.add('hidden');
-
-  gameScreen.classList.remove('hidden');
-  gameScreen.setAttribute('aria-hidden', 'false');
-
-  gameMenu.classList.remove('hidden');
-  gameMenu.setAttribute('aria-hidden', 'false');
-
-  gameStage.classList.add('hidden');
-  gameStage.setAttribute('aria-hidden', 'true');
-
-  cmdInput.placeholder = 'game menu...';
-}
-
-function closeGameScreen(){
-  cancelAnimationFrame(pongTimer);
-
-  gameScreen.classList.add('hidden');
-  gameScreen.setAttribute('aria-hidden', 'true');
-
-  gameStage.classList.add('hidden');
-  gameStage.setAttribute('aria-hidden', 'true');
-
-  gameMenu.classList.remove('hidden');
-  gameMenu.setAttribute('aria-hidden', 'false');
-
-  out.classList.remove('hidden');
-
-  cmdInput.placeholder = 'type command...';
-  cmdInput.focus();
-}
-
 const helpText = `
 Commands:
   CLEAR          — clear screen
@@ -360,9 +342,6 @@ const commands = {
   HELP(){
     out.textContent += '\n' + helpText.trim() + '\n';
     out.scrollTop = out.scrollHeight;
-  },
-  PONG(){
-    openGameScreen('PONG');
   }
 };
 
@@ -370,15 +349,8 @@ const commands = {
 commands['?'] = commands.HELP;
 
 pongStartBtn.addEventListener('click', () => {
-  gameMenu.classList.add('hidden');
-  gameMenu.setAttribute('aria-hidden', 'true');
-
-  gameStage.classList.remove('hidden');
-  gameStage.setAttribute('aria-hidden', 'false');
-
-  cmdInput.placeholder = 'game running...';
-
   const selected = pongDifficulty.value;
+  showGameStage();
   startPongGame(PONG_PRESETS[selected]);
 });
 
@@ -390,12 +362,15 @@ cmdInput.addEventListener('keydown', e=>{
   const key = raw.toUpperCase();
   cmdInput.value = '';
 
-  if (commands[key]){
-    commands[key]();                       // выполняем
+  if (commands[key]) {
+  commands[key]();
+  } else if (runGameCommand(key)) {
+  // игра запущена через registry
   } else {
-    out.textContent += `\n$ ${raw}  — unknown command`;
-    out.scrollTop = out.scrollHeight;
+  out.textContent += `\n$ ${raw}  — unknown command`;
+  out.scrollTop = out.scrollHeight;
   }
+
 });
 
 const demoProjects = [
@@ -570,7 +545,9 @@ function startPongGame(settings = PONG_PRESETS.normal){
 
 // Выход из игры внутри терминального экрана
 gameExit.onclick = () => {
-  closeGameScreen();
+  closeGameScreen(() => {
+    cancelAnimationFrame(pongTimer);
+  });
 };
 
 // Клавиши
