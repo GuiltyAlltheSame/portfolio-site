@@ -270,6 +270,15 @@ server.listen(port, hostname, () => {
 
   const out = document.getElementById('code-output');
 
+  const gameScreen = document.getElementById('game-screen');
+  const gameStage  = document.getElementById('game-stage');
+  const gameMenu   = document.getElementById('game-menu');
+  const gameTitle  = document.getElementById('game-title');
+  const gameExit   = document.getElementById('game-exit');
+
+  const pongStartBtn   = document.getElementById('pong-start');
+  const pongDifficulty = document.getElementById('pong-difficulty');
+
   function typeText(el, txt, speed = 1){
     clearInterval(el._timer);
     el.textContent = ''; el.dataset.typing = 'true';
@@ -295,12 +304,54 @@ server.listen(port, hostname, () => {
   /* ---- командная строка и команды------------------------------- */
 const cmdInput = document.getElementById('cmd-input');
 
+function openGameScreen(title = 'PONG'){
+  gameTitle.textContent = title;
+
+  out.classList.add('hidden');
+
+  gameScreen.classList.remove('hidden');
+  gameScreen.setAttribute('aria-hidden', 'false');
+
+  gameMenu.classList.remove('hidden');
+  gameMenu.setAttribute('aria-hidden', 'false');
+
+  gameStage.classList.add('hidden');
+  gameStage.setAttribute('aria-hidden', 'true');
+
+  cmdInput.placeholder = 'game menu...';
+}
+
+function closeGameScreen(){
+  cancelAnimationFrame(pongTimer);
+
+  gameScreen.classList.add('hidden');
+  gameScreen.setAttribute('aria-hidden', 'true');
+
+  gameStage.classList.add('hidden');
+  gameStage.setAttribute('aria-hidden', 'true');
+
+  gameMenu.classList.remove('hidden');
+  gameMenu.setAttribute('aria-hidden', 'false');
+
+  out.classList.remove('hidden');
+
+  cmdInput.placeholder = 'type command...';
+  cmdInput.focus();
+}
+
 const helpText = `
 Commands:
   CLEAR          — clear screen
   PONG           — start PONG game
   HELP  or  ?    — list of commands
 `;
+
+const PONG_PRESETS = {
+  easy:   { playerSpeed: 5, aiLerp: 0.035, ballSpeedX: 5,  ballSpeedY: 3 },
+  normal: { playerSpeed: 5, aiLerp: 0.05,  ballSpeedX: 7,  ballSpeedY: 4 },
+  hard:   { playerSpeed: 6, aiLerp: 0.075, ballSpeedX: 9,  ballSpeedY: 6 },
+  insane: { playerSpeed: 7, aiLerp: 0.11,  ballSpeedX: 12, ballSpeedY: 8 }
+};
 
 const commands = {
   CLEAR(){
@@ -311,13 +362,25 @@ const commands = {
     out.scrollTop = out.scrollHeight;
   },
   PONG(){
-  document.getElementById('pong-modal').classList.remove('hidden');
-  startPongGame(); // запускаем игру
-}
+    openGameScreen('PONG');
+  }
 };
 
 /* alias: знак вопроса вызывает ту же функцию, что и HELP */
 commands['?'] = commands.HELP;
+
+pongStartBtn.addEventListener('click', () => {
+  gameMenu.classList.add('hidden');
+  gameMenu.setAttribute('aria-hidden', 'true');
+
+  gameStage.classList.remove('hidden');
+  gameStage.setAttribute('aria-hidden', 'false');
+
+  cmdInput.placeholder = 'game running...';
+
+  const selected = pongDifficulty.value;
+  startPongGame(PONG_PRESETS[selected]);
+});
 
 /* ——— Enter в инпуте ———————————————— */
 cmdInput.addEventListener('keydown', e=>{
@@ -411,7 +474,7 @@ let aiScore = 0;
 let upPressed = false, downPressed = false;
 let pongTimer = null;
 
-function startPongGame(){
+function startPongGame(settings = PONG_PRESETS.normal){
   const canvas = document.getElementById('pong-canvas');
   const ctx = canvas.getContext('2d');
 
@@ -422,13 +485,16 @@ function startPongGame(){
   let aiY = playerY;
 
   let ballX = canvas.width / 2, ballY = canvas.height / 2;
-  let ballVX = 9, ballVY = 6;
+  let ballVX = settings.ballSpeedX;
+  let ballVY = settings.ballSpeedY;
+  const playerSpeed = settings.playerSpeed;
+  const aiLerp = settings.aiLerp;
 
   function resetBall(){
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
-    ballVX = -ballVX;
-    ballVY = (Math.random() * 4) - 2;
+    ballVX = (ballVX > 0 ? -1 : 1) * settings.ballSpeedX;
+    ballVY = (Math.random() * settings.ballSpeedY) - settings.ballSpeedY / 2;
   }
 
   function draw(){
@@ -477,11 +543,11 @@ function startPongGame(){
     }
 
     // движение AI
-    aiY += (ballY - aiY - paddleHeight/2) * 0.05;
+    aiY += (ballY - aiY - paddleHeight/2) * aiLerp;
 
-    // управление игроком
-    if(upPressed) playerY -= 5;
-    if(downPressed) playerY += 5;
+    if(upPressed) playerY -= playerSpeed;
+    if(downPressed) playerY += playerSpeed;
+
     playerY = Math.max(0, Math.min(canvas.height - paddleHeight, playerY));
 
     // мяч улетел
@@ -502,10 +568,9 @@ function startPongGame(){
   loop();
 }
 
-// Закрытие окна Pong
-document.getElementById('pong-close').onclick = () => {
-  document.getElementById('pong-modal').classList.add('hidden');
-  cancelAnimationFrame(pongTimer);
+// Выход из игры внутри терминального экрана
+gameExit.onclick = () => {
+  closeGameScreen();
 };
 
 // Клавиши
