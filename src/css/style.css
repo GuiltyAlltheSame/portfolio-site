@@ -959,7 +959,9 @@ footer p {
   min-height: 0;
   padding: 1rem;
   overflow: auto;
-  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .game-stage{
@@ -991,6 +993,7 @@ footer p {
   padding: 0.25rem;
   font-family: 'Ac437ApricotPortable', monospace;
   color: #8AFF3C;
+  width: 100%;
 }
 
 .pong-menu-title{
@@ -1005,14 +1008,50 @@ footer p {
   font-size: 1.1rem;
 }
 
-.pong-select{
+.pong-radio-group{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
   width: 100%;
-  border: 2px solid #8AFF3C;
-  background: #000;
+}
+
+.pong-radio{
+  display: flex;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.pong-radio input{
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pong-radio span{
+  width: 100%;
+  display: block;
   color: #8AFF3C;
-  padding: 0.65rem 0.8rem;
-  font: inherit;
-  outline: none;
+  text-align: center;
+  background: #000;
+  padding: 0.65rem 0.4rem;
+  border: 2px solid #8AFF3C;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.pong-radio:hover span,
+.pong-radio input:checked + span{
+  color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0)   0px,
+      rgba(0,0,0,0)   3px,
+      rgba(0,0,0,.4)  3px,
+      rgba(0,0,0,.4)  4px),
+    #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C;
 }
 
 .pong-menu-actions{

@@ -171,15 +171,33 @@ Scan the system and reach out if relevant.</p>
       
       <div class="pong-menu-title">PONG / SYSTEM MENU</div>
 
-      <label class="pong-menu-row" for="pong-difficulty">
-      <span>DIFFICULTY</span>
-      <select id="pong-difficulty" class="pong-select">
-        <option value="easy">EASY</option>
-        <option value="normal" selected>NORMAL</option>
-        <option value="hard">HARD</option>
-        <option value="insane">INSANE</option>
-      </select>
-      </label>
+      <div class="pong-menu-row">
+        
+        <span>DIFFICULTY</span>
+
+        <div id="pong-difficulty" class="pong-radio-group">
+          <label class="pong-radio">
+            <input type="radio" name="pongDifficulty" value="easy">
+            <span>EASY</span>
+          </label>
+
+          <label class="pong-radio">
+            <input type="radio" name="pongDifficulty" value="normal" checked>
+            <span>NORMAL</span>
+          </label>
+
+          <label class="pong-radio">
+            <input type="radio" name="pongDifficulty" value="hard">
+            <span>HARD</span>
+          </label>
+
+          <label class="pong-radio">
+            <input type="radio" name="pongDifficulty" value="insane">
+            <span>INSANE</span>
+          </label>
+
+        </div>
+      </div>
 
       <div class="pong-menu-actions">
         <button id="pong-start" class="full-btn" type="button">START GAME</button>

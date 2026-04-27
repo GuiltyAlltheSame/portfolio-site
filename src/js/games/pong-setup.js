@@ -9,14 +9,16 @@ const PONG_PRESETS = {
   insane: { playerSpeed: 7, aiLerp: 0.11,  ballSpeedX: 12, ballSpeedY: 8 }
 };
 
-export function initPongSetup({ pongStartBtn, pongDifficulty }) {
+export function initPongSetup({ pongStartBtn }) {
   const pongGame = {
     openMenu() {
       openGameScreen('PONG');
     },
 
     start() {
-      const selected = pongDifficulty.value;
+      const selectedInput = document.querySelector('input[name="pongDifficulty"]:checked');
+      const selected = selectedInput ? selectedInput.value : 'normal';
+
       showGameStage();
       startPongGame(PONG_PRESETS[selected]);
     },
