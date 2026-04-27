@@ -1,45 +1,34 @@
 export const codeSamples = {
   
-HTML5: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARTEM // WEB DEV</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="crt">
-    <header>
-      <h1 class="huge">ARTEM</h1>
-      <h1 class="huge" style="margin-top:3px;">KULACHEK</h1>
-      <p>FULLSTACK DEV / DESIGN</p>
-    </header> 
-  </div>`,
+HTML5: `Hypertext Markup Language (HTML) is the standard markup language for documents designed to be displayed in a web browser. It defines the content and structure of web content. It is often assisted by technologies such as Cascading Style Sheets (CSS) and scripting languages such as JavaScript.
 
-    CSS: `.skill-list{
-  list-style:none;
-  margin:0; padding:0;
-  max-height:380px;        
-  overflow-y:auto;
-  padding: 10px;
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexboxer.com</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>`,
+
+    CSS: `Cascading Style Sheets (CSS) is a style sheet language used for specifying the presentation and styling of a document written in a markup language, such as HTML or XML (including XML dialects such as SVG, MathML, or XHTML). CSS is a cornerstone technology of the World Wide Web, alongside HTML and JavaScript.
+    
+.skill-list{
+  max-height: 380px;        
+  overflow-y: auto;
+  list-style: none;
+  padding: 10px; 
 }
 .skill-list li{
-  display:flex; 
-  justify-content:space-between;
+  justify-content: space-between;
   padding: 6px 20px 6px 20px;
-  font-size: 1.7rem;
-}
-.row-info{
-  display:grid;
-  grid-template-columns:30% 70%;
-  row-gap:2px;
-  font-size: 1.2rem;
-  padding: 10px 20px 10px 20px;
+  font-size: 17px;
+  display: flex; 
 }`,
 
-    'Bootstrap 5': `<form>
+    'Bootstrap 5': `Bootstrap (formerly Twitter Bootstrap) is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains HTML, CSS and (optionally) JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.
+  
+<form>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
