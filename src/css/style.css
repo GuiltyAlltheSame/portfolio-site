@@ -898,7 +898,6 @@ footer p {
 .screen-host > #code-output{
   flex: 1 1 0;
   min-height: 0;
-  margin: 0;
 }
 
 .hidden{
