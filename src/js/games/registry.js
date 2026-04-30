@@ -1,11 +1,24 @@
 const gamesRegistry = new Map();
 
 export function registerGame(command, handlers) {
-  gamesRegistry.set(command.toUpperCase(), handlers);
+  const normalizedCommand = command.toUpperCase();
+
+  gamesRegistry.set(normalizedCommand, {
+    command: normalizedCommand,
+    title: normalizedCommand,
+    description: '',
+    ...handlers
+  });
 }
 
 export function getGame(command) {
   return gamesRegistry.get(command.toUpperCase()) || null;
+}
+
+export function listGames() {
+  return [...gamesRegistry.values()]
+    .map(({ command, title, description }) => ({ command, title, description }))
+    .sort((a, b) => a.command.localeCompare(b.command));
 }
 
 export function runGameCommand(command) {

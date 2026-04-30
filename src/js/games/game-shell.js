@@ -2,58 +2,113 @@ function getShellEls() {
   return {
     out: document.getElementById('code-output'),
     cmdInput: document.getElementById('cmd-input'),
-    gameScreen: document.getElementById('game-screen'),
-    gameStage: document.getElementById('game-stage'),
-    gameMenu: document.getElementById('game-menu'),
-    gameTitle: document.getElementById('game-title')
+    gameScreen: document.getElementById('game-screen')
   };
 }
 
-export function openGameScreen(title = 'GAME') {
-  const { out, cmdInput, gameScreen, gameStage, gameMenu, gameTitle } = getShellEls();
+function getGameEls(gameScreen) {
+  return {
+    gameStage: gameScreen.querySelector('[data-game-stage], #game-stage'),
+    gameMenu: gameScreen.querySelector('[data-game-menu], #game-menu'),
+    gameTitle: gameScreen.querySelector('[data-game-title], #game-title')
+  };
+}
 
-  gameTitle.textContent = title;
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function revealGameScreen(placeholder) {
+  const { out, cmdInput, gameScreen } = getShellEls();
 
   out.classList.add('hidden');
-
   gameScreen.classList.remove('hidden');
   gameScreen.setAttribute('aria-hidden', 'false');
+  cmdInput.placeholder = placeholder;
 
-  gameMenu.classList.remove('hidden');
-  gameMenu.setAttribute('aria-hidden', 'false');
+  return { out, cmdInput, gameScreen };
+}
 
-  gameStage.classList.add('hidden');
-  gameStage.setAttribute('aria-hidden', 'true');
+export function openGameBootScreen({ title = 'GAME', duration = 1000 } = {}) {
+  const { gameScreen } = revealGameScreen('loading game...');
 
-  cmdInput.placeholder = 'game menu...';
+  gameScreen.innerHTML = `
+    <div class="game-boot" style="--game-boot-duration: ${duration}ms">
+      <div class="game-boot-title">${escapeHtml(title)}</div>
+      <div class="game-boot-progress" aria-hidden="true">
+        <span class="game-boot-progress-fill"></span>
+      </div>
+    </div>
+  `;
+}
+
+export function openGameScreen({ title = 'GAME', template = '' } = {}) {
+  const { gameScreen } = revealGameScreen('game menu...');
+
+  if (template) {
+    gameScreen.innerHTML = template;
+  }
+
+  const { gameStage, gameMenu, gameTitle } = getGameEls(gameScreen);
+
+  if (gameTitle) {
+    gameTitle.textContent = title;
+  }
+
+  if (gameMenu) {
+    gameMenu.classList.remove('hidden');
+    gameMenu.setAttribute('aria-hidden', 'false');
+  }
+
+  if (gameStage) {
+    gameStage.classList.add('hidden');
+    gameStage.setAttribute('aria-hidden', 'true');
+  }
+
 }
 
 export function showGameStage() {
-  const { cmdInput, gameStage, gameMenu } = getShellEls();
+  const { cmdInput, gameScreen } = getShellEls();
+  const { gameStage, gameMenu } = getGameEls(gameScreen);
 
-  gameMenu.classList.add('hidden');
-  gameMenu.setAttribute('aria-hidden', 'true');
+  if (gameMenu) {
+    gameMenu.classList.add('hidden');
+    gameMenu.setAttribute('aria-hidden', 'true');
+  }
 
-  gameStage.classList.remove('hidden');
-  gameStage.setAttribute('aria-hidden', 'false');
+  if (gameStage) {
+    gameStage.classList.remove('hidden');
+    gameStage.setAttribute('aria-hidden', 'false');
+  }
 
   cmdInput.placeholder = 'game running...';
 }
 
 export function showGameMenu() {
-  const { cmdInput, gameStage, gameMenu } = getShellEls();
+  const { cmdInput, gameScreen } = getShellEls();
+  const { gameStage, gameMenu } = getGameEls(gameScreen);
 
-  gameStage.classList.add('hidden');
-  gameStage.setAttribute('aria-hidden', 'true');
+  if (gameStage) {
+    gameStage.classList.add('hidden');
+    gameStage.setAttribute('aria-hidden', 'true');
+  }
 
-  gameMenu.classList.remove('hidden');
-  gameMenu.setAttribute('aria-hidden', 'false');
+  if (gameMenu) {
+    gameMenu.classList.remove('hidden');
+    gameMenu.setAttribute('aria-hidden', 'false');
+  }
 
   cmdInput.placeholder = 'game menu...';
 }
 
 export function closeGameScreen(onClose) {
-  const { out, cmdInput, gameScreen, gameStage, gameMenu } = getShellEls();
+  const { out, cmdInput, gameScreen } = getShellEls();
+  const { gameStage, gameMenu } = getGameEls(gameScreen);
 
   if (typeof onClose === 'function') {
     onClose();
@@ -62,11 +117,17 @@ export function closeGameScreen(onClose) {
   gameScreen.classList.add('hidden');
   gameScreen.setAttribute('aria-hidden', 'true');
 
-  gameStage.classList.add('hidden');
-  gameStage.setAttribute('aria-hidden', 'true');
+  if (gameStage) {
+    gameStage.classList.add('hidden');
+    gameStage.setAttribute('aria-hidden', 'true');
+  }
 
-  gameMenu.classList.remove('hidden');
-  gameMenu.setAttribute('aria-hidden', 'false');
+  if (gameMenu) {
+    gameMenu.classList.remove('hidden');
+    gameMenu.setAttribute('aria-hidden', 'false');
+  }
+
+  gameScreen.innerHTML = '';
 
   out.classList.remove('hidden');
 

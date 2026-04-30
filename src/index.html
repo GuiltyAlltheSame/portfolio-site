@@ -159,45 +159,7 @@ Scan the system and reach out if relevant.</p>
 
   <div id="screen-host" class="screen-host">
     <pre id="code-output" class="code-block typewriter"></pre>
-    <div id="game-screen" class="game-screen hidden" aria-hidden="true">
-
-      <div class="game-toolbar">
-        <span id="game-title" class="game-title">PONG</span>
-        <button id="game-exit" class="game-exit" type="button">EXIT</button>
-      </div>
-
-  <div id="game-menu" class="game-menu">
-    <div class="pong-menu">
-      
-      <div class="pong-menu-title">PONG / SYSTEM MENU</div>
-
-      <label class="pong-menu-row" for="pong-difficulty">
-      <span>DIFFICULTY</span>
-      <select id="pong-difficulty" class="pong-select">
-        <option value="easy">EASY</option>
-        <option value="normal" selected>NORMAL</option>
-        <option value="hard">HARD</option>
-        <option value="insane">INSANE</option>
-      </select>
-      </label>
-
-      <div class="pong-menu-actions">
-        <button id="pong-start" class="full-btn" type="button">START GAME</button>
-      </div>
-
-      <div class="pong-menu-help">
-        ↑ / ↓ — MOVE<br>
-        EXIT — BACK TO TERMINAL
-      </div>
-
-    </div>
-  </div>
-
-      <div id="game-stage" class="game-stage hidden" aria-hidden="true">
-        <canvas id="pong-canvas" width="900" height="520"></canvas>
-      </div>
-    </div>
-
+    <div id="game-screen" class="game-screen hidden" aria-hidden="true"></div>
   </div>
 
   <div class="cmd-line">
@@ -342,7 +304,7 @@ Scan the system and reach out if relevant.</p>
 
 <!--Main footer-->
 <footer> <button id="admin-trigger" class="admin-trigger">©</button> <span class="foot-name">2025 Artem K</span></footer>
-  <script type="module" src="js/script.js"></script>
+  <script type="module" src="js/app.js"></script>
   <script type="module" src="js/reviews.js"></script>
   <script type="module" src="js/likes.js"></script>
   <script type="module" src="js/messages.js"></script>
