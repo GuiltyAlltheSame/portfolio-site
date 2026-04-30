@@ -71,6 +71,7 @@ export const pongTemplate = `
 
           <div class="pong-menu-help">
             UP / DOWN - MOVE<br>
+            SPACE - PAUSE<br>
             RESET - BACK TO MENU
           </div>
 

@@ -14,8 +14,41 @@ function getGameEls(gameScreen) {
   };
 }
 
-export function openGameScreen({ title = 'GAME', template = '' } = {}) {
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function revealGameScreen(placeholder) {
   const { out, cmdInput, gameScreen } = getShellEls();
+
+  out.classList.add('hidden');
+  gameScreen.classList.remove('hidden');
+  gameScreen.setAttribute('aria-hidden', 'false');
+  cmdInput.placeholder = placeholder;
+
+  return { out, cmdInput, gameScreen };
+}
+
+export function openGameBootScreen({ title = 'GAME', duration = 1000 } = {}) {
+  const { gameScreen } = revealGameScreen('loading game...');
+
+  gameScreen.innerHTML = `
+    <div class="game-boot" style="--game-boot-duration: ${duration}ms">
+      <div class="game-boot-title">${escapeHtml(title)}</div>
+      <div class="game-boot-progress" aria-hidden="true">
+        <span class="game-boot-progress-fill"></span>
+      </div>
+    </div>
+  `;
+}
+
+export function openGameScreen({ title = 'GAME', template = '' } = {}) {
+  const { gameScreen } = revealGameScreen('game menu...');
 
   if (template) {
     gameScreen.innerHTML = template;
@@ -27,11 +60,6 @@ export function openGameScreen({ title = 'GAME', template = '' } = {}) {
     gameTitle.textContent = title;
   }
 
-  out.classList.add('hidden');
-
-  gameScreen.classList.remove('hidden');
-  gameScreen.setAttribute('aria-hidden', 'false');
-
   if (gameMenu) {
     gameMenu.classList.remove('hidden');
     gameMenu.setAttribute('aria-hidden', 'false');
@@ -42,7 +70,6 @@ export function openGameScreen({ title = 'GAME', template = '' } = {}) {
     gameStage.setAttribute('aria-hidden', 'true');
   }
 
-  cmdInput.placeholder = 'game menu...';
 }
 
 export function showGameStage() {

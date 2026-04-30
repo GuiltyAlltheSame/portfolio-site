@@ -5,6 +5,7 @@ let pointsScore = 0;
 let upPressed = false;
 let downPressed = false;
 let pongTimer = null;
+let activePauseHandler = null;
 
 const DEFAULT_PONG_SETTINGS = {
   playerSpeed: 5,
@@ -22,6 +23,8 @@ const COUNTDOWN_PIXEL_SIZE = 18;
 const COUNTDOWN_PIXEL_GAP = 3;
 const GAME_OVER_PIXEL_SIZE = 10;
 const GAME_OVER_PIXEL_GAP = 2;
+const PAUSE_PIXEL_SIZE = 12;
+const PAUSE_PIXEL_GAP = 2;
 const PIXEL_FONT = {
   ' ': [
     '000',
@@ -104,6 +107,33 @@ const PIXEL_FONT = {
     '10001',
     '01110'
   ],
+  P: [
+    '11110',
+    '10001',
+    '10001',
+    '11110',
+    '10000',
+    '10000',
+    '10000'
+  ],
+  S: [
+    '01111',
+    '10000',
+    '10000',
+    '01110',
+    '00001',
+    '00001',
+    '11110'
+  ],
+  U: [
+    '10001',
+    '10001',
+    '10001',
+    '10001',
+    '10001',
+    '10001',
+    '01110'
+  ],
   V: [
     '10001',
     '10001',
@@ -127,6 +157,14 @@ const PIXEL_FONT = {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowUp') upPressed = true;
   if (e.key === 'ArrowDown') downPressed = true;
+
+  if ((e.code === 'Space' || e.key === ' ') && activePauseHandler) {
+    e.preventDefault();
+
+    if (!e.repeat) {
+      activePauseHandler();
+    }
+  }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -139,6 +177,8 @@ export function stopPongGame() {
     cancelAnimationFrame(pongTimer);
     pongTimer = null;
   }
+
+  activePauseHandler = null;
 }
 
 export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
@@ -174,6 +214,9 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
   let goalPauseStartedAt = null;
   let goalPauseDirection = 0;
   let gameOver = false;
+  let isPaused = false;
+  let pauseStartedAt = null;
+  let pausedDuration = 0;
 
   function updateScoreHeader() {
     if (scoreHeaderEl) {
@@ -288,6 +331,12 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
     drawPixelText('GAME OVER', canvas.width / 2, canvas.height / 2, GAME_OVER_PIXEL_SIZE, GAME_OVER_PIXEL_GAP);
   }
 
+  function drawPause() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.58)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    drawPixelText('PAUSE', canvas.width / 2, canvas.height / 2, PAUSE_PIXEL_SIZE, PAUSE_PIXEL_GAP);
+  }
+
   function drawGoalPauseOverlay() {
     if (goalPauseDirection === 0) return;
 
@@ -305,10 +354,30 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
 
   function finishGame() {
     gameOver = true;
+    isPaused = false;
+    pauseStartedAt = null;
     goalPauseStartedAt = null;
     goalPauseDirection = 0;
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
+  }
+
+  function togglePause() {
+    if (gameOver) return;
+
+    isPaused = !isPaused;
+
+    if (isPaused) {
+      pauseStartedAt = performance.now();
+      upPressed = false;
+      downPressed = false;
+      return;
+    }
+
+    if (pauseStartedAt !== null) {
+      pausedDuration += performance.now() - pauseStartedAt;
+      pauseStartedAt = null;
+    }
   }
 
   function scoreGoal(scoringSide, timestamp) {
@@ -376,13 +445,18 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
   }
 
   function loop(timestamp) {
+    const currentPausedDuration = isPaused && pauseStartedAt !== null
+      ? pausedDuration + timestamp - pauseStartedAt
+      : pausedDuration;
+    const gameTimestamp = timestamp - currentPausedDuration;
+
     if (countdownStartedAt === null) {
-      countdownStartedAt = timestamp;
+      countdownStartedAt = gameTimestamp;
     }
 
-    const countdownElapsed = timestamp - countdownStartedAt;
+    const countdownElapsed = gameTimestamp - countdownStartedAt;
     const countdownLeft = Math.ceil((START_COUNTDOWN_MS - countdownElapsed) / 1000);
-    const goalPauseElapsed = goalPauseStartedAt === null ? 0 : timestamp - goalPauseStartedAt;
+    const goalPauseElapsed = goalPauseStartedAt === null ? 0 : gameTimestamp - goalPauseStartedAt;
     const isGoalPaused = goalPauseStartedAt !== null && goalPauseElapsed < GOAL_PAUSE_MS;
 
     if (goalPauseStartedAt !== null && !isGoalPaused) {
@@ -390,8 +464,8 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
       goalPauseDirection = 0;
     }
 
-    if (countdownLeft <= 0 && !isGoalPaused && !gameOver) {
-      update(timestamp);
+    if (countdownLeft <= 0 && !isGoalPaused && !gameOver && !isPaused) {
+      update(gameTimestamp);
     }
 
     draw();
@@ -408,6 +482,10 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
       drawGameOver();
     }
 
+    if (isPaused) {
+      drawPause();
+    }
+
     pongTimer = requestAnimationFrame(loop);
   }
 
@@ -417,5 +495,6 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
   updateScoreHeader();
 
   stopPongGame();
+  activePauseHandler = togglePause;
   pongTimer = requestAnimationFrame(loop);
 }
