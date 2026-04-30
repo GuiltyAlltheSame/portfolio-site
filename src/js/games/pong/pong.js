@@ -207,11 +207,18 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
     updateScoreHeader();
   }
 
-  function resetBall() {
+  function resetPaddles() {
+    playerY = canvas.height / 2 - paddleHeight / 2;
+    aiY = playerY;
+  }
+
+  function resetBall({ straight = false } = {}) {
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
     ballVX = (ballVX > 0 ? -1 : 1) * settings.ballSpeedX;
-    ballVY = (Math.random() * settings.ballSpeedY) - settings.ballSpeedY / 2;
+    ballVY = straight
+      ? 0
+      : (Math.random() * settings.ballSpeedY) - settings.ballSpeedY / 2;
   }
 
   function draw() {
@@ -307,11 +314,11 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
   function scoreGoal(scoringSide, timestamp) {
     if (scoringSide === 'left') {
       playerScore++;
+      pointsScore += goalPoints;
     } else {
       aiScore++;
     }
 
-    pointsScore += goalPoints;
     updateScoreHeader();
 
     if (scoreLimit !== null && (playerScore >= scoreLimit || aiScore >= scoreLimit)) {
@@ -319,7 +326,8 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
       return;
     }
 
-    resetBall();
+    resetPaddles();
+    resetBall({ straight: true });
     startGoalPause(timestamp);
   }
 

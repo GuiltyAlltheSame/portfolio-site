@@ -2,10 +2,10 @@ import { startPongGame, stopPongGame } from './pong.js';
 import { startPongDemo, stopPongDemo } from './pong-demo.js';
 
 const PONG_PRESETS = {
-  easy:   { playerSpeed: 5, aiLerp: 0.035, ballSpeedX: 5,  ballSpeedY: 3, hitPoints: 5,  goalPoints: 50 },
-  normal: { playerSpeed: 5, aiLerp: 0.05,  ballSpeedX: 7,  ballSpeedY: 4, hitPoints: 10, goalPoints: 100 },
-  hard:   { playerSpeed: 6, aiLerp: 0.075, ballSpeedX: 9,  ballSpeedY: 6, hitPoints: 20, goalPoints: 200 },
-  insane: { playerSpeed: 7, aiLerp: 0.11,  ballSpeedX: 12, ballSpeedY: 8, hitPoints: 35, goalPoints: 350 }
+  easy:   { playerSpeed: 5, aiLerp: 0.04, ballSpeedX: 6,  ballSpeedY: 3.5, hitPoints: 5,  goalPoints: 50 },
+  normal: { playerSpeed: 6, aiLerp: 0.06, ballSpeedX: 8,  ballSpeedY: 5,   hitPoints: 10, goalPoints: 100 },
+  hard:   { playerSpeed: 7, aiLerp: 0.09, ballSpeedX: 10, ballSpeedY: 7,   hitPoints: 20, goalPoints: 200 },
+  insane: { playerSpeed: 8, aiLerp: 0.13, ballSpeedX: 13, ballSpeedY: 9,   hitPoints: 35, goalPoints: 350 }
 };
 
 function enableOptionalRadioGroups() {
