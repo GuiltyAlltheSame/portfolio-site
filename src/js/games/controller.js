@@ -1,15 +1,24 @@
 import { closeGameScreen } from './game-shell.js';
-import { runGameCommand } from './registry.js';
+import { getGame } from './registry.js';
 
-export function createGameController({ gameExit }) {
+export function createGameController() {
   let activeGame = null;
 
   function openByCommand(command) {
-    const game = runGameCommand(command);
+    const game = getGame(command);
 
     if (!game) return false;
 
+    if (activeGame && typeof activeGame.stop === 'function') {
+      activeGame.stop();
+    }
+
     activeGame = game;
+
+    if (typeof game.openMenu === 'function') {
+      game.openMenu();
+    }
+
     return true;
   }
 
@@ -27,9 +36,15 @@ export function createGameController({ gameExit }) {
   }
 
   function bindExit() {
-    if (!gameExit) return;
+    const gameScreen = document.getElementById('game-screen');
 
-    gameExit.addEventListener('click', () => {
+    if (!gameScreen) return;
+
+    gameScreen.addEventListener('click', (event) => {
+      const closeButton = event.target.closest('[data-game-close]');
+
+      if (!closeButton) return;
+
       closeGameScreen(() => {
         stopActiveGame();
       });

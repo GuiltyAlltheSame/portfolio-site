@@ -38,7 +38,7 @@ function serve(done) {
       baseDir: 'dist'
     },
     notify: false,
-    open: true
+    open: false
   });
   done();
 }

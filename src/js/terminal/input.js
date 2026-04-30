@@ -11,6 +11,10 @@ export function initTerminalInput({
     const key = raw.toUpperCase();
     cmdInput.value = '';
 
+    if (!raw) {
+      return;
+    }
+
     if (commands[key]) {
       commands[key]();
       return;
