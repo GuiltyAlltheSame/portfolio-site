@@ -2,7 +2,7 @@ export const demoProjects = [
   {
     title: 'Cinemorph',
     line: 'Cinema prod portfolio landing',
-    img: 'assets/img/cinemorph-preview.jpg',
+    img: 'assets/img/cinemorph-preview.png',
     git: 'https://github.com/GuiltyAlltheSame/cinemorph-site',
     link: 'https://cinemorphstudio.com/'
   },
