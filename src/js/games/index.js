@@ -1,7 +1,9 @@
+import { registerCraboidGame } from './craboid/index.js';
 import { registerPongGame } from './pong/index.js';
 
 const gameModules = [
-  registerPongGame
+  registerPongGame,
+  registerCraboidGame
 ];
 
 export function registerGames() {
