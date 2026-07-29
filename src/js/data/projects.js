@@ -1,14 +1,14 @@
 export const demoProjects = [
   {
-    title: 'Cinemorph',
+    title: 'Сinemorphstudio.com',
     line: 'Cinema prod portfolio landing',
     img: 'assets/img/cinemorph-preview.png',
     git: 'https://github.com/GuiltyAlltheSame/cinemorph-site',
     link: 'https://cinemorphstudio.com/'
   },
   {
-    title: 'Spiza.com',
-    line: 'Knitted toys shop',
+    title: 'PROJECT_NEEDLE.xxx',
+    line: 'Handcrafted goods display case',
     img: 'assets/img/question.png',
     hover: 'assets/img/white-noise.gif'
   },
@@ -18,11 +18,5 @@ export const demoProjects = [
     img: 'assets/img/card_retro_portfolio.png',
     git: 'https://github.com/GuiltyAlltheSame/portfolio-site',
     link: 'https://flexboxer.com/'
-  },
-  {
-    title: '???',
-    line: '???',
-    img: 'assets/img/question.png',
-    hover: 'assets/img/white-noise.gif'
   }
 ];
