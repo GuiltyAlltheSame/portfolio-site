@@ -7,8 +7,8 @@ export function registerPongGame() {
   let pongRuntime = null;
 
   const pongGame = {
-    title: 'PONG',
-    description: 'start PONG game',
+    title: 'P-BALL',
+    description: 'start P-BALL game',
 
     openMenu() {
       if (pongRuntime) {
@@ -16,7 +16,7 @@ export function registerPongGame() {
       }
 
       openGameScreen({
-        title: 'PONG',
+        title: 'P-BALL',
         template: pongTemplate
       });
 
@@ -43,5 +43,5 @@ export function registerPongGame() {
     }
   };
 
-  registerGame('PONG', pongGame);
+  registerGame('PBALL', pongGame);
 }

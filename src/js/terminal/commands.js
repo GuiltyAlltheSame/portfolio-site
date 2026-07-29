@@ -23,7 +23,7 @@ Commands:
   GAMES          - list available games
   HELP  or  ?    - list of commands
 
-Games:
+Games (type a game command to launch it):
 ${getGamesHelpText()}
 `;
   }

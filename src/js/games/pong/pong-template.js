@@ -1,7 +1,7 @@
 export const pongTemplate = `
 
       <div class="game-toolbar">
-        <span id="game-title" class="game-title" data-game-title>PONG</span>
+        <span id="game-title" class="game-title" data-game-title>P-BALL</span>
         <div class="game-toolbar-actions">
           <button id="pong-reset" class="game-exit" type="button">RESET</button>
           <button class="game-exit" type="button" data-game-close>EXIT</button>
@@ -14,7 +14,7 @@ export const pongTemplate = `
 
         <div class="pong-menu">
 
-          <div class="pong-menu-title">PONG / SYSTEM MENU</div>
+          <div class="pong-menu-title">P-BALL / SYSTEM MENU</div>
 
           <div class="pong-menu-row">
             <span>DIFFICULTY</span>
