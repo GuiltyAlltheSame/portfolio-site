@@ -9,7 +9,8 @@ export const demoProjects = [
   {
     title: 'Spiza.com',
     line: 'Knitted toys shop',
-    img: 'assets/img/question.png'
+    img: 'assets/img/question.png',
+    hover: 'assets/img/white-noise.gif'
   },
   {
     title: 'Flexboxer.com',
