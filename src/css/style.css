@@ -1257,6 +1257,321 @@ footer {
   }
 }
 
+/* ===== CRABOID ====================================================== */
+.craboid-toolbar-title{
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.craboid-build{
+  color: #c4ff8f;
+  opacity: 0.58;
+  overflow: hidden;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.craboid-game-menu{
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(138, 255, 60, 0.11), transparent 42%),
+    #000;
+}
+
+.craboid-menu-shell{
+  position: relative;
+  z-index: 3;
+  width: min(680px, 100%);
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.7rem;
+  color: #8aff3c;
+  text-align: center;
+  font-family: 'Ac437ApricotPortable', monospace;
+}
+
+.craboid-menu-kicker{
+  color: #c4ff8f;
+  opacity: 0.72;
+  font-size: clamp(0.72rem, 1.35vw, 1rem);
+  letter-spacing: 0.12em;
+}
+
+.craboid-menu-title{
+  margin: 0;
+  color: #8aff3c;
+  font-size: clamp(3.4rem, 8vw, 6rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: 0.06em;
+  text-shadow:
+    0 0 8px rgba(138, 255, 60, 0.95),
+    0 0 28px rgba(138, 255, 60, 0.34);
+}
+
+.craboid-menu-subtitle{
+  margin: 0;
+  color: #d8ffbe;
+  font-size: clamp(0.8rem, 1.7vw, 1.2rem);
+  letter-spacing: 0.09em;
+}
+
+.craboid-menu-radar{
+  position: relative;
+  width: min(590px, 94%);
+  height: 155px;
+  overflow: hidden;
+  border: 2px solid #8aff3c;
+  background:
+    linear-gradient(rgba(138, 255, 60, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(138, 255, 60, 0.08) 1px, transparent 1px),
+    rgba(0, 0, 0, 0.88);
+  background-size: 24px 24px;
+  box-shadow:
+    inset 0 0 34px rgba(138, 255, 60, 0.08),
+    0 0 16px rgba(138, 255, 60, 0.16);
+}
+
+.craboid-menu-radar::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0,
+    rgba(138, 255, 60, 0.14) 48%,
+    transparent 52%
+  );
+  transform: translateY(-100%);
+  animation: craboidRadarSweep 3.4s linear infinite;
+}
+
+@keyframes craboidRadarSweep{
+  to{
+    transform: translateY(100%);
+  }
+}
+
+.craboid-menu-wave{
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(9, 15px);
+  gap: 8px 13px;
+  transform: translateX(-50%);
+}
+
+.craboid-menu-invader{
+  width: 15px;
+  height: 15px;
+  display: block;
+  border: 2px solid #8aff3c;
+  background: rgba(138, 255, 60, 0.12);
+  box-shadow: 0 0 6px rgba(138, 255, 60, 0.55);
+  animation: craboidInvaderBlink 1.2s steps(2, end) infinite;
+  animation-delay: calc(var(--craboid-cell) * -35ms);
+}
+
+@keyframes craboidInvaderBlink{
+  50%{
+    background: rgba(138, 255, 60, 0.48);
+  }
+}
+
+.craboid-menu-base{
+  position: absolute;
+  bottom: 30px;
+  width: 38px;
+  height: 16px;
+  background: #8aff3c;
+  clip-path: polygon(18% 0, 82% 0, 100% 45%, 100% 100%, 64% 100%, 64% 56%, 36% 56%, 36% 100%, 0 100%, 0 45%);
+  opacity: 0.72;
+}
+
+.craboid-menu-base--one{ left: 14%; }
+.craboid-menu-base--two{ left: 34%; }
+.craboid-menu-base--three{ right: 34%; }
+.craboid-menu-base--four{ right: 14%; }
+
+.craboid-menu-ship{
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 30px;
+  height: 20px;
+  background: #d8ffbe;
+  clip-path: polygon(50% 0, 100% 100%, 62% 78%, 50% 100%, 38% 78%, 0 100%);
+  filter: drop-shadow(0 0 6px #8aff3c);
+  transform: translateX(-50%);
+}
+
+.craboid-menu-specs{
+  width: min(590px, 94%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2px solid #8aff3c;
+  color: #c4ff8f;
+  font-size: clamp(0.75rem, 1.4vw, 1rem);
+}
+
+.craboid-menu-specs span{
+  padding: 0.5rem 0.35rem;
+}
+
+.craboid-menu-specs span + span{
+  border-left: 2px solid #8aff3c;
+}
+
+.craboid-start{
+  width: min(590px, 94%);
+  cursor: pointer;
+}
+
+.craboid-menu-help{
+  width: min(590px, 94%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem 1rem;
+  color: #c4ff8f;
+  font-size: clamp(0.68rem, 1.2vw, 0.9rem);
+  line-height: 1.3;
+}
+
+.craboid-menu-help b{
+  color: #8aff3c;
+  font-weight: 400;
+}
+
+.craboid-stage{
+  gap: 0.55rem;
+}
+
+.craboid-hud{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: grid;
+  flex: 0 0 48px;
+  grid-template-columns: 1.35fr 0.72fr 0.72fr 1.15fr;
+  overflow: hidden;
+  color: #8aff3c;
+  border: 2px solid #8aff3c;
+  background: #000;
+  font-family: 'Ac437ApricotPortable', monospace;
+}
+
+.craboid-hud-cell{
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+}
+
+.craboid-hud-cell + .craboid-hud-cell{
+  border-left: 2px solid #8aff3c;
+}
+
+.craboid-hud-label{
+  color: #c4ff8f;
+  opacity: 0.64;
+  font-size: 0.92rem;
+}
+
+.craboid-hud-value{
+  min-width: 0;
+  overflow: hidden;
+  font-size: 1.25rem;
+  text-align: right;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.craboid-canvas-wrap{
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+}
+
+#craboid-canvas{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background: #000;
+  border: 2px solid #8aff3c;
+  box-shadow: 0 0 12px rgba(138, 255, 60, 0.25);
+}
+
+#craboid-canvas:focus-visible{
+  outline: 1px dashed #d8ffbe;
+  outline-offset: -6px;
+}
+
+@media (max-width: 720px){
+  .craboid-build{
+    display: none;
+  }
+
+  .craboid-hud{
+    grid-template-columns: 1.35fr 0.7fr 0.7fr;
+  }
+
+  .craboid-hud-state{
+    display: none;
+  }
+
+  .craboid-hud-label{
+    font-size: 0.72rem;
+  }
+
+  .craboid-hud-value{
+    font-size: 1rem;
+  }
+}
+
+@media (max-height: 760px){
+  .craboid-menu-shell{
+    gap: 0.45rem;
+  }
+
+  .craboid-menu-radar{
+    height: 120px;
+  }
+
+  .craboid-menu-wave{
+    top: 11px;
+    gap-block: 5px;
+  }
+
+  .craboid-menu-base{
+    bottom: 23px;
+  }
+
+  .craboid-menu-ship{
+    bottom: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .craboid-menu-radar::after,
+  .craboid-menu-invader{
+    animation: none;
+  }
+}
+
 /* P-BALL modal window ----------------------------------------------------------------*/ 
 .modal {
   z-index: 999;

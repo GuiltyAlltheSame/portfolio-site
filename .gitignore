@@ -1,5 +1,3 @@
-dist/
-node_modules/
 supabase_password_portfolio_site.png
 .env
 .DS_Store
