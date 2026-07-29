@@ -53,11 +53,6 @@
   to   { transform: translateY(100%); opacity: 0; }
 }
 
-@keyframes rain-add {
-  from { transform: translateY(100%); opacity: 1; }
-  to   { transform: translateY(-100%); opacity: 0; }
-}
-
 @keyframes heart-press{
   0%   { transform:scale(1); }
   40%  { transform:scale(1.35); }
@@ -102,19 +97,6 @@
   animation: rain 20s linear infinite;
 }
 
-.rain-add {
-  inset: 0;             
-  z-index: 0;           /* below topic */
-  position: absolute;
-  pointer-events: none; /* no clicks on "rain" */
-  background: repeating-linear-gradient(
-      0deg,
-      rgba(0,255,0,0.08) 0px,
-      rgba(0,255,0,0.2)  2px,
-      transparent        4px
-  );
-  animation: rain-add 70ms linear infinite;
-}
 /* ───── RAIN ANIMATION END  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 /* ───── BODY  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -339,11 +321,6 @@ header p {
   word-break: normal;
 }
 
-.about-glif {
-  font-size: 50px;
-  font-family: 'MisakiGothic';
-}
-
 .headline {
   margin: 0;
   line-height: 1.2;
@@ -559,7 +536,6 @@ header p {
   width:100%; 
   min-height: 0; 
   flex:1 1 auto; 
-  object-fit:fill; 
   border-bottom:1px solid #8AFF3C;
 }
 
@@ -629,8 +605,6 @@ header p {
 }                 
 
 /* adaptive: ≤900px show 2, ≤600px – 1 */
-@media (max-width:900px){ .card{ flex:0 0 calc(50% - .5rem);} }
-@media (max-width:600px){ .card{ flex:0 0 100%; } }
 /* PROJECTS SECTION END------------------------------------------------------------------------------------------------------------------------------------------------------------*/ 
 
 /* === CONTACT ==================================================== */
@@ -798,13 +772,6 @@ footer {
     text-align: center;
     background: #000;
     padding: 5px 0 5px 0;
-}
-
-footer p {
-  text-shadow: 0px 0px 12px rgba(0,0,0,1),
-              0px 0px 12px rgba(0,0,0,1);
-  color: #8AFF3C;
-  font-size: 0.75rem;
 }
 
 .msghead, .msghead1 {

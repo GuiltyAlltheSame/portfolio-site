@@ -9,19 +9,20 @@ export function initProjects({ projects }) {
   projects.forEach((project) => {
     const li = document.createElement('li');
     li.className = 'card';
+    const projectActions = [
+      project.git && `<a href="${project.git}" target="_blank" rel="noopener noreferrer">GIT</a>`,
+      project.link && `<a href="${project.link}" target="_blank" rel="noopener noreferrer">LINK</a>`
+    ].filter(Boolean).join('');
 
     li.innerHTML = `
       <div class="thumb">
-        <img class="poster" src="${project.img}" alt="">
-        ${project.hover ? `<img class="noise" src="${project.hover}" alt="">` : ''}
+        <img class="poster" src="${project.img}" alt="${project.title} project preview">
+        ${project.hover ? `<img class="noise" src="${project.hover}" alt="" aria-hidden="true">` : ''}
       </div>
       <div class="body">
         <h4>${project.title}</h4>
         <p>${project.line}</p>
-        <div class="btns">
-          <a href="${project.git}" target="_blank" rel="noopener noreferrer">GIT</a>
-          <a href="${project.link}" target="_blank" rel="noopener noreferrer">LINK</a>
-        </div>
+        ${projectActions ? `<div class="btns">${projectActions}</div>` : ''}
       </div>
     `;
 
@@ -29,7 +30,8 @@ export function initProjects({ projects }) {
   });
 
   slider.addEventListener('wheel', (e) => {
-    if (e.deltaY === 0) return;
+    const canScrollHorizontally = slider.scrollWidth > slider.clientWidth;
+    if (!canScrollHorizontally || e.deltaY === 0) return;
     e.preventDefault();
     slider.scrollLeft += e.deltaY;
   }, { passive: false });
