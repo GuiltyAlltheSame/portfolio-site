@@ -1,7 +1,7 @@
-import { startPongGame, stopPongGame } from './pong.js';
-import { startPongDemo, stopPongDemo } from './pong-demo.js';
+import { startPBallGame, stopPBallGame } from './pball.js';
+import { startPBallDemo, stopPBallDemo } from './pball-demo.js';
 
-const PONG_PRESETS = {
+const PBALL_PRESETS = {
   easy:   { playerSpeed: 5, aiLerp: 0.04, ballSpeedX: 6,  ballSpeedY: 3.5, hitPoints: 5,  goalPoints: 50 },
   normal: { playerSpeed: 6, aiLerp: 0.06, ballSpeedX: 8,  ballSpeedY: 5,   hitPoints: 10, goalPoints: 100 },
   hard:   { playerSpeed: 7, aiLerp: 0.09, ballSpeedX: 10, ballSpeedY: 7,   hitPoints: 20, goalPoints: 200 },
@@ -9,7 +9,7 @@ const PONG_PRESETS = {
 };
 
 function enableOptionalRadioGroups() {
-  document.querySelectorAll('.pong-radio').forEach((label) => {
+  document.querySelectorAll('.pball-radio').forEach((label) => {
     const radio = label.querySelector('input[type="radio"]');
 
     if (!radio) {
@@ -51,27 +51,27 @@ function enableOptionalRadioGroups() {
   });
 }
 
-export function initPongSetup({
-  pongStartBtn,
-  pongResetBtn,
+export function initPBallSetup({
+  pballStartBtn,
+  pballResetBtn,
   showGameMenu,
   showGameStage
 }) {
   enableOptionalRadioGroups();
-  startPongDemo();
+  startPBallDemo();
 
   function showMenu() {
-    stopPongGame();
+    stopPBallGame();
 
     if (typeof showGameMenu === 'function') {
       showGameMenu();
     }
 
-    startPongDemo();
+    startPBallDemo();
   }
 
   function showGame() {
-    stopPongDemo();
+    stopPBallDemo();
 
     if (typeof showGameStage === 'function') {
       showGameStage();
@@ -79,30 +79,30 @@ export function initPongSetup({
   }
 
   function startGame() {
-    const selectedInput = document.querySelector('input[name="pongDifficulty"]:checked');
+    const selectedInput = document.querySelector('input[name="pballDifficulty"]:checked');
     const selected = selectedInput ? selectedInput.value : 'normal';
-    const selectedLimitInput = document.querySelector('input[name="pongScoreLimit"]:checked');
+    const selectedLimitInput = document.querySelector('input[name="pballScoreLimit"]:checked');
     const selectedLimit = selectedLimitInput ? selectedLimitInput.value : 'infinity';
     const scoreLimit = selectedLimit === 'infinity' ? null : Number(selectedLimit);
 
     showGame();
-    startPongGame({ ...PONG_PRESETS[selected], scoreLimit });
+    startPBallGame({ ...PBALL_PRESETS[selected], scoreLimit });
   }
 
-  if (pongStartBtn) {
-    pongStartBtn.addEventListener('click', startGame);
+  if (pballStartBtn) {
+    pballStartBtn.addEventListener('click', startGame);
   }
 
-  if (pongResetBtn) {
-    pongResetBtn.addEventListener('click', showMenu);
+  if (pballResetBtn) {
+    pballResetBtn.addEventListener('click', showMenu);
   }
 
   return {
     start: startGame,
 
     stop() {
-      stopPongGame();
-      stopPongDemo();
+      stopPBallGame();
+      stopPBallDemo();
     }
   };
 }

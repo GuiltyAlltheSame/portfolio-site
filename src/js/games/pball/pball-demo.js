@@ -151,10 +151,10 @@ function loopDemo(timestamp) {
   demoTimer = requestAnimationFrame(loopDemo);
 }
 
-export function startPongDemo() {
+export function startPBallDemo() {
   if (demoTimer) return;
 
-  const canvas = document.getElementById('pong-demo-canvas');
+  const canvas = document.getElementById('pball-demo-canvas');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
@@ -185,7 +185,7 @@ export function startPongDemo() {
   demoTimer = requestAnimationFrame(loopDemo);
 }
 
-export function stopPongDemo() {
+export function stopPBallDemo() {
   if (demoTimer) {
     cancelAnimationFrame(demoTimer);
     demoTimer = null;

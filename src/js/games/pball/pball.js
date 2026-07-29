@@ -4,10 +4,10 @@ let pointsScore = 0;
 
 let upPressed = false;
 let downPressed = false;
-let pongTimer = null;
+let pballTimer = null;
 let activePauseHandler = null;
 
-const DEFAULT_PONG_SETTINGS = {
+const DEFAULT_PBALL_SETTINGS = {
   playerSpeed: 5,
   aiLerp: 0.05,
   ballSpeedX: 7,
@@ -172,25 +172,25 @@ document.addEventListener('keyup', (e) => {
   if (e.key === 'ArrowDown') downPressed = false;
 });
 
-export function stopPongGame() {
-  if (pongTimer) {
-    cancelAnimationFrame(pongTimer);
-    pongTimer = null;
+export function stopPBallGame() {
+  if (pballTimer) {
+    cancelAnimationFrame(pballTimer);
+    pballTimer = null;
   }
 
   activePauseHandler = null;
 }
 
-export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
-  const canvas = document.getElementById('pong-canvas');
+export function startPBallGame(settings = DEFAULT_PBALL_SETTINGS) {
+  const canvas = document.getElementById('pball-canvas');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
-  const scoreHeaderEl = document.getElementById('pong-score-header');
-  const matchLabelEl = document.getElementById('pong-match-label');
-  const matchScoreEl = document.getElementById('pong-match-score');
-  const pointsLabelEl = document.getElementById('pong-points-label');
-  const pointsScoreEl = document.getElementById('pong-points-score');
+  const scoreHeaderEl = document.getElementById('pball-score-header');
+  const matchLabelEl = document.getElementById('pball-match-label');
+  const matchScoreEl = document.getElementById('pball-match-score');
+  const pointsLabelEl = document.getElementById('pball-points-label');
+  const pointsScoreEl = document.getElementById('pball-points-score');
 
   const paddleWidth = 10;
   const paddleHeight = 80;
@@ -206,8 +206,8 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
 
   const playerSpeed = settings.playerSpeed;
   const aiLerp = settings.aiLerp;
-  const hitPoints = settings.hitPoints ?? DEFAULT_PONG_SETTINGS.hitPoints;
-  const goalPoints = settings.goalPoints ?? DEFAULT_PONG_SETTINGS.goalPoints;
+  const hitPoints = settings.hitPoints ?? DEFAULT_PBALL_SETTINGS.hitPoints;
+  const goalPoints = settings.goalPoints ?? DEFAULT_PBALL_SETTINGS.goalPoints;
   const scoreLimit = Number.isFinite(settings.scoreLimit) ? settings.scoreLimit : null;
   const isInfiniteMode = scoreLimit === null;
   let countdownStartedAt = null;
@@ -220,8 +220,8 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
 
   function updateScoreHeader() {
     if (scoreHeaderEl) {
-      scoreHeaderEl.classList.toggle('pong-score-header--infinite', isInfiniteMode);
-      scoreHeaderEl.classList.toggle('pong-score-header--limit', !isInfiniteMode);
+      scoreHeaderEl.classList.toggle('pball-score-header--infinite', isInfiniteMode);
+      scoreHeaderEl.classList.toggle('pball-score-header--limit', !isInfiniteMode);
       scoreHeaderEl.classList.toggle('left-leading', !isInfiniteMode && playerScore > aiScore);
       scoreHeaderEl.classList.toggle('right-leading', !isInfiniteMode && aiScore > playerScore);
     }
@@ -486,7 +486,7 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
       drawPause();
     }
 
-    pongTimer = requestAnimationFrame(loop);
+    pballTimer = requestAnimationFrame(loop);
   }
 
   playerScore = 0;
@@ -494,7 +494,7 @@ export function startPongGame(settings = DEFAULT_PONG_SETTINGS) {
   pointsScore = 0;
   updateScoreHeader();
 
-  stopPongGame();
+  stopPBallGame();
   activePauseHandler = togglePause;
-  pongTimer = requestAnimationFrame(loop);
+  pballTimer = requestAnimationFrame(loop);
 }

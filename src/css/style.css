@@ -1038,13 +1038,13 @@ footer {
   z-index: 3;
 }
 
-.pong-score-header,
-#pong-canvas{
+.pball-score-header,
+#pball-canvas{
   position: relative;
   z-index: 1;
 }
 
-#pong-canvas{
+#pball-canvas{
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
@@ -1055,8 +1055,8 @@ footer {
   box-shadow: 0 0 12px rgba(138,255,60,.25);
 }
 
-.pong-demo-canvas,
-.pong-menu-cover{
+.pball-demo-canvas,
+.pball-menu-cover{
   inset: 0;
   width: 100%;
   height: 100%;
@@ -1065,13 +1065,13 @@ footer {
   pointer-events: none;
 }
 
-.pong-demo-canvas{
+.pball-demo-canvas{
   z-index: 0;
   opacity: 0.62;
   filter: blur(0.15px) saturate(1.35) contrast(1.12);
 }
 
-.pong-menu-cover{
+.pball-menu-cover{
   z-index: 1;
   background:
     radial-gradient(
@@ -1083,7 +1083,7 @@ footer {
     rgba(0, 0, 0, 0.3);
 }
 
-.pong-menu{
+.pball-menu{
   width: 100%;
   max-width: 560px;
   display: flex;
@@ -1097,12 +1097,12 @@ footer {
   color: #8AFF3C;
 }
 
-.pong-menu-title{
+.pball-menu-title{
   font-size: 2rem;
   line-height: 1.1;
 }
 
-.pong-menu-row{
+.pball-menu-row{
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -1110,26 +1110,26 @@ footer {
   font-size: 1.1rem;
 }
 
-.pong-radio-group{
+.pball-radio-group{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
   width: 100%;
 }
 
-.pong-radio{
+.pball-radio{
   display: flex;
   cursor: pointer;
   min-width: 0;
 }
 
-.pong-radio input{
+.pball-radio input{
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
 
-.pong-radio span{
+.pball-radio span{
   width: 100%;
   display: block;
   color: #8AFF3C;
@@ -1140,8 +1140,8 @@ footer {
   line-height: 1;
 }
 
-.pong-radio:hover span,
-.pong-radio input:checked + span{
+.pball-radio:hover span,
+.pball-radio input:checked + span{
   color: #000;
   background:
     repeating-linear-gradient(
@@ -1154,18 +1154,18 @@ footer {
   box-shadow: 0 0 8px #8AFF3C;
 }
 
-.pong-menu-actions{
+.pball-menu-actions{
   display: flex;
   gap: 0.75rem;
 }
 
-.pong-menu-help{
+.pball-menu-help{
   font-size: 1.1rem;
   line-height: 1.5;
   color: #C4FF8F;
 }
 
-.pong-score-header{
+.pball-score-header{
   flex: 0 0 48px;
   display: flex;
   width: 100%;
@@ -1176,8 +1176,8 @@ footer {
   font-family: 'Ac437ApricotPortable', monospace;
 }
 
-.pong-match-score,
-.pong-points-score{
+.pball-match-score,
+.pball-points-score{
   display: flex;
   min-width: 0;
   overflow: hidden;
@@ -1189,22 +1189,22 @@ footer {
   background: #000;
 }
 
-.pong-match-score{
+.pball-match-score{
   flex: 0 0 30%;
   border-right: 2px solid #8AFF3C;
 }
 
-.pong-points-score{
+.pball-points-score{
   flex: 0 0 70%;
 }
 
-.pong-score-label{
+.pball-score-label{
   color: #C4FF8F;
   flex: 0 0 auto;
   opacity: 0.75;
 }
 
-.pong-score-value{
+.pball-score-value{
   color: #8AFF3C;
   flex: 1 1 auto;
   min-width: 0;
@@ -1212,38 +1212,38 @@ footer {
   text-align: right;
 }
 
-.pong-score-header--limit .pong-match-score,
-.pong-score-header--limit .pong-points-score{
+.pball-score-header--limit .pball-match-score,
+.pball-score-header--limit .pball-points-score{
   flex: 0 0 50%;
   justify-content: center;
   padding: 0 1rem;
 }
 
-.pong-score-header--limit .pong-score-label{
+.pball-score-header--limit .pball-score-label{
   display: none;
 }
 
-.pong-score-header--limit .pong-score-value{
+.pball-score-header--limit .pball-score-value{
   flex: 0 0 auto;
   text-align: center;
 }
 
-.pong-menu-title,
-.pong-menu-row > span,
-.pong-menu-help{
+.pball-menu-title,
+.pball-menu-row > span,
+.pball-menu-help{
   text-shadow: 0 0 9px rgba(138, 255, 60, 0.85);
 }
 
-.pong-score-header--limit.left-leading .pong-match-score,
-.pong-score-header--limit.right-leading .pong-points-score{
+.pball-score-header--limit.left-leading .pball-match-score,
+.pball-score-header--limit.right-leading .pball-points-score{
   background: rgba(138, 255, 60, 0.22);
 }
 
-.pong-score-header--infinite .pong-match-score{
+.pball-score-header--infinite .pball-match-score{
   flex: 0 0 30%;
 }
 
-.pong-score-header--infinite .pong-points-score{
+.pball-score-header--infinite .pball-points-score{
   flex: 0 0 70%;
 }
 
@@ -1252,12 +1252,12 @@ footer {
     font-size: 2.2rem;
   }
 
-  .pong-score-header{
+  .pball-score-header{
     font-size: 1.2rem;
   }
 }
 
-/* PONG modal window ----------------------------------------------------------------*/ 
+/* P-BALL modal window ----------------------------------------------------------------*/ 
 .modal {
   z-index: 999;
   display: flex;
@@ -1273,14 +1273,14 @@ footer {
   display: none; 
 }
 
-.pong-box {
+.pball-box {
   position: relative;
   background: #000;
   border: 2px solid #8AFF3C;
   box-shadow: 0 0 20px #8AFF3C;
 }
 
-#pong-close {
+#pball-close {
   top: -10px;
   right: -10px;
   border: none;
@@ -1291,7 +1291,7 @@ footer {
   background: #8AFF3C;
 }
 
-#pong-end p {
+#pball-end p {
   margin: 20px;
   font-size: 20px;
   color: #8AFF3C;
@@ -1299,7 +1299,7 @@ footer {
   font-family: monospace;
 }
 
-#pong-ok {
+#pball-ok {
   border: none;
   display: block;
   cursor: pointer;
@@ -1308,7 +1308,7 @@ footer {
   background: #8AFF3C;
   margin: 10px auto 20px;
 }
-/* PONG modal END----------------------------------------------------------------*/ 
+/* P-BALL modal END----------------------------------------------------------------*/ 
 
 /* ─── REVIEWS 2.0 — fixed height ───────────────────── */
 /* window: grid with two rows */

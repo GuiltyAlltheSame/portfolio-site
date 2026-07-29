@@ -1,7 +1,7 @@
-import { registerPongGame } from './pong/index.js';
+import { registerPBallGame } from './pball/index.js';
 
 const gameModules = [
-  registerPongGame
+  registerPBallGame
 ];
 
 export function registerGames() {
