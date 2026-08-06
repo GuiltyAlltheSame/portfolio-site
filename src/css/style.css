@@ -6,12 +6,6 @@
 }
 
 @font-face{
-  font-family: 'MisakiGothic';
-  src: url('../assets/fonts/misaki_gothic.woff2') format('woff2'),
-       url('../assets/fonts/misaki_gothic.woff')  format('woff');
-}
-
-@font-face{
   font-family: 'Ac437ApricotPortable';
   src: url('../assets/fonts/Ac437_ApricotPortable.woff2') format('woff2'),
        url('../assets/fonts/Ac437_ApricotPortable.woff')  format('woff');
@@ -23,26 +17,6 @@
 /* ───── SIZING END  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
 
 /* ───── ANIMATION KEYFRAMES  ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── */
-@keyframes pulse {
-    0%, 100% {
-      text-shadow: 0 0 4px #8AFF3C,
-                   0 0 8px #8AFF3C;
-    }
-    50% {
-      text-shadow: 0 0 12px #8AFF3C,
-                   0 0 16px rgba(0,255,0,0.5);
-    }
-}
-
-@keyframes boxPulse {
-    0%, 100% {
-      box-shadow: 0 0 8px #8AFF3C;
-    }
-    50% {
-      box-shadow: 0 0 16px #8AFF3C;
-    }
-}
-
 @keyframes blink-caret {
     0%,100% { color: #8AFF3C; }
     50%     { color: #000; }
@@ -124,7 +98,6 @@ body {
   display: inline-block;
   padding: 0.5rem 1.5rem;
   border: 2px solid #8AFF3C;
-  /*animation: pulse 2s infinite ease-in-out;*/
 }
 
 .btn:hover {
@@ -1151,11 +1124,6 @@ footer {
   box-shadow: 0 0 8px #8AFF3C;
 }
 
-.pball-menu-actions{
-  display: flex;
-  gap: 0.75rem;
-}
-
 .pball-menu-help{
   font-size: 1.1rem;
   line-height: 1.5;
@@ -1568,59 +1536,6 @@ footer {
     animation: none;
   }
 }
-
-/* P-BALL modal window ----------------------------------------------------------------*/ 
-.modal {
-  z-index: 999;
-  display: flex;
-  top: 0; left: 0;
-  position: fixed;
-  align-items: center;
-  justify-content: center;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.85);
-}
-
-.modal.hidden { 
-  display: none; 
-}
-
-.pball-box {
-  position: relative;
-  background: #000;
-  border: 2px solid #8AFF3C;
-  box-shadow: 0 0 20px #8AFF3C;
-}
-
-#pball-close {
-  top: -10px;
-  right: -10px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 5px 10px;
-  position: absolute;
-  background: #8AFF3C;
-}
-
-#pball-end p {
-  margin: 20px;
-  font-size: 20px;
-  color: #8AFF3C;
-  text-align: center;
-  font-family: monospace;
-}
-
-#pball-ok {
-  border: none;
-  display: block;
-  cursor: pointer;
-  padding: 6px 14px;
-  font-weight: bold;
-  background: #8AFF3C;
-  margin: 10px auto 20px;
-}
-/* P-BALL modal END----------------------------------------------------------------*/ 
 
 /* ─── REVIEWS 2.0 — fixed height ───────────────────── */
 /* window: grid with two rows */
@@ -2159,42 +2074,6 @@ footer {
   padding:.8rem 1rem 0;
 }
 
-.review-card{
-  gap:.6rem;
-  display:flex;
-  padding:.75rem;
-  background:#000;
-  white-space:pre-wrap;
-  word-break:break-word;
-  flex-direction:column;
-  border:3px solid #8AFF3C;
-}
-
-.msg-card{
-  gap:.6rem;
-  display:flex;
-  padding:.75rem;
-  background:#000;
-  white-space:pre-wrap;
-  word-break:break-word;
-  flex-direction:column;
-  border:3px solid #8AFF3C;
-}
-
-/* button inside cards universal */
-.review-card button,
-.msg-card    button{
-  font:inherit;
-  color:#8AFF3C;
-  cursor:pointer;
-  background:#000;
-  align-self:flex-end;
-  padding:.4rem 1.1rem;
-  border:2px solid #8AFF3C;
-}
-
-.review-card button:hover,
-.msg-card    button:hover,
 .admin-window button:hover{
   color:#000;
   background:
