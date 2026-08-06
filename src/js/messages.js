@@ -9,7 +9,7 @@ import {
 async function verifyTurnstile(action) {
   if (!isTurnstileConfigured()) return;
 
-  setFormStatus('SECURITY', 'VERIFYING', 'pending');
+  setFormStatus('MESSAGE', 'VERIFYING', 'pending');
   const token = await requestTurnstileToken(action);
   const response = await fetch('/api/verify-turnstile', {
     method: 'POST',

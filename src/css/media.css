@@ -207,11 +207,6 @@
     gap: 1.5rem;
   }
 
-  .form-submit-status {
-    width: 78px;
-    padding-inline: .25rem;
-  }
-
   #contact-form,
   #review-form {
     overflow: visible;

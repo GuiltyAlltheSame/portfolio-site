@@ -1715,54 +1715,30 @@ footer p {
   pointer-events: none;
 }
 
-.form-submit-status{
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  width: 92px;
-  min-height: 54px;
-  display: grid;
-  align-content: center;
-  gap: .3rem;
-  padding: .45rem .35rem;
-  color: #C4FF8F;
-  border: 1px solid rgba(138, 255, 60, .55);
-  background: #000;
-  box-shadow: 0 0 8px rgba(138, 255, 60, .18);
-  font-family: 'Press Start 2P', monospace;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+#contact-form .full-btn[data-state="pending"],
+#review-form .full-btn[data-state="pending"]{
+  color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 3px,
+      rgba(0, 0, 0, .4) 3px,
+      rgba(0, 0, 0, .4) 4px),
+    #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C;
+  animation: formButtonFlicker .85s steps(2, end) infinite;
 }
 
-.form-submit-status__source{
-  color: #8AFF3C;
-  font-size: .48rem;
-}
-
-.form-submit-status__message{
-  overflow-wrap: anywhere;
-  font-size: .52rem;
-  line-height: 1.45;
-}
-
-.form-submit-status[data-state="pending"]{
-  animation: formStatusPulse 1s steps(2, end) infinite;
-}
-
-.form-submit-status[data-state="success"]{
-  border-color: #8AFF3C;
-  box-shadow: 0 0 10px rgba(138, 255, 60, .45);
-}
-
-.form-submit-status[data-state="error"]{
+#contact-form .full-btn[data-state="error"],
+#review-form .full-btn[data-state="error"]{
   color: #ff8b8b;
   border-color: #ff6b6b;
+  box-shadow: 0 0 8px rgba(255, 107, 107, .35);
 }
 
-@keyframes formStatusPulse{
-  50%{ opacity: .55; }
+@keyframes formButtonFlicker{
+  50%{ opacity: .42; }
 }
 
 /* scrollable wrap */
