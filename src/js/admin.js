@@ -14,41 +14,12 @@ const el = {
   reviews : document.getElementById('reviews-list'),
   messages: document.getElementById('messages-list'),
   pwdForm : document.getElementById('pwd-form'),
-  pwdMsg  : document.getElementById('pwd-msg'),
-  turnstileToggle: document.getElementById('turnstile-debug-toggle'),
-  turnstileStatus: document.getElementById('turnstile-debug-admin-status')
+  pwdMsg  : document.getElementById('pwd-msg')
 };
 document.getElementById('home-btn'  ).onclick = () => location.href = 'index.html#about';
 document.getElementById('logout-btn').onclick = async () => {
   await supabase.auth.signOut(); location.href = '/';
 };
-
-const TURNSTILE_DEBUG_STORAGE_KEY = 'portfolio.turnstileDebugVisible';
-
-function isTurnstileDebugVisible() {
-  return localStorage.getItem(TURNSTILE_DEBUG_STORAGE_KEY) === 'true';
-}
-
-function renderTurnstileDebugState() {
-  const isVisible = isTurnstileDebugVisible();
-
-  el.turnstileToggle.textContent = isVisible ? 'HIDE WIDGET' : 'SHOW WIDGET';
-  el.turnstileStatus.textContent = isVisible
-    ? 'Widget visible on ABOUT'
-    : 'Widget hidden on ABOUT';
-}
-
-el.turnstileToggle.onclick = () => {
-  const nextState = !isTurnstileDebugVisible();
-
-  localStorage.setItem(TURNSTILE_DEBUG_STORAGE_KEY, String(nextState));
-  renderTurnstileDebugState();
-  el.turnstileStatus.textContent = nextState
-    ? 'Widget enabled. Open HOME to inspect it.'
-    : 'Widget hidden on ABOUT.';
-};
-
-renderTurnstileDebugState();
 
 /* ——— REVIEWS ——— */
 loadReviews();

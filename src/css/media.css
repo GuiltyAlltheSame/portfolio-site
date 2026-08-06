@@ -170,11 +170,6 @@
     margin-inline: auto;
   }
 
-  .turnstile-debug-panel {
-    align-self: center;
-    margin-inline: auto;
-  }
-
   .skills-wrap {
     flex-direction: column;
     overflow: visible;
