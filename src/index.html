@@ -73,6 +73,15 @@
 Inside — selected projects, stack, and implementation logic.
 Beyond code — interests in technology, photography, and exploration.
 Scan the system and reach out if relevant.</p>
+<!-- Resume button: temporarily hidden until the real resume link is ready -->
+      <div class="about-button" hidden>
+        <a href="#" class="btn">[ VIEW RESUME ]</a>
+      </div>
+      <aside id="turnstile-debug-panel" class="turnstile-debug-panel" hidden>
+        <span class="turnstile-debug-label">TURNSTILE / DEBUG</span>
+        <div id="turnstile-debug-widget"></div>
+        <span id="turnstile-debug-status" class="turnstile-debug-status">waiting for configuration</span>
+      </aside>
     </div>
     
     </div>
@@ -143,7 +152,7 @@ Scan the system and reach out if relevant.</p>
 
 <!--Skills window leftf Footer-->
     <div class="row row-footer">
-      Select a file and confirm <br> Or Press CODE-? for help
+      Select a file and confirm <br> Type PBALL to play / CODE-? for help
     </div>
     
   </div>
@@ -246,6 +255,7 @@ Scan the system and reach out if relevant.</p>
     <p class="little-about">Contact me on social networks, subscribe, leave a review of the work
        done, send me a message to contact for business proposals.
        Click like if you found and played P-BALL and space invaders! You can send likes until the timer runs out!
+       Click like if you found and played P-BALL and space invaders! You can send likes until the timer runs out!
 
        *The skill level in the skill list is indicated for ease of understanding of the nexus's abilities based on self-assessment.</p>
 <!--Like counter button-->
@@ -261,14 +271,26 @@ Scan the system and reach out if relevant.</p>
 <div class="window contact-bottom">
     <form id="contact-form" action="#" method="post">
       <h1 class="msghead">Send me a message</h1>
+      <div class="form-trap" aria-hidden="true">
+        <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <div id="contact-turnstile" class="turnstile-runtime" aria-hidden="true"></div>
       <input type="text" placeholder="Nick" name="name" required>
       <input type="email" placeholder="e-Mail" name="email" required>
       <textarea name="msg" rows="6" required placeholder="I need a website..."></textarea>
       <button type="submit" class="full-btn">[    SEND    ]</button>
    </form>
+  <div id="form-submit-status" class="form-submit-status" role="status" aria-live="polite" data-state="idle">
+    <span class="form-submit-status__source">SYSTEM</span>
+    <span class="form-submit-status__message">READY</span>
+  </div>
 <!--Review section-->
   <form id="review-form" class="review-form">
   <h1 class="msghead1">Leave a review</h1>
+   <div class="form-trap" aria-hidden="true">
+     <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+   </div>
+   <div id="review-turnstile" class="turnstile-runtime" aria-hidden="true"></div>
    <div class="name-rating">
     <div class="stars">
       <input type="radio" name="rating" id="r5" value="5"><label for="r5">★</label>
@@ -280,7 +302,7 @@ Scan the system and reach out if relevant.</p>
     <input name="name" placeholder="Name" maxlength="30" required>
   </div> 
     <textarea name="comment" placeholder="Write your review here..." rows="4" maxlength="500" required></textarea>
-    <button class="full-btn">[ SUBMIT ]</button>
+    <button type="submit" class="full-btn">[ SUBMIT ]</button>
   </form>
 </div>
 
@@ -297,7 +319,7 @@ Scan the system and reach out if relevant.</p>
 </div>
 
 <!--Main footer-->
-<footer> <button id="admin-trigger" class="admin-trigger">©</button> <span class="foot-name">2025 flexboxer</span></footer>
+<footer> <button id="admin-trigger" class="admin-trigger" type="button" aria-controls="login-overlay" aria-expanded="false">©</button> <span class="foot-name">2025 flexboxer</span></footer>
   <script type="module" src="js/app.js"></script>
   <script type="module" src="js/reviews.js"></script>
   <script type="module" src="js/likes.js"></script>

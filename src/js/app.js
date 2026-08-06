@@ -8,9 +8,11 @@ import { initProjects } from './ui/projects.js';
 import { initTabsUI } from './ui/tabs.js';
 import { initClock } from './ui/clock.js';
 import { initStarfield } from './ui/starfield.js';
+import { initTurnstile } from './ui/turnstile.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initStarfield(document.getElementById('starfield'));
+  initTurnstile();
   initTabsUI();
   initClock();
 
