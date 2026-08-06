@@ -6,22 +6,19 @@ import {
   resetTurnstile
 } from './ui/turnstile.js';
 
-async function verifyTurnstile(action) {
-  if (!isTurnstileConfigured()) return;
-
+async function submitReview(payload, token, company) {
   setFormStatus('REVIEW', 'VERIFYING', 'pending');
-  const token = await requestTurnstileToken(action);
-  const response = await fetch('/api/verify-turnstile', {
+  const response = await fetch('/api/review', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ token, action })
+    body: JSON.stringify({ ...payload, token, company })
   });
   const result = await response.json().catch(() => ({}));
 
   if (!response.ok || result.ok !== true) {
-    throw new Error(result.error || 'Verification failed.');
+    throw new Error(result.error || 'Submission failed.');
   }
 }
 
@@ -78,11 +75,9 @@ async function sendReview(form) {
   setFormStatus('REVIEW', 'SENDING', 'pending');
 
   try {
-    await verifyTurnstile('review');
+    const token = await requestTurnstileToken('review');
     setFormStatus('REVIEW', 'SENDING', 'pending');
-
-    const { error } = await supabase.from('reviews').insert([{ ...payload, approved:false }]);
-    if (error) throw error;
+    await submitReview(payload, token, fd.get('company'));
 
     form.reset();
     setFormStatus('REVIEW', 'AWAITING APPROVAL', 'success');

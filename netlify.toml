@@ -2,8 +2,3 @@
   command = "true"
   publish = "src"
   functions = "netlify/functions"
-
-[[redirects]]
-  from = "/api/verify-turnstile"
-  to = "/.netlify/functions/verify-turnstile"
-  status = 200

@@ -1,4 +1,3 @@
-import { supabase } from './db.js';
 import { setFormStatus } from './form-status.js';
 import {
   isTurnstileConfigured,
@@ -6,22 +5,19 @@ import {
   resetTurnstile
 } from './ui/turnstile.js';
 
-async function verifyTurnstile(action) {
-  if (!isTurnstileConfigured()) return;
-
+async function submitMessage(payload, token, company) {
   setFormStatus('MESSAGE', 'VERIFYING', 'pending');
-  const token = await requestTurnstileToken(action);
-  const response = await fetch('/api/verify-turnstile', {
+  const response = await fetch('/api/contact', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ token, action })
+    body: JSON.stringify({ ...payload, token, company })
   });
   const result = await response.json().catch(() => ({}));
 
   if (!response.ok || result.ok !== true) {
-    throw new Error(result.error || 'Verification failed.');
+    throw new Error(result.error || 'Submission failed.');
   }
 }
 
@@ -56,11 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setFormStatus('MESSAGE', 'SENDING', 'pending');
 
     try {
-      await verifyTurnstile('contact');
+      const token = await requestTurnstileToken('contact');
       setFormStatus('MESSAGE', 'SENDING', 'pending');
-
-      const { error } = await supabase.from('messages').insert([payload]);
-      if (error) throw error;
+      await submitMessage(payload, token, fd.get('company'));
 
       form.reset();
       setFormStatus('MESSAGE', 'SENT', 'success');
