@@ -1,19 +1,16 @@
-const statusElement = () => document.getElementById('form-submit-status');
-
 export function setFormStatus(source, message, state = 'idle') {
-  const element = statusElement();
-  if (!element) return;
+  const normalizedSource = String(source || 'SYSTEM').toUpperCase();
+  const normalizedMessage = String(message || 'READY').toUpperCase();
+  const forms = normalizedSource === 'SECURITY'
+    ? ['contact-form', 'review-form']
+    : [normalizedSource === 'REVIEW' ? 'review-form' : 'contact-form'];
 
-  const sourceElement = element.querySelector('.form-submit-status__source');
-  const messageElement = element.querySelector('.form-submit-status__message');
+  forms.forEach(formId => {
+    const button = document.querySelector(`#${formId} [type="submit"]`);
+    if (!button) return;
 
-  if (sourceElement) {
-    sourceElement.textContent = String(source || 'SYSTEM').toUpperCase();
-  }
-
-  if (messageElement) {
-    messageElement.textContent = String(message || 'READY').toUpperCase();
-  }
-
-  element.dataset.state = state;
+    button.textContent = `[ ${normalizedSource} / ${normalizedMessage} ]`;
+    button.dataset.state = state;
+    button.setAttribute('aria-live', 'polite');
+  });
 }

@@ -356,35 +356,6 @@ header p {
   margin-top: 3px;
 }
 
-.turnstile-debug-panel{
-  width: min(310px, 100%);
-  display: grid;
-  gap: .45rem;
-  margin-top: .4rem;
-  padding: .65rem;
-  border: 1px dashed #8AFF3C;
-  background: rgba(0, 0, 0, .86);
-}
-
-.turnstile-debug-panel[hidden]{
-  display: none;
-}
-
-.turnstile-debug-label,
-.turnstile-debug-status{
-  color: #C4FF8F;
-  font-family: 'Press Start 2P', monospace;
-  font-size: .55rem;
-  line-height: 1.45;
-}
-
-.turnstile-debug-status{
-  opacity: .7;
-}
-
-#turnstile-debug-widget{
-  min-height: 65px;
-}
 /* ───── About section END ──────────────────────────────────────────── */
 
 /* ───── Skills section  ────────────────────────────────────────────── */
@@ -1678,54 +1649,30 @@ footer {
   pointer-events: none;
 }
 
-.form-submit-status{
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  width: 92px;
-  min-height: 54px;
-  display: grid;
-  align-content: center;
-  gap: .3rem;
-  padding: .45rem .35rem;
-  color: #C4FF8F;
-  border: 1px solid rgba(138, 255, 60, .55);
-  background: #000;
-  box-shadow: 0 0 8px rgba(138, 255, 60, .18);
-  font-family: 'Press Start 2P', monospace;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+#contact-form .full-btn[data-state="pending"],
+#review-form .full-btn[data-state="pending"]{
+  color: #000;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 3px,
+      rgba(0, 0, 0, .4) 3px,
+      rgba(0, 0, 0, .4) 4px),
+    #8AFF3C;
+  box-shadow: 0 0 8px #8AFF3C;
+  animation: formButtonFlicker .85s steps(2, end) infinite;
 }
 
-.form-submit-status__source{
-  color: #8AFF3C;
-  font-size: .48rem;
-}
-
-.form-submit-status__message{
-  overflow-wrap: anywhere;
-  font-size: .52rem;
-  line-height: 1.45;
-}
-
-.form-submit-status[data-state="pending"]{
-  animation: formStatusPulse 1s steps(2, end) infinite;
-}
-
-.form-submit-status[data-state="success"]{
-  border-color: #8AFF3C;
-  box-shadow: 0 0 10px rgba(138, 255, 60, .45);
-}
-
-.form-submit-status[data-state="error"]{
+#contact-form .full-btn[data-state="error"],
+#review-form .full-btn[data-state="error"]{
   color: #ff8b8b;
   border-color: #ff6b6b;
+  box-shadow: 0 0 8px rgba(255, 107, 107, .35);
 }
 
-@keyframes formStatusPulse{
-  50%{ opacity: .55; }
+@keyframes formButtonFlicker{
+  50%{ opacity: .42; }
 }
 
 /* scrollable wrap */
@@ -2210,26 +2157,6 @@ footer {
   margin:0;
   font-size:1rem;
   padding:.8rem 1rem 0;
-}
-
-.admin-tool{
-  display: grid;
-  gap: .65rem;
-  margin: 1rem;
-  padding-top: 1rem;
-  border-top: 1px dashed rgba(138, 255, 60, .55);
-}
-
-.admin-tool h3{
-  margin: 0;
-  color: #C4FF8F;
-  font-size: .7rem;
-}
-
-.admin-tool span{
-  color: #C4FF8F;
-  font-size: .55rem;
-  line-height: 1.5;
 }
 
 .review-card{
