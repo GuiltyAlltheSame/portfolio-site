@@ -1,4 +1,29 @@
 import { supabase } from './db.js';
+import { setFormStatus } from './form-status.js';
+import {
+  isTurnstileConfigured,
+  requestTurnstileToken,
+  resetTurnstile
+} from './ui/turnstile.js';
+
+async function verifyTurnstile(action) {
+  if (!isTurnstileConfigured()) return;
+
+  setFormStatus('SECURITY', 'VERIFYING', 'pending');
+  const token = await requestTurnstileToken(action);
+  const response = await fetch('/api/verify-turnstile', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ token, action })
+  });
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok || result.ok !== true) {
+    throw new Error(result.error || 'Verification failed.');
+  }
+}
 
 /***** 1. вывод списка *****/
 async function loadReviews() {
@@ -30,6 +55,14 @@ async function loadReviews() {
 /***** 2. сохранение *****/
 async function sendReview(form) {
   const fd = new FormData(form);
+  const submitButton = form.querySelector('[type="submit"]');
+
+  if (String(fd.get('company') || '').trim()) {
+    form.reset();
+    setFormStatus('REVIEW', 'RECEIVED', 'success');
+    return;
+  }
+
   const payload = {
     name:    fd.get('name').trim(),
     comment: fd.get('comment').trim(),
@@ -37,14 +70,32 @@ async function sendReview(form) {
   };
 
   if (!payload.name || !payload.comment || payload.rating < 1) {
-    alert('Заполни все поля и выбери ≥1 звезду'); return;
+    setFormStatus('REVIEW', 'CHECK FIELDS', 'error');
+    return;
   }
 
-  const { error } = await supabase.from('reviews').insert([{ ...payload, approved:false }]);
-  if (error) { alert('Ошибка: ' + error.message); return; }
+  submitButton?.setAttribute('disabled', 'true');
+  setFormStatus('REVIEW', 'SENDING', 'pending');
 
-  form.reset();
-  loadReviews();
+  try {
+    await verifyTurnstile('review');
+    setFormStatus('REVIEW', 'SENDING', 'pending');
+
+    const { error } = await supabase.from('reviews').insert([{ ...payload, approved:false }]);
+    if (error) throw error;
+
+    form.reset();
+    setFormStatus('REVIEW', 'AWAITING APPROVAL', 'success');
+    loadReviews();
+  } catch (error) {
+    console.error('Review submit error:', error);
+    setFormStatus('REVIEW', 'ERROR', 'error');
+  } finally {
+    if (isTurnstileConfigured()) {
+      resetTurnstile('review');
+    }
+    submitButton?.removeAttribute('disabled');
+  }
 }
 
 /***** 3. вешаем события *****/
