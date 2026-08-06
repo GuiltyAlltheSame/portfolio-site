@@ -727,3 +727,396 @@
     font-size: 13px;
   }
 }
+
+
+/* =========================================================
+   PHASE 1 — fluid first screen and stable viewport shell
+   These rules intentionally come last: they replace the former
+   step-by-step type scaling with one continuous scale.
+   ========================================================= */
+:root {
+  --phi: 1.618;
+  --page-gutter: clamp(0.5rem, 1.4vw, 1rem);
+  --title-small: clamp(1rem, 1.6vw + 0.68rem, 1.875rem);
+  --title-large: clamp(1.618rem, 2.59vw + 1.1rem, 3.03rem);
+}
+
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  height: 100dvh;
+  min-height: 100dvh;
+}
+
+.tab-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-inline: var(--page-gutter);
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.crt {
+  padding-top: clamp(0.75rem, 1.4vw, 1.3rem);
+}
+
+header h1.big {
+  font-size: var(--title-small);
+  line-height: 1;
+}
+
+header h1.huge {
+  font-size: var(--title-large);
+  line-height: 1;
+}
+
+header p {
+  margin-block: clamp(0.7rem, 1.2vw, 1rem);
+  font-size: clamp(0.52rem, 0.46vw + 0.38rem, 0.75rem);
+  line-height: 1.45;
+}
+
+.headline {
+  font-size: clamp(1rem, 2.05vw + 0.714rem, 2.5625rem);
+  line-height: 1.2;
+  letter-spacing: clamp(0.25px, 0.25vw, 4px);
+  word-spacing: normal;
+}
+
+.about-text {
+  container-type: inline-size;
+}
+
+/* The scale is based on the width of the text column, not the viewport. */
+.about-text .headline {
+  font-size: clamp(0.875rem, 4.7cqi, 2.5625rem);
+  max-width: 100%;
+  padding-left: 7ch;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-indent: -7ch;
+  letter-spacing: clamp(0px, 0.12cqi, 2px);
+}
+
+.subhead {
+  font-size: clamp(0.625rem, 0.7vw + 0.44rem, 1rem);
+  line-height: 1.45;
+  letter-spacing: clamp(0.5px, 0.1vw, 1.5px);
+}
+
+.tagline {
+  font-size: clamp(0.7rem, 0.55vw + 0.45rem, 1.1rem);
+  line-height: 1.45;
+}
+
+.photo-frame {
+  display: grid;
+  width: 100%;
+  max-height: none;
+  aspect-ratio: 463 / 624;
+  place-items: center;
+  background: #000;
+}
+
+.photo-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.thumb {
+  background: #000;
+}
+
+.thumb .poster {
+  object-fit: contain;
+}
+
+@media (min-width: 993px) {
+  .about-wrap {
+    gap: clamp(0.75rem, 1.5vw, 1.25rem);
+    flex-wrap: nowrap;
+  }
+
+  .about-photo {
+    width: min(38%, 465px);
+    flex: 0 1 min(38%, 465px);
+  }
+
+  .about-text {
+    padding-left: clamp(0.75rem, 1.5vw, 1.25rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    min-width: 7.25rem;
+    min-height: 44px;
+    flex: 0 0 auto;
+    padding: 0.75rem 1rem;
+    font-size: clamp(0.55rem, 1.7vw, 0.65rem);
+  }
+
+  .tab .typewriter {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 992px) {
+  .photo-frame {
+    width: min(100%, 43dvh);
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  #about.tab-panel.active,
+  #about .about-wrap {
+    min-height: auto;
+    flex: 0 0 auto;
+  }
+
+  #about .about-photo {
+    flex: 0 0 auto;
+  }
+
+  .photo-frame {
+    width: min(100%, 31dvh);
+  }
+}
+
+/* Keep every desktop project slot and preview frame the same size. */
+@media (min-width: 769px) {
+  .slider {
+    align-items: flex-start;
+  }
+
+  .slider .track {
+    width: 100%;
+    min-width: 100%;
+    flex: 0 0 100%;
+    align-items: stretch;
+  }
+
+  .slider .card {
+    height: auto;
+    min-width: 0;
+    container-type: inline-size;
+  }
+
+  .slider .thumb {
+    flex: 0 0 auto;
+  }
+
+  .slider .card h4 {
+    min-width: 0;
+    font-size: clamp(0.75rem, 6cqi, 1.4rem);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =========================================================
+   CONTACT — mobile reading feed
+   One vertical flow: social links, description, forms, reviews.
+   ========================================================= */
+@media (max-width: 768px) {
+  #contact.tab-panel.active,
+  #contact .contact-wrap {
+    min-height: auto;
+    overflow: visible;
+    flex: 0 0 auto;
+  }
+
+  #contact .contact-wrap {
+    gap: clamp(0.75rem, 3vw, 1rem);
+  }
+
+  #contact .contact-wrap .window,
+  #contact .window.contact-bottom {
+    min-height: 0;
+    overflow: visible;
+    flex: 0 0 auto;
+  }
+
+  #contact .social-list.solid,
+  #contact .reviews-scroll {
+    min-height: auto;
+    max-height: none;
+    overflow: visible;
+    flex: 0 0 auto;
+  }
+
+  #contact .desc-like-wrap {
+    margin-top: 0;
+  }
+
+  #contact .window.contact-bottom {
+    gap: clamp(1.5rem, 6vw, 2.5rem);
+    padding-block: 1rem;
+  }
+
+  #contact-form,
+  #review-form {
+    min-height: auto;
+    overflow: visible;
+    flex: 0 0 auto;
+    padding-inline: clamp(0.75rem, 3vw, 1rem);
+  }
+
+  #contact-form input,
+  #review-form input,
+  #contact-form textarea,
+  #review-form textarea {
+    min-height: 44px;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  #contact-form textarea,
+  #review-form textarea {
+    min-height: 8rem;
+  }
+
+  #contact .social-list.solid a,
+  #contact .full-btn {
+    min-height: 44px;
+  }
+
+  #contact .review-list {
+    padding-block: 0.75rem;
+  }
+
+  #contact .review-item {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =========================================================
+   CONTACT — compact desktop panel
+   Keep the three-column layout inside the viewport before any
+   form or panel needs its fallback scroll.
+   ========================================================= */
+@media (min-width: 993px) {
+  #contact .window.contact-bottom {
+    gap: clamp(0.75rem, 2vh, 3rem);
+    padding-block: clamp(0.65rem, 1.2vh, 1.2rem);
+  }
+
+  #contact .contact-right {
+    padding-top: clamp(0.65rem, 1.2vh, 1.2rem);
+  }
+
+  #contact-form,
+  #review-form {
+    gap: clamp(0.45rem, 1.2vh, 1.2rem);
+    padding-inline: clamp(0.7rem, 1.1vw, 1.4rem);
+  }
+
+  #contact-form input,
+  #review-form input,
+  #contact-form textarea,
+  #review-form textarea {
+    padding: clamp(0.4rem, 0.8vh, 0.6rem);
+    font-size: clamp(0.7219rem, 1.26vh, 0.9188rem);
+  }
+
+  #contact .msghead,
+  #contact .msghead1,
+  #contact .msghead3 {
+    font-size: clamp(0.9188rem, 1.89vh, 1.3125rem);
+  }
+
+  #contact .msghead3 {
+    margin: 0;
+  }
+
+  #contact .reviews-scroll {
+    margin-top: clamp(0.5rem, 1vh, 0.75rem);
+  }
+
+  /* Preserve the approved review-card type size without parent scaling. */
+  #contact .review-item {
+    font-size: 16.8px;
+  }
+
+  #contact .stars label {
+    font-size: clamp(1.4175rem, 3.15vh, 2.1rem);
+  }
+
+  #contact .social-list.solid {
+    font-size: clamp(1.05rem, 1.89vh, 1.47rem);
+  }
+
+  #contact .social-list.solid a {
+    padding-block: clamp(0.55rem, 1vh, 0.9rem);
+    padding-inline: clamp(0.8rem, 1vw, 1.4rem);
+  }
+
+  #contact .little-about {
+    padding-block: clamp(0.65rem, 1.2vh, 1.35rem);
+    font-size: clamp(0.8531rem, 1.575vh, 1.1813rem);
+    line-height: 1.4;
+  }
+
+  #contact .full-btn {
+    padding-block: clamp(0.45rem, 0.9vh, 0.6rem);
+    font-size: clamp(0.7875rem, 1.47vh, 1.05rem);
+  }
+}
+
+/* =========================================================
+   ABOUT — final mobile spacing and four-button navigation
+   ========================================================= */
+@media (max-width: 767px) {
+  .tabs {
+    overflow: visible;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    min-width: 0;
+    min-height: 52px;
+    flex: 1 1 50%;
+    padding: 0.75rem 0.5rem;
+  }
+
+  #about .photo-frame {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  #about .about-text {
+    padding-inline: clamp(1rem, 4vw, 1.5rem);
+  }
+}
+
+/* Match Contact actions to the established project-card button height. */
+#contact .full-btn,
+#contact #like-btn {
+  padding-block: 13px;
+}
+
+#contact-form > input,
+#review-form .name-rating input[name="name"] {
+  padding-block: 13px;
+}
