@@ -1,15 +1,5 @@
 const { createSubmissionHandler } = require('../lib/form-submission');
 
-exports.config = {
-  path: '/api/review',
-  rateLimit: {
-    action: 'rate_limit',
-    aggregateBy: 'ip',
-    windowLimit: 5,
-    windowSize: 600
-  }
-};
-
 exports.handler = createSubmissionHandler({
   action: 'review',
   table: 'reviews',

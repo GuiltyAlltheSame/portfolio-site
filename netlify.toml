@@ -2,3 +2,25 @@
   command = "true"
   publish = "src"
   functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/contact"
+  to = "/.netlify/functions/submit-contact"
+  status = 200
+  force = true
+
+  [redirects.rate_limit]
+    window_limit = 5
+    window_size = 180
+    aggregate_by = ["ip", "domain"]
+
+[[redirects]]
+  from = "/api/review"
+  to = "/.netlify/functions/submit-review"
+  status = 200
+  force = true
+
+  [redirects.rate_limit]
+    window_limit = 5
+    window_size = 180
+    aggregate_by = ["ip", "domain"]
