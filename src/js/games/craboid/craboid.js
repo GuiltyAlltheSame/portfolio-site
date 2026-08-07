@@ -1,3 +1,5 @@
+import { getThemePalette } from '../../ui/theme-switcher.js';
+
 const CANVAS_WIDTH = 900;
 const CANVAS_HEIGHT = 520;
 const PLAYER_WIDTH = 38;
@@ -231,7 +233,7 @@ function createCraboidSession({ canvas, onRequestMenu }) {
     resetWave(timestamp);
   }
 
-  function addFlash(x, y, color = '#d8ffbe') {
+  function addFlash(x, y, color = getThemePalette().bright) {
     flashes.push({
       x,
       y,
@@ -328,7 +330,7 @@ function createCraboidSession({ canvas, onRequestMenu }) {
 
       if (collidingEnemy) {
         block.alive = false;
-        addFlash(block.x + block.width / 2, block.y + block.height / 2, '#8aff3c');
+        addFlash(block.x + block.width / 2, block.y + block.height / 2, getThemePalette().accent);
       }
     });
   }
@@ -398,7 +400,7 @@ function createCraboidSession({ canvas, onRequestMenu }) {
 
   function destroyBlock(block) {
     block.alive = false;
-    addFlash(block.x + block.width / 2, block.y + block.height / 2, '#8aff3c');
+    addFlash(block.x + block.width / 2, block.y + block.height / 2, getThemePalette().accent);
   }
 
   function destroyBlockHitBy(projectile) {
@@ -584,18 +586,20 @@ function createCraboidSession({ canvas, onRequestMenu }) {
   }
 
   function drawBackground(timestamp) {
+    const { accentRgb, soft } = getThemePalette();
+
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     stars.forEach((star, index) => {
       const shimmer = 0.7 + Math.sin(timestamp * 0.002 + index) * 0.3;
       ctx.globalAlpha = star.alpha * shimmer;
-      ctx.fillStyle = '#c4ff8f';
+      ctx.fillStyle = soft;
       ctx.fillRect(star.x, star.y, star.size, star.size);
     });
 
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = 'rgba(138, 255, 60, 0.055)';
+    ctx.strokeStyle = `rgba(${accentRgb}, 0.055)`;
     ctx.lineWidth = 1;
 
     for (let y = 40; y < CANVAS_HEIGHT; y += 40) {
@@ -605,7 +609,7 @@ function createCraboidSession({ canvas, onRequestMenu }) {
       ctx.stroke();
     }
 
-    ctx.strokeStyle = 'rgba(138, 255, 60, 0.24)';
+    ctx.strokeStyle = `rgba(${accentRgb}, 0.24)`;
     ctx.setLineDash([8, 10]);
     ctx.beginPath();
     ctx.moveTo(FIELD_MARGIN, PLAYER_Y + PLAYER_HEIGHT + 8);
@@ -615,9 +619,9 @@ function createCraboidSession({ canvas, onRequestMenu }) {
   }
 
   function drawEnemies() {
+    const { accent, accentRgb } = getThemePalette();
+
     ctx.save();
-    ctx.shadowColor = '#8aff3c';
-    ctx.shadowBlur = 7;
 
     enemies.forEach((enemy) => {
       if (!enemy.alive) {
@@ -627,12 +631,12 @@ function createCraboidSession({ canvas, onRequestMenu }) {
       const rect = getEnemyRect(enemy);
       const insetOffset = formation.frame === 0 ? 4 : 6;
 
-      ctx.fillStyle = 'rgba(138, 255, 60, 0.12)';
+      ctx.fillStyle = `rgba(${accentRgb}, 0.12)`;
       ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
-      ctx.strokeStyle = '#8aff3c';
+      ctx.strokeStyle = accent;
       ctx.lineWidth = 2;
       ctx.strokeRect(rect.x + 1, rect.y + 1, rect.width - 2, rect.height - 2);
-      ctx.fillStyle = '#8aff3c';
+      ctx.fillStyle = accent;
       ctx.fillRect(rect.x + insetOffset, rect.y + 6, 4, 4);
       ctx.fillRect(rect.x + rect.width - insetOffset - 4, rect.y + 6, 4, 4);
       ctx.fillRect(rect.x + 7, rect.y + rect.height - 7, rect.width - 14, 3);
@@ -642,10 +646,10 @@ function createCraboidSession({ canvas, onRequestMenu }) {
   }
 
   function drawBases() {
+    const { accent } = getThemePalette();
+
     ctx.save();
-    ctx.fillStyle = '#8aff3c';
-    ctx.shadowColor = '#8aff3c';
-    ctx.shadowBlur = 4;
+    ctx.fillStyle = accent;
 
     baseBlocks.forEach((block) => {
       if (!block.alive) {
@@ -659,6 +663,8 @@ function createCraboidSession({ canvas, onRequestMenu }) {
   }
 
   function drawPlayer(timestamp) {
+    const { accent, bright } = getThemePalette();
+
     if (lives <= 0) {
       return;
     }
@@ -671,11 +677,9 @@ function createCraboidSession({ canvas, onRequestMenu }) {
     }
 
     ctx.save();
-    ctx.fillStyle = '#d8ffbe';
-    ctx.strokeStyle = '#8aff3c';
+    ctx.fillStyle = bright;
+    ctx.strokeStyle = accent;
     ctx.lineWidth = 2;
-    ctx.shadowColor = '#8aff3c';
-    ctx.shadowBlur = 12;
     ctx.beginPath();
     ctx.moveTo(player.x + player.width / 2, player.y);
     ctx.lineTo(player.x + player.width, player.y + player.height);
@@ -690,17 +694,16 @@ function createCraboidSession({ canvas, onRequestMenu }) {
   }
 
   function drawProjectiles() {
-    ctx.save();
-    ctx.shadowBlur = 8;
+    const { bright } = getThemePalette();
 
-    ctx.fillStyle = '#d8ffbe';
-    ctx.shadowColor = '#8aff3c';
+    ctx.save();
+
+    ctx.fillStyle = bright;
     playerBullets.forEach((bullet) => {
       ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
     });
 
     ctx.fillStyle = '#ff6b57';
-    ctx.shadowColor = '#ff6b57';
     enemyBullets.forEach((bullet) => {
       ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
     });
@@ -717,21 +720,17 @@ function createCraboidSession({ canvas, onRequestMenu }) {
       ctx.globalAlpha = 1 - progress;
       ctx.strokeStyle = flash.color;
       ctx.lineWidth = 3;
-      ctx.shadowColor = flash.color;
-      ctx.shadowBlur = 10;
       ctx.strokeRect(flash.x - size / 2, flash.y - size / 2, size, size);
       ctx.restore();
     });
   }
 
-  function drawCenteredText(text, y, size, color = '#8aff3c') {
+  function drawCenteredText(text, y, size, color = getThemePalette().accent) {
     ctx.save();
     ctx.fillStyle = color;
     ctx.font = `${size}px "Ac437ApricotPortable", monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 10;
     ctx.fillText(text, CANVAS_WIDTH / 2, y);
     ctx.restore();
   }
@@ -765,7 +764,7 @@ function createCraboidSession({ canvas, onRequestMenu }) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.66)';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     drawCenteredText(title, CANVAS_HEIGHT / 2 - 18, state === 'countdown' ? 72 : 48);
-    drawCenteredText(subtitle, CANVAS_HEIGHT / 2 + 40, 20, '#c4ff8f');
+    drawCenteredText(subtitle, CANVAS_HEIGHT / 2 + 40, 20, getThemePalette().soft);
   }
 
   function draw(timestamp) {

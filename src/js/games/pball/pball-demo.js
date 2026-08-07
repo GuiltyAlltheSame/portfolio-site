@@ -1,3 +1,5 @@
+import { getThemePalette } from '../../ui/theme-switcher.js';
+
 let demoTimer = null;
 let demoState = null;
 
@@ -120,13 +122,14 @@ function drawDemo() {
     leftPaddleX,
     rightPaddleX
   } = demoState;
+  const { accent } = getThemePalette();
 
   ctx.save();
   ctx.fillStyle = demoState.fullClear ? '#000' : 'rgba(0, 0, 0, 0.34)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   demoState.fullClear = false;
 
-  ctx.fillStyle = '#8AFF3C';
+  ctx.fillStyle = accent;
   ctx.globalAlpha = 0.58;
   ctx.fillRect(leftPaddleX, demoState.leftY, paddleWidth, paddleHeight);
   ctx.fillRect(rightPaddleX, demoState.rightY, paddleWidth, paddleHeight);

@@ -3,7 +3,7 @@ const menuInvaders = Array.from({ length: 27 }, (_, index) => (
 )).join('');
 
 export const craboidTemplate = `
-  <div class="game-toolbar">
+  <div class="game-toolbar craboid-toolbar">
     <div class="craboid-toolbar-title">
       <span id="game-title" class="game-title" data-game-title>CRABOID</span>
       <span class="craboid-build">BUILD 01 // TEST SECTOR</span>

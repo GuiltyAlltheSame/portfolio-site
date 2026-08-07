@@ -1,3 +1,5 @@
+import { getThemePalette } from '../../ui/theme-switcher.js';
+
 let playerScore = 0;
 let aiScore = 0;
 let pointsScore = 0;
@@ -265,10 +267,12 @@ export function startPBallGame(settings = DEFAULT_PBALL_SETTINGS) {
   }
 
   function draw() {
+    const palette = getThemePalette();
+
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = '#8AFF3C';
+    ctx.fillStyle = palette.accent;
     ctx.fillRect(10, playerY, paddleWidth, paddleHeight);
     ctx.fillRect(canvas.width - 20, aiY, paddleWidth, paddleHeight);
     ctx.fillRect(ballX, ballY, ballSize, ballSize);
@@ -277,13 +281,14 @@ export function startPBallGame(settings = DEFAULT_PBALL_SETTINGS) {
     ctx.setLineDash([5, 5]);
     ctx.moveTo(canvas.width / 2, 0);
     ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.strokeStyle = '#8AFF3C';
+    ctx.strokeStyle = palette.accent;
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.setLineDash([]);
   }
 
   function drawPixelText(text, centerX, centerY, pixelSize, pixelGap) {
+    const { accent } = getThemePalette();
     const letterGap = pixelSize;
     const letters = [...text].map((char) => PIXEL_FONT[char]).filter(Boolean);
     if (letters.length === 0) return;
@@ -298,7 +303,7 @@ export function startPBallGame(settings = DEFAULT_PBALL_SETTINGS) {
     let letterX = centerX - textWidth / 2;
     const startY = centerY - textHeight / 2;
 
-    ctx.fillStyle = '#8AFF3C';
+    ctx.fillStyle = accent;
 
     letters.forEach((letter) => {
       const cols = letter[0].length;
@@ -343,7 +348,7 @@ export function startPBallGame(settings = DEFAULT_PBALL_SETTINGS) {
     const halfWidth = canvas.width / 2;
     const overlayX = goalPauseDirection < 0 ? 0 : halfWidth;
 
-    ctx.fillStyle = 'rgba(138, 255, 60, 0.22)';
+    ctx.fillStyle = `rgba(${getThemePalette().accentRgb}, 0.22)`;
     ctx.fillRect(overlayX, 0, halfWidth, canvas.height);
   }
 

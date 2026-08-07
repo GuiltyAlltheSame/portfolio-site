@@ -35,7 +35,7 @@ function revealGameScreen(placeholder) {
 }
 
 export function openGameBootScreen({ title = 'GAME', duration = 1000 } = {}) {
-  const { gameScreen } = revealGameScreen('loading game...');
+  const { gameScreen } = revealGameScreen('loading game... // Q to exit');
 
   gameScreen.innerHTML = `
     <div class="game-boot" style="--game-boot-duration: ${duration}ms">
@@ -48,7 +48,7 @@ export function openGameBootScreen({ title = 'GAME', duration = 1000 } = {}) {
 }
 
 export function openGameScreen({ title = 'GAME', template = '' } = {}) {
-  const { gameScreen } = revealGameScreen('game menu...');
+  const { gameScreen } = revealGameScreen('game menu... // Q to exit');
 
   if (template) {
     gameScreen.innerHTML = template;
@@ -86,7 +86,7 @@ export function showGameStage() {
     gameStage.setAttribute('aria-hidden', 'false');
   }
 
-  cmdInput.placeholder = 'game running...';
+  cmdInput.placeholder = 'game running... // Q to exit';
 }
 
 export function showGameMenu() {
@@ -103,7 +103,7 @@ export function showGameMenu() {
     gameMenu.setAttribute('aria-hidden', 'false');
   }
 
-  cmdInput.placeholder = 'game menu...';
+  cmdInput.placeholder = 'game menu... // Q to exit';
 }
 
 export function closeGameScreen(onClose) {
