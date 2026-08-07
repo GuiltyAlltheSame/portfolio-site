@@ -1,203 +1,250 @@
 export const codeSamples = {
-  
-HTML5: `Hypertext Markup Language (HTML) is the standard markup language for documents designed to be displayed in a web browser. It defines the content and structure of web content. It is often assisted by technologies such as Cascading Style Sheets (CSS) and scripting languages such as JavaScript.
+  HTML5: `HTML defines the semantic structure and content of a web page. Meaningful elements make interfaces clearer for users, browsers, and assistive technology.
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexboxer.com</title>
-    <link rel="stylesheet" href="css/style.css">
-  </head>`,
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio</title>
+  </head>
+  <body>
+    <main>
+      <h1>Welcome</h1>
+      <p>Accessible, structured content.</p>
+    </main>
+  </body>
+</html>`,
 
-    CSS: `Cascading Style Sheets (CSS) is a style sheet language used for specifying the presentation and styling of a document written in a markup language, such as HTML or XML (including XML dialects such as SVG, MathML, or XHTML). CSS is a cornerstone technology of the World Wide Web, alongside HTML and JavaScript.
-    
-.skill-list{
-  max-height: 380px;        
-  overflow-y: auto;
-  list-style: none;
-  padding: 10px; 
+  CSS: `CSS controls the visual presentation of HTML: layout, responsive behavior, typography, colours, and animation. Flexbox and Grid solve different layout problems and work well together.
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
 }
-.skill-list li{
-  justify-content: space-between;
-  padding: 6px 20px 6px 20px;
-  font-size: 17px;
-  display: flex; 
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid currentColor;
 }`,
 
-    'Bootstrap 5': `Bootstrap (formerly Twitter Bootstrap) is a free and open-source CSS framework directed at responsive, mobile-first front-end web development. It contains HTML, CSS and (optionally) JavaScript-based design templates for typography, forms, buttons, navigation, and other interface components.
-  
-<form>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>`,
+  'SCSS/PostCSS': `SCSS adds variables, nesting, mixins, and reusable patterns to CSS. PostCSS transforms the final stylesheet with plugins such as Autoprefixer and minifiers.
 
-  'JavaScript': `function tick(){
-    const d = new Date();
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul',
-      'Aug','Sep','Oct','Nov','Dec'];
-    const date = ///{d.getDate()}-///{months[d.getMonth()] 
-      }-//{String(d.getFullYear()).slice(-2)};
+$accent: #8aff3c;
 
-    let h = d.getHours(), m = d.getMinutes();
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12 || 12;
-    const time = ///{String(h).padStart(2,'0')}://
-    // {String(m).padStart(2,'0')}///{ampm}//;
+.terminal {
+  color: $accent;
 
-    document.getElementById('clock-date').textContent = date;
-    document.getElementById('clock-time').textContent = time;
-}
-tick(); setInterval(tick, 1000);` ,
+  &__button {
+    border: 2px solid currentColor;
 
-  Python: `@staticmethod
-  def gen_sequence(
-      conditions,
-  ):  
-      possible_characters = [
-           str.ascii_lowercase,
-           str.ascii_uppercase,
-           str.digits,
-           str.punctuation,
-       ]
-      sequence = ""
-      for x in range(len(conditions)):
-           if conditions[x]:
-              sequence += possible_characters[x]
-          else:
-              pass
-      return sequence
-
-    @staticmethod
-    def gen_password(sequence, passlength=8):
-        password = "".join((secrets.choice(sequence) for i in range(passlength)))
-        return password`,
-
-
-  'SQL': `CREATE TABLE Person(
-  Id int not null, 
-  Name varchar not null, 
-  DateOfBirth date not null, 
-  Gender bit not null, 
-  PRIMARY KEY(Id)
-);
-select Candidate, Office_Sought, Election_Year, FORMAT(sum(Total_$),2) from combined_party_data
-  where Office_Sought = 'PRESIDENT / VICE PRESIDENT'
-  group by Candidate, Office_Sought, Election_Year
-  having Election_Year = 2016 and sum(Total_$) between 3000000 and 18000000
-  order by sum(Total_$) desc;`,
-
-  'Git/GitHub flow': `$ git fetch
-remote: Counting objects: 3032, done.
-remote: Compressing objects: 100% (947/947), done.
-remote: Total 2672 (delta 1993), reused 2328 (delta 1689)
-Receiving objects: 100% (2672/2672), 16.45 MiB | 1.04 MiB/s, done.
-Resolving deltas: 100% (1993/1993), completed with 213 local objects.
-From github.com:github/github
- * [new branch]      charlock-linguist       -> origin/charlock-linguist
- * [new branch]      enterprise-non-config   -> origin/enterprise-non-config
- * [new branch]      fi-signup               -> origin/fi-signup
-   2647a42..4d6d2c2  git-http-server         -> origin/git-http-server
- * [new branch]      knyle-style-commits     -> origin/knyle-style-commits
-   157d2b0..d33e00d  master                  -> origin/master
- * [new branch]      menu-behavior-act-i     -> origin/menu-behavior-act-i
-   ea1c5e2..dfd315a  no-inline-js-config     -> origin/no-inline-js-config
- * [new branch]      svg-tests               -> origin/svg-tests
-   87bb870..9da23f3  view-modes         gtfuh      -> origin/wild-renaming`,
-   'Photoshop/Illustrator': `What are you waiting for?` ,
-
-   'CSS/GSAP': `ScrollTrigger.create({
-    trigger: '#id',
-    start: 'top top',
-    endTrigger: '#otherID',
-    end: 'bottom 50%+=100px',
-    onToggle: (self) => console.log('toggled, isActive:', self.isActive),
-    onUpdate: (self) => {
-        console.log(
-            'progress:',
-            self.progress.toFixed(3),
-            'direction:',
-            self.direction,
-            'velocity',
-            self.getVelocity()
-        );
+    &:hover {
+      background: $accent;
+      color: #000;
     }
-});` ,
-  'Linux&CLI': `ls - The most frequently used command in Linux to list directories
-pwd - Print working directory command in Linux
-cd - Linux command to navigate through directories
-mkdir - Command used to create directories in Linux
-mv - Move or rename files in Linux
-cp - Similar usage as mv but for copying files in Linux
-rm - Delete files or directories
-touch - Create blank/empty files
-ln - Create symbolic links (shortcuts) to other files
-clear - Clear the terminal display
-cat - Display file contents on the terminal
-echo - Print any text that follows the command
-less - Linux command to display paged outputs in the terminal
-man - Access manual pages for all Linux commands
-uname - Linux command to get basic information about the OS
-whoami - Get the active username
-tar - Command to extract and compress files in linux
-grep - Search for a string within an output
-head - Return the specified number of lines from the top
-tail - Return the specified number of lines from the bottom
-diff - Find the difference between two files
-cmp - Allows you to check if two files are identical
-comm - Combines the functionality of diff and cmp
-sort - Linux command to sort the content of a file while outputting
-export - Export environment variables in Linux
-zip - Zip files in Linux
-unzip - Unzip files in Linux
-ssh - Secure Shell command in Linux
-service - Linux command to start and stop services
-ps - Display active processes
-kill and killall - Kill active processes by process ID or name
-df - Display disk filesystem information
-mount - Mount file systems in Linux
-chmod - Command to change file permissions
-chown - Command for granting ownership of files or folders
-ifconfig - Display network interfaces and IP addresses
-traceroute - Trace all the network hops to reach the destination
-wget - Direct download files from the internet
-ufw - Firewall command
-iptables - Base firewall for all other firewall utilities to interface with
-apt, pacman, yum, rpm - Package managers depending on the distribution
-sudo - Command to escalate privileges in Linux
-cal - View a command-line calendar
-alias - Create custom shortcuts for your regularly used commands
-dd - Majorly used for creating bootable USB sticks
-whereis - Locate the binary, source, and manual pages for a command
-whatis - Find what a command is used for
-top - View active processes live with their system usage
-useradd and usermod - Add a new user or change existing user data
-passwd - Create or update passwords for existing users`,
-  'Node.js': `const http = require('node:http');
+  }
+}`,
 
-const hostname = '127.0.0.1';
-const port = 3000;
+  'Bootstrap 5': `Bootstrap 5 is a mobile-first UI framework with a responsive grid and ready-made components. It helps build consistent interfaces quickly while still allowing custom styling.
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!\///);
+<div class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <article class="card h-100">
+        <div class="card-body">
+          <h2 class="h5 card-title">Project</h2>
+          <a class="btn btn-primary" href="#">Open</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>`,
+
+  'GPT Prompt Writing': `Prompt writing turns a goal into clear instructions for an AI model. A useful prompt defines the role, context, task, constraints, and the expected output format.
+
+ROLE: You are a senior frontend reviewer.
+CONTEXT: This component has an inaccessible modal.
+TASK: List the three most important fixes.
+CONSTRAINTS: Use plain English and explain why each fix matters.
+OUTPUT: A numbered Markdown list.`,
+
+  'Adobe Photoshop/Illustrator/InDesign': `Adobe Photoshop, Illustrator, and InDesign cover raster editing, vector graphics, and page layout. They are used to prepare visual assets, brand systems, print materials, and export-ready files.
+
+WORKFLOW
+1. Build the layout with a consistent grid.
+2. Keep source layers and vector paths editable.
+3. Export the right format: SVG for icons, PNG/WebP for raster art, PDF for print.`,
+
+  'CSS/GSAP': `GSAP is a JavaScript animation library for precise, high-performance motion. It can animate CSS properties and coordinate scroll-driven sequences with ScrollTrigger.
+
+gsap.from('.project-card', {
+  opacity: 0,
+  y: 24,
+  duration: 0.6,
+  stagger: 0.12,
+  ease: 'power2.out'
+});`,
+
+  JavaScript: `JavaScript adds behavior to the browser: it responds to user input, updates the DOM, manages state, and communicates with APIs. ES6+ provides modules, async functions, destructuring, and modern collection methods.
+
+const button = document.querySelector('[data-menu-toggle]');
+const menu = document.querySelector('#menu');
+
+button.addEventListener('click', () => {
+  const isOpen = menu.classList.toggle('is-open');
+  button.setAttribute('aria-expanded', String(isOpen));
+});`,
+
+  Blender: `Blender is a 3D creation suite for modelling, materials, lighting, animation, and rendering. Its Python API also makes repetitive scene work automatable.
+
+import bpy
+
+bpy.ops.mesh.primitive_cube_add(location=(0, 0, 0))
+cube = bpy.context.active_object
+cube.rotation_euler[2] = 0.785
+cube.name = 'PortfolioCube'`,
+
+  'Godot Engine': `Godot is an open-source game engine built around scenes, nodes, and scripts. GDScript is designed for concise gameplay logic and integrates directly with Godot's node system.
+
+extends CharacterBody2D
+
+@export var speed := 240.0
+
+func _physics_process(_delta):
+  var direction = Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down')
+  velocity = direction * speed
+  move_and_slide()`,
+
+  Python: `Python is a readable, general-purpose language used for automation, data work, backend services, testing, and tooling. Its standard library makes small utilities quick to build.
+
+from pathlib import Path
+
+def find_images(folder: str) -> list[Path]:
+    return sorted(
+        path for path in Path(folder).iterdir()
+        if path.suffix.lower() in {'.png', '.jpg', '.webp'}
+    )
+
+print(find_images('assets/img'))`,
+
+  SQL: `SQL queries and manages relational data. Good SQL models relationships clearly, selects only needed fields, and uses parameters rather than interpolating user input.
+
+SELECT p.title, COUNT(r.id) AS review_count
+FROM projects AS p
+LEFT JOIN reviews AS r ON r.project_id = p.id
+GROUP BY p.id, p.title
+ORDER BY review_count DESC;`,
+
+  'Git/GitHub flow': `Git tracks changes locally; GitHub Flow keeps work small and reviewable through short-lived branches, pull requests, checks, and merge commits.
+
+git switch -c feat/theme-switcher
+git add src/css/style.css src/js/ui/theme-switcher.js
+git commit -m "Add theme switcher"
+git push -u origin feat/theme-switcher
+# Open a pull request, review it, then merge after checks pass.`,
+
+  'Linux&CLI': `The Linux command line is a fast interface for navigating files, inspecting processes, automating tasks, and working with remote servers. Small commands can be safely composed into repeatable workflows.
+
+# Find JavaScript files that contain a selector.
+rg -n "data-theme" src
+
+# Show the current directory and its files.
+pwd
+ls -la
+
+# Inspect a running process by name.
+ps aux | rg "node"`,
+
+  PowerShell: `PowerShell is a cross-platform shell and scripting language built around structured objects rather than plain text. It is especially useful for Windows automation and system administration.
+
+Get-ChildItem -Path src -Recurse -Filter *.js |
+  Select-String -Pattern 'addEventListener' |
+  Select-Object Path, LineNumber, Line
+
+Get-Date -Format 'yyyy-MM-dd HH:mm'`,
+
+  'Node.js': `Node.js runs JavaScript outside the browser. Express is commonly used with Node.js to define HTTP routes, middleware, APIs, and server-side integrations.
+
+import express from 'express';
+
+const app = express();
+app.use(express.json());
+
+app.get('/api/status', (_request, response) => {
+  response.json({ ok: true, service: 'portfolio-api' });
 });
 
-server.listen(port, hostname, () => {
-  console.log(//Server running at http:///{hostname}:/{port}//);
-}); `
-  }; 
+app.listen(3000);`,
+
+  WordPress: `WordPress is a content management system powered by PHP, themes, plugins, and a database. Theme templates render content while the admin panel lets non-developers manage it.
+
+<?php get_header(); ?>
+<main class="site-main">
+  <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+    <article <?php post_class(); ?>>
+      <h1><?php the_title(); ?></h1>
+      <?php the_content(); ?>
+    </article>
+  <?php endwhile; endif; ?>
+</main>
+<?php get_footer(); ?>`,
+
+  React: `React builds interfaces from reusable components and state. Components describe what the UI should look like for the current data; React updates the DOM when that data changes.
+
+import { useState } from 'react';
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Clicks: {count}
+    </button>
+  );
+}`,
+
+  'CompTIA A+': `CompTIA A+ covers practical IT support: hardware, operating systems, troubleshooting, networking basics, and security hygiene. The discipline is to diagnose methodically before replacing components.
+
+# Windows: inspect system and network basics.
+systeminfo
+ipconfig /all
+
+# Test name resolution and connectivity.
+nslookup example.com
+ping example.com`,
+
+  'CompTIA Network+': `CompTIA Network+ focuses on network design, addressing, switching, routing, wireless, and troubleshooting. A repeatable test path narrows a failure from the device to the gateway, DNS, and the remote service.
+
+# Inspect the route to a remote host.
+tracert example.com
+
+# Query DNS directly.
+nslookup example.com 1.1.1.1
+
+# Check local listening ports.
+netstat -ano`,
+
+  'CompTIA Security+': `CompTIA Security+ covers foundational cybersecurity: identity, secure configuration, risk management, incident response, and network defence. The goal is to reduce risk while keeping systems usable.
+
+# Generate a random password locally with PowerShell.
+$bytes = New-Object byte[] 18
+[Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
+[Convert]::ToBase64String($bytes)
+
+# Principle: use unique passwords and enable MFA.`,
+
+  'Cisco CCNA': `Cisco CCNA validates core networking skills: IPv4/IPv6 addressing, switching, routing, VLANs, wireless, security basics, and automation awareness. Cisco IOS configuration makes intent explicit and testable.
+
+enable
+configure terminal
+interface GigabitEthernet0/1
+  description Uplink to switch
+  switchport mode access
+  switchport access vlan 20
+  no shutdown
+end
+write memory`
+};

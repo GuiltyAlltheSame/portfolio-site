@@ -9,8 +9,7 @@ export const demoProjects = [
   {
     title: 'PROJECT_NEEDLE.xxx',
     line: 'Handcrafted goods display case',
-    img: 'assets/img/question.png',
-    hover: 'assets/img/white-noise.gif'
+    img: 'assets/img/question.png'
   },
   {
     title: 'Flexboxer.com',

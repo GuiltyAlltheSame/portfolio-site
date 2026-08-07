@@ -17,7 +17,6 @@ export function initProjects({ projects }) {
     li.innerHTML = `
       <div class="thumb">
         <img class="poster" src="${project.img}" alt="${project.title} project preview">
-        ${project.hover ? `<img class="noise" src="${project.hover}" alt="" aria-hidden="true">` : ''}
       </div>
       <div class="body">
         <h4>${project.title}</h4>
