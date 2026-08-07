@@ -1722,6 +1722,49 @@ footer {
   position:absolute; 
 }
 
+#review-form .stars{
+  gap:6px;
+}
+
+#review-form .stars input{
+  width:1px;
+  height:1px;
+  padding:0;
+  border:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  white-space:nowrap;
+}
+
+#review-form .stars label{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  box-sizing:border-box;
+  display:grid;
+  padding:0;
+  color:#3d3d3d;
+  cursor:pointer;
+  place-items:center;
+  font-size:28px;
+  line-height:1;
+  border:2px solid #3d3d3d;
+  transition:color .16s ease, background .16s ease;
+}
+
+#review-form .stars label:hover,
+#review-form .stars label:hover ~ label,
+#review-form .stars input:checked ~ label{
+  color:#000;
+  background:var(--theme-accent);
+}
+
+#review-form .stars input:focus-visible + label{
+  outline:1px solid var(--theme-accent-bright);
+  outline-offset:2px;
+}
+
 .stars label{ 
   color:#333; 
   font-size:32px; 
@@ -1780,6 +1823,7 @@ footer {
   color:var(--theme-accent);
   user-select:none;
   margin-top: auto;
+  margin-bottom: clamp(10px, 2vw, 16px);
   position:relative;
   background:#000;
   display:inline-flex;

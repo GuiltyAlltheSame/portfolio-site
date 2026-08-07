@@ -175,9 +175,12 @@
 
 .pomodoro-app__body{
   min-height: 0;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
-  place-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  overflow: auto;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   gap: clamp(0.75rem, 2vh, 1rem);
   padding: clamp(0.85rem, 2vw, 1.2rem);
 }
@@ -326,6 +329,12 @@
 
   .pomodoro-app__dial{
     width: min(190px, 55vw);
+  }
+}
+
+@media (max-height: 600px){
+  .pomodoro-app__body{
+    justify-content: flex-start;
   }
 }
 

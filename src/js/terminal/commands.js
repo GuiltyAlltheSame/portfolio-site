@@ -35,18 +35,15 @@ export function createTerminalCommands({
   function getHelpText() {
     return `
 Commands:
-  CLEAR          - clear screen
-  GAMES          - list available games
-  Q  or  QUIT    - exit active application or game
-  THEME          - open CRT color profiles
-  NOTES          - open local quick notes
   POMODORO       - open focus timer (POMO also works)
+  NOTES          - open local quick notes
+  GAMES          - list available games
+  THEME          - open CRT color profiles
+  CLEAR          - clear screen
   CALC <expr>    - calculate a math expression (MATH also works)
   HELP  or  ?    - list of commands
 
-Math:
-  The terminal understands math directly. Try: 2 * (4 + 3), 2^10, or CALC 12 / 5
-  Supported: +  -  *  /  %  ^  ( )  decimals
+The terminal understands math directly.
 
 Games (type a game command to launch it):
 ${getGamesHelpText()}

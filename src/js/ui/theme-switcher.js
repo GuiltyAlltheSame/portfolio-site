@@ -76,6 +76,18 @@ function updateSwitcherState() {
   }
 }
 
+function updateThemeImages(theme) {
+  const sourceKey = `themeImage${theme[0].toUpperCase()}${theme.slice(1)}`;
+
+  document.querySelectorAll('[data-theme-image]').forEach((image) => {
+    const source = image.dataset[sourceKey];
+
+    if (source && image.getAttribute('src') !== source) {
+      image.setAttribute('src', source);
+    }
+  });
+}
+
 export function getActiveTheme() {
   if (typeof document === 'undefined') return DEFAULT_THEME;
 
@@ -92,6 +104,7 @@ export function applyTheme(theme, { persist = true } = {}) {
   const changed = root.dataset.theme !== selectedTheme;
 
   root.dataset.theme = selectedTheme;
+  updateThemeImages(selectedTheme);
 
   if (persist) {
     try {
