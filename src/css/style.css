@@ -1859,6 +1859,10 @@ footer {
   filter:brightness(115%); 
 }
 
+#like-btn:not(.disabled):not(.active-fill):hover::before {
+  width: 100%;
+}
+
 #like-btn .count{ 
   font-weight:bold; 
   line-height:1;

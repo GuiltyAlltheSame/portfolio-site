@@ -14,6 +14,7 @@ const output = path.resolve('output/review');
 fs.mkdirSync(output, { recursive: true });
 let likes = 42;
 let nextLike = 0;
+let likeWindow = 0;
 let failLike = false;
 const dbMock = `
   const query = table => {
@@ -39,10 +40,13 @@ const server = http.createServer((req, res) => {
   if (url.pathname === '/api/like') {
     res.setHeader('Content-Type', 'application/json');
     if (failLike) { res.writeHead(503).end(JSON.stringify({ok:false})); return; }
-    if (Date.now() < nextLike) {
+    if (Date.now() >= nextLike) {
+      nextLike = Date.now() + 3600000;
+      likeWindow = Date.now() + 8000;
+    }
+    if (Date.now() >= likeWindow) {
       res.writeHead(429); res.end(JSON.stringify({ok:false,total:likes,nextAllowedAt:new Date(nextLike).toISOString()}));
     } else {
-      nextLike = Date.now() + 3600000;
       res.end(JSON.stringify({ok:true,total:++likes,nextAllowedAt:new Date(nextLike).toISOString()}));
     }
     return;
@@ -149,24 +153,25 @@ try {
   console.log('PASS: P-BALL exits on tab change and never captures form spaces');
 
   await click('#like-btn'); await waitFor("document.querySelector('#like-btn .count').textContent==='43'");
-  assert.equal(await evaluate('document.getElementById("like-btn").disabled'),true);
+  assert.equal(await evaluate('document.getElementById("like-btn").disabled'),false);
+  assert.equal(await evaluate('document.getElementById("like-btn").classList.contains("active-fill")'),true);
   const saved=await evaluate("localStorage.getItem('likes_block_until')");
   assert.ok(Number(saved)-Date.now()>3590000);
   await call('Page.reload'); await waitFor("document.querySelectorAll('.card').length===3");
   assert.equal(await evaluate("localStorage.getItem('likes_block_until')"),saved);
-  assert.equal(await evaluate('document.getElementById("like-btn").disabled'),true);
-  await evaluate("localStorage.removeItem('likes_block_until');window.dispatchEvent(new StorageEvent('storage',{key:'likes_block_until'}))");
-  await click('#like-btn'); await waitFor('document.getElementById("like-btn").disabled && document.getElementById("like-status").textContent.includes("NEXT LIKE")');
-  assert.equal(likes,43);
-  await evaluate("localStorage.setItem('likes_block_until',String(Date.now()+150));window.dispatchEvent(new StorageEvent('storage',{key:'likes_block_until'}))");
-  await waitFor('!document.getElementById("like-btn").disabled');
+  assert.equal(await evaluate('document.getElementById("like-btn").disabled'),false);
+  await click('#like-btn'); await waitFor("document.querySelector('#like-btn .count').textContent==='44'");
+  assert.equal(likes,44);
+  await evaluate("localStorage.setItem('likes_window_until',String(Date.now()+150));window.dispatchEvent(new StorageEvent('storage',{key:'likes_window_until'}))");
+  await waitFor('document.getElementById("like-btn").disabled');
   const previousCount=await evaluate('document.querySelector("#like-btn .count").textContent');
+  await evaluate("localStorage.removeItem('likes_block_until');localStorage.removeItem('likes_window_until');window.dispatchEvent(new StorageEvent('storage',{key:null}))");
   failLike=true;await click('#like-btn');
-  await waitFor('document.getElementById("like-status").textContent.includes("NOT SAVED")');
+  await sleep(100);
   assert.equal(await evaluate('document.querySelector("#like-btn .count").textContent'),previousCount);
   assert.equal(await evaluate('document.getElementById("like-btn").disabled'),false);
   failLike=false;
-  console.log('PASS: hourly cooldown survives reload, server rejects repeats, expiry unlocks');
+  console.log('PASS: like window counts repeated clicks, then blocks for an hour without a status label');
 
   for(const width of [320,390,768]) {
     await viewport(width); await click('[data-tab=skills]'); await click('#terminal-open');
