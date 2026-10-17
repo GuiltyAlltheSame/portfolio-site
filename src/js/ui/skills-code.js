@@ -17,6 +17,10 @@ export function initSkillsCode({ out, codeSamples, onSelect }) {
   }
 
   document.querySelectorAll('.skill-list li').forEach((li) => {
+    if (li.classList.contains('skill-disabled')) {
+      li.setAttribute('aria-label', `${li.firstElementChild.textContent} (unavailable)`);
+      return;
+    }
     li.tabIndex = 0;
     li.setAttribute('role', 'button');
     li.setAttribute('aria-label', `Show ${li.firstElementChild.textContent} example`);

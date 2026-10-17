@@ -19,12 +19,14 @@ import { initThemeSwitcher, openThemeSwitcher } from './ui/theme-switcher.js';
 import { initTurnstile } from './ui/turnstile.js';
 import { initMobileTerminal } from './ui/mobile-terminal.js';
 import { initContactLayout } from './ui/contact-layout.js';
+import { initTextScramble } from './ui/text-scramble.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initStarfield(document.getElementById('starfield'));
   initTurnstile();
   initClock();
   initThemeSwitcher();
+  initTextScramble();
 
   const out = document.getElementById('code-output');
 

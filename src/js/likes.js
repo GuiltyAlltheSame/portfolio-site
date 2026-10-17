@@ -26,7 +26,7 @@ export function initLikes() {
     button.disabled = pending || remaining > 0;
     button.classList.toggle('disabled', remaining > 0);
     button.setAttribute('aria-busy', String(pending));
-    if (pending) status.textContent = 'SAVING YOUR LIKE?';
+    if (pending) status.textContent = '';
     else if (remaining > 0) {
       const seconds = Math.ceil(remaining / 1000);
       const minutes = Math.floor(seconds / 60);
@@ -45,7 +45,6 @@ export function initLikes() {
     if (pending || Date.now() < deadline) return;
     pending = true;
     refresh();
-    let errorMessage = '';
     try {
       const response = await fetch('/api/like', {
         method: 'POST',
@@ -71,11 +70,10 @@ export function initLikes() {
         setTimeout(() => button.classList.remove('heart-press'), 180);
       } else throw new Error('Could not save like');
     } catch {
-      errorMessage = 'LIKE NOT SAVED ? PLEASE TRY AGAIN';
+      // Keep the button state quiet on transient failures; the counter is unchanged.
     } finally {
       pending = false;
       refresh();
-      if (errorMessage) status.textContent = errorMessage;
     }
   });
 

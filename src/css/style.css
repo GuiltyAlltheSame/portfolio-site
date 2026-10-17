@@ -463,6 +463,13 @@ header p {
   box-shadow: 0 0 8px var(--theme-accent);
 }
 
+.skill-list li.skill-disabled {
+  color: var(--theme-accent-soft);
+  cursor: default;
+  opacity: .48;
+  pointer-events: none;
+}
+
 /* info-grip 30/70 */
 .row-info{
   row-gap:2px;
@@ -754,7 +761,9 @@ header p {
   padding: 17px 0 21.5px 0;
   color:var(--theme-accent-soft);
   text-align: start;
+  cursor: default;
 }
+
 
 .desc-like-wrap{                       
   display:flex;
