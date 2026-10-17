@@ -128,6 +128,10 @@ netlify.toml                    # publishing, API redirects and rate limits
 docs/screenshots/                # README screenshots
 ```
 
+### October 2026 update
+
+Mobile terminal, touch controls, URL-based tabs and hourly likes are described in [the update notes](docs/changes-2026-10.md). **Before deploying the new likes flow, run `supabase/migrations/20261017_hourly_likes.sql` in Supabase SQL Editor.** The migration has not been applied automatically.
+
 ### Local development
 
 ```bash

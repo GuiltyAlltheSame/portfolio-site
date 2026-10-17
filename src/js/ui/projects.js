@@ -10,17 +10,18 @@ export function initProjects({ projects }) {
     const li = document.createElement('li');
     li.className = 'card';
     const projectActions = [
-      project.git && `<a href="${project.git}" target="_blank" rel="noopener noreferrer">GIT</a>`,
+      project.git && `<a href="${project.git}" target="_blank" rel="noopener noreferrer" aria-label="${project.title} on GitHub">GITHUB</a>`,
       project.link && `<a href="${project.link}" target="_blank" rel="noopener noreferrer">LINK</a>`
     ].filter(Boolean).join('');
 
     li.innerHTML = `
       <div class="thumb">
-        <img class="poster" src="${project.img}" alt="${project.title} project preview">
+        <img class="poster" src="${project.img}" alt="${project.title} project preview" loading="lazy" decoding="async">
       </div>
       <div class="body">
-        <h4>${project.title}</h4>
+        <h4${project.lang ? ` lang="${project.lang}"` : ''}>${project.title}</h4>
         <p>${project.line}</p>
+        ${project.tags ? `<small class="project-tags">${project.tags}</small>` : ''}
         ${projectActions ? `<div class="btns">${projectActions}</div>` : ''}
       </div>
     `;

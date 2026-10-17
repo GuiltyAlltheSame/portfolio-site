@@ -19,8 +19,9 @@ function loadTurnstileApi() {
     const existingScript = document.querySelector(`script[src^="${API_URL.split('?')[0]}"]`);
     const script = existingScript || document.createElement('script');
 
-    script.addEventListener('load', () => resolve(window.turnstile), { once: true });
-    script.addEventListener('error', () => reject(new Error('Turnstile API failed to load.')), { once: true });
+    const timeout = setTimeout(() => reject(new Error('Turnstile API timed out.')), 15000);
+    script.addEventListener('load', () => { clearTimeout(timeout); resolve(window.turnstile); }, { once: true });
+    script.addEventListener('error', () => { clearTimeout(timeout); reject(new Error('Turnstile API failed to load.')); }, { once: true });
 
     if (!existingScript) {
       script.src = API_URL;
@@ -38,6 +39,7 @@ function settleChallenge(formType, method, value) {
   if (!challenge) return;
 
   pendingChallenges.delete(formType);
+  clearTimeout(challenge.timeout);
   challenge[method](value);
 }
 
@@ -106,7 +108,8 @@ export async function requestTurnstileToken(formType) {
   pendingChallenges.set(formType, {
     promise,
     resolve: resolveChallenge,
-    reject: rejectChallenge
+    reject: rejectChallenge,
+    timeout: setTimeout(() => settleChallenge(formType, 'reject', new Error('Verification timed out. Please try again.')), 20000)
   });
 
   turnstile.execute(widgetId);

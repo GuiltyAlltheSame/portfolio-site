@@ -2,7 +2,8 @@ export function initTerminalInput({
   cmdInput,
   commands,
   out,
-  onGameCommand
+  onGameCommand,
+  onBeforeOutput
 }) {
   const history = [];
   const historyLimit = 50;
@@ -89,11 +90,8 @@ export function initTerminalInput({
     }
   });
 
-  cmdInput.addEventListener('keydown', (event) => {
-    if (browseHistory(event)) return;
-    if (event.key !== 'Enter') return;
-
-    const raw = cmdInput.value.trim();
+  function execute(value) {
+    const raw = String(value).trim();
     const { name, args } = splitCommand(raw);
     cmdInput.value = '';
 
@@ -102,11 +100,13 @@ export function initTerminalInput({
     addToHistory(raw);
 
     if (commands[name]) {
+      if (['HELP', '?', 'GAMES', 'CLEAR', 'CALC', 'MATH'].includes(name)) onBeforeOutput?.();
       commands[name]({ raw, args, name });
       return;
     }
 
     if (looksLikeMathExpression(raw) && typeof commands.CALC === 'function') {
+      onBeforeOutput?.();
       commands.CALC({ raw, args: raw, name: 'CALC', direct: true });
       return;
     }
@@ -115,6 +115,14 @@ export function initTerminalInput({
       return;
     }
 
+    onBeforeOutput?.();
     appendUnknownCommand(raw);
+  }
+
+  cmdInput.addEventListener('keydown', (event) => {
+    if (browseHistory(event) || event.key !== 'Enter' || event.isComposing) return;
+    event.preventDefault();
+    execute(cmdInput.value);
   });
+  return execute;
 }

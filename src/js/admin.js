@@ -5,9 +5,11 @@
  ***************************************************************************/
 import { supabase } from './db.js';
 
+async function initAdmin() {
+
 /* ——— guard: only who logged in ——— */
 const { data: { session } } = await supabase.auth.getSession();
-if (!session) location.href = '/';
+if (!session) { location.replace('/'); return; }
 
 /* ——— DOM refs ——— */
 const el = {
@@ -18,7 +20,9 @@ const el = {
 };
 document.getElementById('home-btn'  ).onclick = () => location.href = 'index.html#about';
 document.getElementById('logout-btn').onclick = async () => {
-  await supabase.auth.signOut(); location.href = '/';
+  const { error } = await supabase.auth.signOut();
+  if (error) { document.getElementById('admin-status').textContent = 'Sign out failed. Please try again.'; return; }
+  location.href = '/';
 };
 
 /* ——— REVIEWS ——— */
@@ -56,11 +60,10 @@ el.reviews.onclick = async e => {
   if (!id) return;
 
   if (e.target.classList.contains('approve')){
-    await supabase.from('reviews').update({approved:true}).eq('id',id);
+    await runMutation(e.target, () => supabase.from('reviews').update({approved:true}).eq('id',id), loadReviews);
   } else if (e.target.classList.contains('del')){
-    await supabase.from('reviews').delete().eq('id',id);
+    await runMutation(e.target, () => supabase.from('reviews').delete().eq('id',id), loadReviews);
   }
-  loadReviews();
 };
 
 /* ——— MESSAGES ——— */
@@ -92,23 +95,50 @@ function messageCard(m){
 el.messages.onclick = async e => {
   const id = e.target.dataset.id;
   if (!id || !e.target.classList.contains('del')) return;
-  await supabase.from('messages').delete().eq('id', id);
-  loadMessages();
+  await runMutation(e.target, () => supabase.from('messages').delete().eq('id', id), loadMessages);
 };
 
 /* ——— PASSWORD CHANGE ——— */
 el.pwdForm.onsubmit = async e => {
   e.preventDefault();
-  const pwd = e.target.newPwd.value.trim();
+  const pwd = e.target.newPwd.value;
   if (pwd.length < 8){ el.pwdMsg.textContent = 'мин ≥ 8 симв.'; return; }
   
-  const { error } = await supabase.auth.updateUser({ password: pwd });
-  el.pwdMsg.textContent = error ? error.message : '✓ updated';
-  e.target.reset();
+  const button = e.target.querySelector('button');
+  button.disabled = true;
+  try {
+    const { error } = await supabase.auth.updateUser({ password: pwd });
+    if (error) throw error;
+    el.pwdMsg.textContent = '✓ updated';
+    e.target.reset();
+  } catch {
+    el.pwdMsg.textContent = 'Password not changed. Please try again.';
+  } finally { button.disabled = false; }
 };
+
+async function runMutation(button, request, reload) {
+  if (button.disabled) return;
+  const buttons = [...button.parentElement.querySelectorAll('button')];
+  const status = document.getElementById('admin-status');
+  buttons.forEach(control => { control.disabled = true; });
+  status.textContent = 'Saving…';
+  try {
+    const { error } = await request();
+    if (error) throw error;
+    status.textContent = '✓ Saved';
+    await reload();
+  } catch {
+    status.textContent = 'Change not saved. Check your connection and try again.';
+  } finally { buttons.forEach(control => { control.disabled = false; }); }
+}
 
 /* ——— helpers ——— */
 function escapeHtml(str=''){
   return str.replace(/[&<>"']/g,ch=>({ '&':'&amp;','<':'&lt;','>':'&gt;',
                                         '"':'&quot;', "'":'&#39;' })[ch]);
 }
+}
+
+initAdmin().catch(() => {
+  document.getElementById('admin-status').textContent = 'Admin service unavailable. Please reload the page.';
+});

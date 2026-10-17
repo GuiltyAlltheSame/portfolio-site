@@ -157,6 +157,9 @@ const PIXEL_FONT = {
 };
 
 document.addEventListener('keydown', (e) => {
+  const skills = document.getElementById('skills');
+  if (!activePauseHandler || !skills?.classList.contains('active') ||
+      (e.target instanceof Element && e.target.closest('input, textarea, select, button, a, [contenteditable]'))) return;
   if (e.key === 'ArrowUp') upPressed = true;
   if (e.key === 'ArrowDown') downPressed = true;
 
@@ -181,7 +184,14 @@ export function stopPBallGame() {
   }
 
   activePauseHandler = null;
+  upPressed = false;
+  downPressed = false;
 }
+
+window.addEventListener('blur', () => {
+  upPressed = false;
+  downPressed = false;
+});
 
 export function startPBallGame(settings = DEFAULT_PBALL_SETTINGS) {
   const canvas = document.getElementById('pball-canvas');
@@ -501,5 +511,6 @@ export function startPBallGame(settings = DEFAULT_PBALL_SETTINGS) {
 
   stopPBallGame();
   activePauseHandler = togglePause;
+  canvas.focus({ preventScroll: true });
   pballTimer = requestAnimationFrame(loop);
 }

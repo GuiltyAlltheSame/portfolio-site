@@ -8,7 +8,8 @@ export function initTerminalController({
   onQuit,
   onOpenTheme,
   onOpenNotes,
-  onOpenPomodoro
+  onOpenPomodoro,
+  onBeforeOutput
 }) {
   const commands = createTerminalCommands({
     out,
@@ -18,10 +19,11 @@ export function initTerminalController({
     onOpenPomodoro
   });
 
-  initTerminalInput({
+  return initTerminalInput({
     cmdInput,
     commands,
     out,
-    onGameCommand
+    onGameCommand,
+    onBeforeOutput
   });
 }

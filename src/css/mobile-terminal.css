@@ -1,0 +1,78 @@
+.terminal-launch, .terminal-mobile-header, .game-touch-controls { display: none; }
+.terminal-mobile-header button, .terminal-launch, .game-touch-controls button {
+  color: var(--theme-accent); background: #000; border: 1px solid var(--theme-accent); font: inherit; cursor: pointer;
+}
+#cmd-input { min-width: 0; }
+.game-touch-controls .is-pressed { color: #000; background: var(--theme-accent); }
+.skill-list li[role="button"] { cursor: pointer; }
+.skill-list li:focus-visible { outline: 2px solid var(--theme-accent); outline-offset: -2px; }
+.like-status { display: block; margin-top: .6rem; color: var(--theme-accent-soft); font-family: 'Ac437ApricotPortable', monospace; font-size: 1rem; line-height: 1.3; }
+.like-status:empty { display: none; }
+.admin-status { color: #ff9999; padding: .7rem 1rem; }
+.project-tags { color: var(--theme-accent-soft); font: 1rem 'Ac437ApricotPortable', monospace; line-height: 1.4; }
+.card h4[lang="ru"] { font-family: 'Ac437ApricotPortable', monospace; font-size: 1.6rem; }
+.slider .thumb { aspect-ratio: 16 / 10; }
+#projects .proj-wrap { flex: 0 0 auto; }
+.card .body > p { font-family: 'Ac437ApricotPortable', monospace; font-size: 1.25rem; line-height: 1.35; }
+@media (min-width: 1201px) {
+  .slider .card { flex: 0 0 calc((100% - 2rem) / 3); }
+}
+
+@media (max-width: 768px), (max-height: 520px) and (pointer: coarse) {
+  #skills-right { display: none; }
+  .terminal-launch { display: block; flex: 0 0 auto; width: 100%; min-height: 52px; padding: .65rem; font-size: 1.1rem; border-width: 0 0 2px; background: rgba(var(--theme-accent-rgb), .12); }
+  #skills.tab-panel.active, #skills .skills-wrap { flex: 0 0 auto; overflow: visible; }
+  #skills-left { flex: 0 0 auto; }
+  #skills-left .row-skills, #skills-left .skill-list { flex: 0 0 auto; overflow: visible; }
+  #skills-right.mobile-open {
+    display: flex; position: fixed; z-index: 100; top: var(--terminal-top, 0px); left: 0; width: 100%;
+    height: var(--terminal-height, 100dvh); min-height: 0; max-height: none; margin: 0; border: 0;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    background: #000; box-sizing: border-box; overflow: hidden;
+  }
+  .terminal-mobile-header { display: flex; flex: 0 0 auto; justify-content: space-between; align-items: center; gap: .5rem; min-height: 56px; padding: .5rem .75rem; border-bottom: 2px solid var(--theme-accent); font-family: 'Ac437ApricotPortable', monospace; font-size: 1.2rem; }
+  .terminal-mobile-header small { font-size: .8rem; opacity: .7; }
+  .terminal-mobile-header button { flex: 0 0 auto; min-height: 44px; padding: .4rem .6rem; font-size: .95rem; white-space: nowrap; }
+  #skills-right .code-block { padding: 1rem; margin: 0; font-size: 1.1rem; line-height: 1.5; overflow-wrap: anywhere; }
+  #skills-right .cmd-line { padding: .4rem .65rem; gap: .4rem; }
+  #cmd-input { font-size: 16px; min-height: 40px; }
+  #skills-right .screen-host { min-height: 0; }
+  #skills-right .game-menu { overflow-y: auto; min-height: 0; }
+  #skills-right .pball-menu { width: 100%; padding: .75rem; gap: .75rem; }
+  #skills-right .pball-menu-title { font-size: 1.2rem; }
+  #skills-right .pball-menu-row { flex-wrap: wrap; gap: .5rem; }
+  #skills-right .pball-radio-group { flex-wrap: wrap; gap: .4rem; }
+  #skills-right .pball-radio span { min-height: 44px; display: grid; place-items: center; padding: .45rem; font-size: .85rem; }
+  #skills-right .game-toolbar { padding: .5rem; gap: .5rem; min-height: 48px; flex: 0 0 auto; }
+  #skills-right .game-title { font-size: 1.25rem; }
+  #skills-right .game-exit { min-height: 40px; padding: .4rem .55rem; font-size: .85rem; }
+  #skills-right .game-stage { min-height: 0; flex: 1 1 auto; overflow-y: auto; }
+  #pball-canvas { width: 100%; height: auto; flex: 0 0 auto; aspect-ratio: 900 / 520; object-fit: contain; }
+  .game-touch-controls { display: flex; flex: 0 0 auto; gap: .5rem; padding: .7rem; margin-top: auto; }
+  .game-touch-controls button { flex: 1; min-height: 56px; padding: .5rem; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; font: 1.2rem 'Ac437ApricotPortable', monospace; }
+  #skills-right .terminal-app__heading { flex-wrap: wrap; gap: .25rem; }
+  #skills-right .terminal-app__meta { font-size: .65rem; }
+  #skills-right .terminal-app__button, #skills-right .terminal-app__exit { min-height: 44px; }
+  #skills-right .theme-switcher__window { padding: 1rem; width: 100%; }
+  #skills-right .theme-switcher__choices { flex-direction: column; }
+  #skills-right .theme-switcher__choice { min-height: 64px; }
+  #skills-right .theme-switcher { overflow-y: auto; }
+}
+
+@media (max-height: 520px) and (max-width: 768px), (max-height: 520px) and (pointer: coarse) {
+  .terminal-mobile-header { min-height: 44px; padding-block: 0; }
+  .game-touch-controls { padding: .35rem; }
+  .game-touch-controls button { min-height: 44px; }
+}
+
+@media (max-height: 520px) and (pointer: coarse) and (min-width: 600px) {
+  #skills-right:has([data-game-stage]:not(.hidden)) > .terminal-mobile-header,
+  #skills-right:has([data-game-stage]:not(.hidden)) > .cmd-line { display: none; }
+  #skills-right .game-stage { display: grid; grid-template-columns: minmax(0, 1fr) 155px; grid-template-rows: 30px minmax(0, 1fr); gap: .3rem; padding: .3rem; overflow: hidden; }
+  .pball-score-header, .craboid-hud { grid-column: 1 / -1; min-height: 0; }
+  #pball-canvas, .craboid-canvas-wrap { grid-column: 1; grid-row: 2; min-height: 0; height: 100%; }
+  #pball-canvas { aspect-ratio: auto; }
+  .game-touch-controls { grid-column: 2; grid-row: 2; display: grid; grid-template-columns: 1fr; gap: .25rem; margin: 0; padding: 0; }
+  .craboid-stage .game-touch-controls { grid-template-columns: 1fr 1fr; }
+  .game-touch-controls button { min-height: 0; }
+}

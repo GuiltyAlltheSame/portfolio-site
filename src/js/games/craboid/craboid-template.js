@@ -77,5 +77,11 @@ export const craboidTemplate = `
         aria-label="Craboid game field. Use left and right arrows to move, Space to fire, and P to pause."
       ></canvas>
     </div>
+    <div class="game-touch-controls" role="group" aria-label="Craboid touch controls">
+      <button type="button" data-game-key="ArrowLeft" aria-label="Move left">←</button>
+      <button type="button" data-game-key=" " aria-label="Fire">FIRE</button>
+      <button type="button" data-game-key="p" aria-label="Pause or resume">Ⅱ</button>
+      <button type="button" data-game-key="ArrowRight" aria-label="Move right">→</button>
+    </div>
   </div>
 `;

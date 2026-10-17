@@ -1,4 +1,4 @@
-export function initSkillsCode({ out, codeSamples }) {
+export function initSkillsCode({ out, codeSamples, onSelect }) {
   if (!out || !codeSamples) return;
 
   function typeText(el, txt, speed = 1) {
@@ -17,10 +17,20 @@ export function initSkillsCode({ out, codeSamples }) {
   }
 
   document.querySelectorAll('.skill-list li').forEach((li) => {
-    li.addEventListener('click', () => {
+    li.tabIndex = 0;
+    li.setAttribute('role', 'button');
+    li.setAttribute('aria-label', `Show ${li.firstElementChild.textContent} example`);
+    function selectSkill() {
+      onSelect?.(li);
       const name = li.firstElementChild.textContent.trim().replace(/\(.*?\)/, '');
       const demo = codeSamples[name] || `// No DEMO for ${name}`;
       typeText(out, demo);
+    }
+    li.addEventListener('click', selectSkill);
+    li.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      selectSkill();
     });
   });
 }

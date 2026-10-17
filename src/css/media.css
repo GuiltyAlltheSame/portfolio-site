@@ -995,6 +995,18 @@ header p {
   #contact-form textarea,
   #review-form textarea {
     min-height: 8rem;
+    height: 8rem;
+    box-sizing: border-box;
+  }
+
+  #contact-form > input,
+  #review-form input[name="name"] {
+    box-sizing: border-box;
+    height: 44px;
+  }
+
+  #review-form .stars label {
+    height: 44px;
   }
 
   #contact .social-list.solid a,
@@ -1012,75 +1024,229 @@ header p {
 }
 
 /* =========================================================
-   CONTACT — compact desktop panel
-   Keep the three-column layout inside the viewport before any
-   form or panel needs its fallback scroll.
+   CONTACT — balanced desktop panels
+   Divide the available height between social links / description
+   and the two forms; fields expand instead of leaving empty bands.
    ========================================================= */
 @media (min-width: 993px) {
+  #contact .contact-wrap {
+    --contact-panel-inset: clamp(16px, 1.2vw, 24px);
+    --contact-action-height: clamp(32px, 4.5vh, 48px);
+    --contact-row-gap: clamp(6px, 1vh, 12px);
+    --contact-heading-height: clamp(22px, 2.8vh, 30px);
+    --contact-top-inset: clamp(10px, 1.2vh, 20px);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  #contact .contact-left {
+    container-type: size;
+    display: grid;
+    /* The separator ends on the same horizontal line as SEND. */
+    grid-template-rows: calc((100% + var(--contact-top-inset) - var(--contact-panel-inset) + var(--contact-action-height)) / 2 - 2px) 2px minmax(0, 1fr);
+  }
+
+  #contact .social-list.solid {
+    overflow: visible;
+    font-size: clamp(16px, 3.7cqh, 26px);
+  }
+
+  #contact .social-list.solid li {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  #contact .social-list.solid a {
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0.2rem clamp(12px, 3cqw, 24px);
+  }
+
+  #contact .social-list.solid i {
+    font-size: 1.15em;
+  }
+
+  #contact .desc-like-block {
+    min-height: 0;
+    padding: clamp(8px, 1.6cqh, 16px) var(--contact-panel-inset) var(--contact-panel-inset);
+  }
+
+  #contact .desc-like-wrap {
+    flex: 1 1 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    gap: clamp(6px, 1.2cqh, 12px);
+  }
+
+  #contact .little-about {
+    flex: 1 1 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    font-size: clamp(12px, min(2.5cqh, 4cqw), 20px);
+    line-height: 1.4;
+  }
+
+  #contact #like-btn {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  #contact .like-status:not(:empty) {
+    margin: 0;
+    font-size: 14px;
+  }
+
   #contact .window.contact-bottom {
-    gap: clamp(0.75rem, 2vh, 3rem);
-    padding-block: clamp(0.65rem, 1.2vh, 1.2rem);
+    container-type: size;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: stretch;
+    justify-items: stretch;
+    grid-template-rows:
+      var(--contact-heading-height)
+      var(--contact-action-height)
+      var(--contact-action-height)
+      minmax(52px, 1fr)
+      var(--contact-action-height)
+      var(--contact-heading-height)
+      var(--contact-action-height)
+      minmax(52px, 1fr)
+      var(--contact-action-height);
+    gap: var(--contact-row-gap);
+    padding: var(--contact-top-inset) var(--contact-panel-inset) var(--contact-panel-inset);
   }
 
   #contact .contact-right {
-    padding-top: clamp(0.65rem, 1.2vh, 1.2rem);
+    container-type: inline-size;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--contact-heading-height) minmax(0, 1fr);
+    gap: var(--contact-row-gap);
+    padding: var(--contact-top-inset) var(--contact-panel-inset) var(--contact-panel-inset);
   }
 
   #contact-form,
   #review-form {
-    gap: clamp(0.45rem, 1.2vh, 1.2rem);
-    padding-inline: clamp(0.7rem, 1.1vw, 1.4rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    grid-template-rows: subgrid;
+    gap: var(--contact-row-gap);
+    padding: 0;
+    overflow: visible;
   }
 
-  #contact-form input,
-  #review-form input,
+  #contact-form {
+    grid-row: span 5;
+  }
+
+  #review-form {
+    grid-row: span 4;
+  }
+
+  #contact-form > input,
+  #review-form input[name="name"],
   #contact-form textarea,
   #review-form textarea {
-    padding: clamp(0.4rem, 0.8vh, 0.6rem);
-    font-size: clamp(0.7219rem, 1.26vh, 0.9188rem);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: clamp(6px, 1.3cqh, 10px);
+    font-size: clamp(10px, 1.9cqh, 14px);
+  }
+
+  #contact-form textarea,
+  #review-form textarea {
+    height: 100%;
+    resize: none;
+  }
+
+  #contact .name-rating {
+    gap: 8px;
+    min-width: 0;
+    height: 100%;
+    align-items: stretch;
+  }
+
+  #review-form .stars {
+    gap: clamp(2px, 0.8cqw, 6px);
+    align-self: stretch;
+  }
+
+  #review-form .stars label {
+    width: clamp(24px, 7.2cqw, 42px);
+    height: var(--contact-action-height);
+    flex: 0 0 clamp(24px, 7.2cqw, 42px);
+    font-size: clamp(20px, 4.2cqh, 30px);
+  }
+
+  #review-form input[name="name"] {
+    align-self: stretch;
   }
 
   #contact .msghead,
   #contact .msghead1,
   #contact .msghead3 {
-    font-size: clamp(0.9188rem, 1.89vh, 1.3125rem);
-  }
-
-  #contact .msghead3 {
     margin: 0;
+    font-size: clamp(14px, 2vh, 20px);
+    line-height: 1.25;
+    justify-self: center;
+    align-self: center;
   }
 
   #contact .reviews-scroll {
-    margin-top: clamp(0.5rem, 1vh, 0.75rem);
+    margin: 0;
   }
 
-  /* Preserve the approved review-card type size without parent scaling. */
+  #contact .review-list {
+    padding: 0;
+    gap: var(--contact-row-gap);
+  }
+
+  /* A two-line review shares the height of the two fields opposite it. */
   #contact .review-item {
-    font-size: 16.8px;
+    font-size: clamp(12px, 3cqw, 16.8px);
+    box-sizing: border-box;
+    min-height: calc(2 * var(--contact-action-height) + var(--contact-row-gap));
+    margin: 0;
+    display: grid;
+    grid-template-columns: fit-content(65%) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 6px 12px;
+    padding: clamp(8px, 1vh, 12px);
   }
 
-  #contact .stars label {
-    font-size: clamp(1.4175rem, 3.15vh, 2.1rem);
+  #contact .review-item b {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
-  #contact .social-list.solid {
-    font-size: clamp(1.05rem, 1.89vh, 1.47rem);
+  #contact .review-item .stars {
+    margin: 0;
+    justify-self: start;
   }
 
-  #contact .social-list.solid a {
-    padding-block: clamp(0.55rem, 1vh, 0.9rem);
-    padding-inline: clamp(0.8rem, 1vw, 1.4rem);
+  #contact .review-item p {
+    grid-column: 1 / -1;
+    margin: 0;
+    line-height: 1.35;
   }
 
-  #contact .little-about {
-    padding-block: clamp(0.65rem, 1.2vh, 1.35rem);
-    font-size: clamp(0.8531rem, 1.575vh, 1.1813rem);
-    line-height: 1.4;
-  }
-
-  #contact .full-btn {
-    padding-block: clamp(0.45rem, 0.9vh, 0.6rem);
-    font-size: clamp(0.7875rem, 1.47vh, 1.05rem);
+  #contact .full-btn,
+  #contact #like-btn {
+    box-sizing: border-box;
+    height: var(--contact-action-height);
+    min-height: var(--contact-action-height);
+    padding: 6px 10px;
+    font-size: clamp(12px, 2.3cqh, 16px);
+    line-height: 1.25;
   }
 }
 
@@ -1108,15 +1274,4 @@ header p {
   #about .about-text {
     padding-inline: clamp(1rem, 4vw, 1.5rem);
   }
-}
-
-/* Match Contact actions to the established project-card button height. */
-#contact .full-btn,
-#contact #like-btn {
-  padding-block: 13px;
-}
-
-#contact-form > input,
-#review-form .name-rating input[name="name"] {
-  padding-block: 13px;
 }

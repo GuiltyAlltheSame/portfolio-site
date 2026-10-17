@@ -12,7 +12,8 @@ async function submitMessage(payload, token, company) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ ...payload, token, company })
+    body: JSON.stringify({ ...payload, token, company }),
+    signal: AbortSignal.timeout(15000)
   });
   const result = await response.json().catch(() => ({}));
 
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setFormStatus('MESSAGE', 'SENT', 'success');
     } catch (error) {
       console.error('Message submit error:', error);
-      setFormStatus('MESSAGE', 'ERROR', 'error');
+      setFormStatus('MESSAGE', 'NOT SENT — TRY AGAIN', 'error');
     } finally {
       if (isTurnstileConfigured()) {
         resetTurnstile('contact');

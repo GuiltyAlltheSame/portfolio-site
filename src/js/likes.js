@@ -1,111 +1,101 @@
 import { supabase } from './db.js';
 
-const COOLDOWN_MS = 0.01 * 60 * 1000;   // 1 hour   ← change here
-const TIMER_MS    = 8000;             // duration of reverse bar
+const COOLDOWN_MS = 60 * 60 * 1000;
+const STORAGE_KEY = 'likes_block_until';
 
-(async ()=>{
-  await initLikes('#like-btn', TIMER_MS);
-})();        
+function readDeadline() {
+  try {
+    const value = Number(localStorage.getItem(STORAGE_KEY));
+    return Number.isFinite(value) ? value : 0;
+  } catch { return 0; }
+}
 
-async function initLikes(sel, duration){
-  const btn   = document.querySelector(sel);
-  const span  = btn.querySelector('.count');
-  
-  /* check, if time come */
-  const blockUntil = +localStorage.getItem('likes_block_until') || 0;
-  let disabled = Date.now() < blockUntil;
-  let active  = false;                 // timer runs?
-  let start   = 0;
-  let count = 0;                           // fill after fetch
-  
-  await loadTotal();                       // ← awaits loading from DB
-  
-  if(disabled){ disable(); }
+export function initLikes() {
+  const button = document.getElementById('like-btn');
+  const count = button?.querySelector('.count');
+  const status = document.getElementById('like-status');
+  if (!button || !count || !status) return;
+  let deadline = readDeadline();
+  let pending = false;
+  let hasResponseTotal = false;
+  let timer = null;
 
-  /* hover fill */
-  btn.addEventListener('mouseenter', ()=>!active&&!disabled && setFill(100));
-  btn.addEventListener('mouseleave', ()=>!active&&!disabled && setFill(0));
+  function refresh() {
+    clearTimeout(timer);
+    const remaining = Math.max(0, deadline - Date.now());
+    button.disabled = pending || remaining > 0;
+    button.classList.toggle('disabled', remaining > 0);
+    button.setAttribute('aria-busy', String(pending));
+    if (pending) status.textContent = 'SAVING YOUR LIKE?';
+    else if (remaining > 0) {
+      const seconds = Math.ceil(remaining / 1000);
+      const minutes = Math.floor(seconds / 60);
+      status.textContent = `NEXT LIKE IN ${String(minutes).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+      timer = setTimeout(refresh, Math.min(1000, remaining));
+    } else status.textContent = '';
+  }
 
-  /* click */
-  btn.addEventListener('click', ()=>{
-    if(disabled) return;
+  function remember(value) {
+    // Respect the server deadline; reloading never extends the cooldown.
+    deadline = value;
+    try { localStorage.setItem(STORAGE_KEY, String(value)); } catch {}
+  }
 
-    flashHeart();
-
-    if(!active){                       // first click → timer start
-      active = true;
-      btn.classList.add('active-fill'); 
-      start  = performance.now();
-      tick();
+  button.addEventListener('click', async () => {
+    if (pending || Date.now() < deadline) return;
+    pending = true;
+    refresh();
+    let errorMessage = '';
+    try {
+      const response = await fetch('/api/like', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}',
+        signal: AbortSignal.timeout(12000)
+      });
+      const result = await response.json().catch(() => ({}));
+      if (response.status === 429) {
+        const next = Date.parse(result.nextAllowedAt);
+        // The edge rate limiter may return 429 without a JSON response.
+        const retryAfter = Number(response.headers.get('Retry-After'));
+        remember(Number.isFinite(next) ? next : Date.now() + (retryAfter > 0 ? retryAfter * 1000 : COOLDOWN_MS));
+        if (Number.isSafeInteger(result.total)) { count.textContent = result.total; hasResponseTotal = true; }
+      } else if (response.ok && result.ok === true && Number.isSafeInteger(result.total)) {
+        count.textContent = result.total;
+        hasResponseTotal = true;
+        const next = Date.parse(result.nextAllowedAt);
+        remember(Number.isFinite(next) ? next : Date.now() + COOLDOWN_MS);
+        const icon = button.querySelector('.heart-icon');
+        icon?.classList.replace('fa-regular', 'fa-solid');
+        button.classList.add('heart-press');
+        setTimeout(() => button.classList.remove('heart-press'), 180);
+      } else throw new Error('Could not save like');
+    } catch {
+      errorMessage = 'LIKE NOT SAVED ? PLEASE TRY AGAIN';
+    } finally {
+      pending = false;
+      refresh();
+      if (errorMessage) status.textContent = errorMessage;
     }
-
-count++;
-span.textContent = count;
-
-/* ask db without await – no blocking next clicks */
-supabase
-  .rpc('increment_likes')
-  .then(({ data, error })=>{
-    if(error){
-      console.error('increment error', error);
-      /* count rollback if error */
-      return;
-    }
-    /* server approve: adjust count */
-    count = data;
-    span.textContent = count;
   });
-  });
 
-  /* rAF-cycle filler get smaller */
-  function tick(now=performance.now()){
-    const elapsed = now - start;
-    const left    = Math.max(0, 1 - elapsed/duration);   // 1..0 speed
-    setFill(left*100);
-
-    if(left>0){
-      requestAnimationFrame(tick);
-    }else{
-      disable();
+  window.addEventListener('storage', event => {
+    if (event.key === STORAGE_KEY || event.key === null) {
+      deadline = readDeadline();
+      refresh();
     }
-  }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) { deadline = readDeadline(); refresh(); }
+  });
+  refresh();
 
-  /* helpers */
-  function setFill(pct){ btn.style.setProperty('--fill', pct + '%'); }
-  function disable(){
-    disabled = true;
-    active   = false;
-    setFill(0);
-    btn.classList.add('disabled');
-    btn.disabled = true;
-    localStorage.setItem('likes_block_until', Date.now() + COOLDOWN_MS);
-    btn.classList.remove('active-fill');
-  }
-
-  function flashHeart(){
-  const icon = btn.querySelector('.heart-icon');
-  icon.classList.replace('fa-regular','fa-solid'); // закрашиваем
-  icon.classList.add('heart-press');               // пульсация
-
-  // after 180 ms retirn border and disable animation
-  setTimeout(()=>{
-    icon.classList.replace('fa-solid','fa-regular');
-    icon.classList.remove('heart-press');
-  }, 180);
+  supabase.from('likes_counter').select('total').eq('id', 1).single()
+    .then(({ data, error }) => {
+      // A delayed initial read must not overwrite a newer successful click.
+      if (!error && data && !hasResponseTotal) count.textContent = data.total;
+    })
+    .catch(() => {});
 }
 
-async function loadTotal(){
-  const { data, error } = await supabase
-        .from('likes_counter')
-        .select('total')
-        .eq('id', 1)
-        .single();
-
-  if(!error && data){
-    count = data.total;
-    span.textContent = count;
-  }else{
-    console.error('loadTotal error', error);
-  }
-}
-}
+initLikes();

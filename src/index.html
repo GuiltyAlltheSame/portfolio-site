@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/media.css">
     <link rel="stylesheet" href="css/terminal-apps.css">
+    <link rel="stylesheet" href="css/mobile-terminal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   </head>
 <body>
@@ -101,6 +102,7 @@ Scan the system and reach out if relevant.</p>
 
 <!--Left column-->
   <div class="window" id="skills-left">
+    <button id="terminal-open" class="terminal-launch" type="button" aria-controls="skills-right" aria-expanded="false">[ OPEN TERMINAL ]</button>
 
 <!--Data & Clock-->
     <div class="row row-clock">
@@ -156,13 +158,17 @@ Scan the system and reach out if relevant.</p>
 
 <!--Skills window leftf Footer-->
     <div class="row row-footer">
-      Select a file and confirm <br> Type HELP for terminal commands / PBALL to play
+      Select a file and confirm <br> Or Press CODE-? for help
     </div>
     
   </div>
 
 <!--Right column-->
 <div class="window" id="skills-right">
+  <div class="terminal-mobile-header">
+    <span>TERMINAL <small>// ONLINE</small></span>
+    <button id="terminal-close" type="button" aria-label="Close terminal">[ CLOSE × ]</button>
+  </div>
 
   <div id="screen-host" class="screen-host">
     <pre id="code-output" class="code-block typewriter"></pre>
@@ -171,7 +177,7 @@ Scan the system and reach out if relevant.</p>
 
   <div class="cmd-line">
     <span class="prompt">></span>
-    <input id="cmd-input" type="text" autocomplete="off" spellcheck="false"
+    <input id="cmd-input" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal command" enterkeyhint="send" autocapitalize="off"
         placeholder="type command…">
   </div>
 
@@ -258,14 +264,15 @@ Scan the system and reach out if relevant.</p>
   <div class="desc-like-wrap">
     <p class="little-about">Contact me on social networks, subscribe, leave a review of the work
        done, send me a message to contact for business proposals.
-       Click like if you found and played P-BALL and Craboid! You can send likes until the timer runs out!
+       Enjoyed the portfolio? Leave a like — one per hour.
 
        *The skill level in the skill list is indicated for ease of understanding of the nexus's abilities based on self-assessment.</p>
 <!--Like counter button-->
-  <button id="like-btn" class="full-btn">
+  <button id="like-btn" class="full-btn" type="button" aria-label="Like this portfolio" aria-describedby="like-status">
     <i class="fa-regular fa-heart heart-icon" aria-hidden="true"></i>
     <span class="count">0</span>
   </button>
+  <span id="like-status" class="like-status" role="status"></span>
   </div>
 </div>
 </div>
@@ -278,9 +285,9 @@ Scan the system and reach out if relevant.</p>
         <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
       </div>
       <div id="contact-turnstile" class="turnstile-runtime" aria-hidden="true"></div>
-      <input type="text" placeholder="Name/Nick" name="name" required>
-      <input type="email" placeholder="e-Mail" name="email" required>
-      <textarea name="msg" rows="6" required placeholder="I need a website..."></textarea>
+      <input type="text" placeholder="Name/Nick" name="name" maxlength="80" aria-label="Your name" autocomplete="name" required>
+      <input type="email" placeholder="e-Mail" name="email" maxlength="254" aria-label="Your email" autocomplete="email" required>
+      <textarea name="msg" rows="6" maxlength="2000" aria-label="Your message" required placeholder="I need a website..."></textarea>
       <button type="submit" class="full-btn">[    SEND    ]</button>
    </form>
 <!--Review section-->
@@ -298,9 +305,9 @@ Scan the system and reach out if relevant.</p>
       <input type="radio" name="rating" id="r2" value="2"><label for="r2">★</label>
       <input type="radio" name="rating" id="r1" value="1"><label for="r1">★</label>
     </div>
-    <input name="name" placeholder="Name/Nick" maxlength="30" required>
+    <input name="name" placeholder="Name/Nick" maxlength="30" aria-label="Review author" autocomplete="name" required>
   </div> 
-    <textarea name="comment" placeholder="Write your review here..." rows="4" maxlength="500" required></textarea>
+    <textarea name="comment" placeholder="Write your review here..." rows="4" maxlength="500" aria-label="Your review" required></textarea>
     <button type="submit" class="full-btn">[ SUBMIT ]</button>
   </form>
 </div>

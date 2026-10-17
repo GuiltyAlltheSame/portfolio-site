@@ -4,6 +4,17 @@
   functions = "netlify/functions"
 
 [[redirects]]
+  from = "/api/like"
+  to = "/.netlify/functions/submit-like"
+  status = 200
+  force = true
+
+  [redirects.rate_limit]
+    window_limit = 10
+    window_size = 180
+    aggregate_by = ["ip", "domain"]
+
+[[redirects]]
   from = "/api/contact"
   to = "/.netlify/functions/submit-contact"
   status = 200

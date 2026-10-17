@@ -7,9 +7,12 @@ export const demoProjects = [
     link: 'https://cinemorphstudio.com/'
   },
   {
-    title: 'PROJECT_NEEDLE.xxx',
-    line: 'Handcrafted goods display case',
-    img: 'assets/img/question.png'
+    title: 'Прощай и здравствуй',
+    line: 'A digital photo album based on Igor Gusev’s book. Archival photography, chapter navigation and an immersive image viewer.',
+    img: 'assets/img/farewell-and-hello.webp',
+    git: 'https://github.com/GuiltyAlltheSame/FarewellandHello',
+    tags: 'HTML / CSS / JavaScript · Photo archive',
+    lang: 'ru'
   },
   {
     title: 'Flexboxer.com',

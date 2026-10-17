@@ -13,7 +13,8 @@ async function submitReview(payload, token, company) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ ...payload, token, company })
+    body: JSON.stringify({ ...payload, token, company }),
+    signal: AbortSignal.timeout(15000)
   });
   const result = await response.json().catch(() => ({}));
 
@@ -31,10 +32,9 @@ async function loadReviews() {
     .order('created_at', { ascending: false })
     .limit(20);
 
-  if (error) { console.error(error); return; }
-
   const list = document.getElementById('reviews-list');
   if (!list) return;                 // секция не открыта
+  if (error) { list.textContent = 'Reviews unavailable. Please try again later.'; return; }
   list.innerHTML = '';
 
   data.forEach(r => {
@@ -84,7 +84,7 @@ async function sendReview(form) {
     loadReviews();
   } catch (error) {
     console.error('Review submit error:', error);
-    setFormStatus('REVIEW', 'ERROR', 'error');
+    setFormStatus('REVIEW', 'NOT SENT — TRY AGAIN', 'error');
   } finally {
     if (isTurnstileConfigured()) {
       resetTurnstile('review');

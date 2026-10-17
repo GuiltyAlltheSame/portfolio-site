@@ -2,3 +2,4 @@ supabase_password_portfolio_site.png
 .env
 .DS_Store
 Thumbs.db
+/output/

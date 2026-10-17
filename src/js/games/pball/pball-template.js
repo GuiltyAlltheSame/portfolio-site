@@ -78,7 +78,7 @@ export const pballTemplate = `
         </div>
       </div>
 
-      <div id="game-stage" class="game-stage hidden" data-game-stage aria-hidden="true">
+      <div id="game-stage" class="game-stage pball-stage hidden" data-game-stage aria-hidden="true">
         <div id="pball-score-header" class="pball-score-header">
           <div class="pball-match-score">
             <span id="pball-match-label" class="pball-score-label">GAME</span>
@@ -89,6 +89,11 @@ export const pballTemplate = `
             <span id="pball-points-score" class="pball-score-value">000000</span>
           </div>
         </div>
-        <canvas id="pball-canvas" width="900" height="520"></canvas>
+        <canvas id="pball-canvas" width="900" height="520" tabindex="0" aria-label="P-BALL. Arrow up and down to move, Space to pause."></canvas>
+        <div class="game-touch-controls" role="group" aria-label="P-BALL touch controls">
+          <button type="button" data-game-key="ArrowUp" aria-label="Move up">↑ UP</button>
+          <button type="button" data-game-key=" " aria-label="Pause or resume">PAUSE</button>
+          <button type="button" data-game-key="ArrowDown" aria-label="Move down">↓ DOWN</button>
+        </div>
       </div>
 `;

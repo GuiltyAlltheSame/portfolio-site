@@ -1827,6 +1827,8 @@ footer {
   position:relative;
   background:#000;
   display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
   padding: 0.6rem 1rem;
   transition:filter .15s;
   border:2px solid var(--theme-accent);
@@ -1850,6 +1852,7 @@ footer {
 
 #like-btn .count{ 
   font-weight:bold; 
+  line-height:1;
 }
 
 #like-btn::before{

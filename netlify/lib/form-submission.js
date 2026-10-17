@@ -46,7 +46,8 @@ async function verifyTurnstile({ headers, token, action }) {
     const response = await fetch(TURNSTILE_VERIFY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: verifyBody.toString()
+      body: verifyBody.toString(),
+      signal: AbortSignal.timeout(10000)
     });
     const result = await response.json();
     const hostname = String(result.hostname || '').toLowerCase();
@@ -87,7 +88,8 @@ async function insertIntoSupabase(table, record) {
         'Content-Type': 'application/json',
         Prefer: 'return=minimal'
       },
-      body: JSON.stringify(record)
+      body: JSON.stringify(record),
+      signal: AbortSignal.timeout(10000)
     });
 
     if (!response.ok) {
@@ -113,6 +115,10 @@ function createSubmissionHandler({ action, table, parseRecord }) {
       body = JSON.parse(event.body || '{}');
     } catch {
       return jsonResponse(400, { ok: false, error: 'Invalid JSON body.' });
+    }
+
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return jsonResponse(400, { ok: false, error: 'Expected a JSON object.' });
     }
 
     if (typeof body.company === 'string' && body.company.trim()) {
